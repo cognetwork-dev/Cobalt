@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    background: var(--background);
+}
+
+.nav {
+    background: #292353;
+    height: 2.5rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search {
+    height: 2rem;
+    border-radius: 0.25rem;
+    background: #0d0c20;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0 6px;
+    width: -webkit-fill-available;
+    margin: 0 0.25rem;
+}
