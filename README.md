@@ -7,3 +7,4 @@ To Do:
 - [ ] Change theme color in start.mjs
 - [ ] Update files in build.mjs
 - [ ] Make README.md
+- [ ] Remove commented CSS once done

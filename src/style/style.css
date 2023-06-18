@@ -3,9 +3,14 @@ body {
     background: var(--background);
 }
 
+body * {
+    color: var(--text);
+    font-family: "Noto Sans";
+}
+
 .nav {
-    background: #292353;
-    height: 2.5rem;
+    background: var(--secondary);
+    height: 3rem;
     width: 100%;
     position: fixed;
     top: 0;
@@ -16,14 +21,74 @@ body {
     justify-content: center;
 }
 
-.search {
-    height: 2rem;
-    border-radius: 0.25rem;
-    background: #0d0c20;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 0 6px;
+.omnibox {
     width: -webkit-fill-available;
     margin: 0 0.25rem;
+    position: relative;
+}
+
+.search {
+    height: 2.25rem;
+    /*border-radius: 0.25rem;*/
+    border-radius: 100px;
+    background: var(--primary);
+    border: none;
+    outline: none;
+    padding: 0 0.5rem;
+    width: -webkit-fill-available;
+    padding-left: 2.25rem;
+    cursor: default;
+}
+
+.searchIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 100%;
+    background: var(--secondary);
+    position: absolute;
+    left: 0.35rem;
+    top: 0.35rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls {
+    margin-left: 0.35rem;
+    display: flex;
+    gap: 0.25rem;
+    margin-right: 0.35rem;
+}
+
+.controlsButton {
+    height: 2rem;
+    /*border-radius: 0.25rem;*/
+    border-radius: 100%;
+    /*background: #0d0c20;*/
+    background: transparent;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.panel {
+    background: var(--secondary);
+    position: fixed;
+    top: 3rem;
+    bottom: 0;
+    right: 0;
+    width: 22rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidePanel {
+    background: var(--primary);
+    width: 20rem;
+    height: calc(100% - 2rem);
+    border-radius: 0.25rem;
 }
