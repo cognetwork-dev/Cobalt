@@ -55,10 +55,18 @@ body * {
 }
 
 .controls {
-    margin-left: 0.35rem;
     display: flex;
     gap: 0.25rem;
-    margin-right: 0.35rem;
+}
+
+.controls[data-side=left] {
+    margin-left: 0.4rem;
+    margin-right: 0.5rem;
+}
+
+.controls[data-side=right] {
+    margin-left: 0.5rem;
+    margin-right: 0.4rem;
 }
 
 .controlsButton {
@@ -84,6 +92,8 @@ body * {
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateX(22rem);
+    transition: transform 100ms;
 }
 
 .sidePanel {
@@ -91,4 +101,18 @@ body * {
     width: 20rem;
     height: calc(100% - 2rem);
     border-radius: 0.25rem;
+}
+
+.web {
+    position: fixed;
+    top: 3rem;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 3rem);
+    border: none;
+    background: var(--secondary);
+    user-select: none;
+    transition: width 100ms, right 100ms;
 }
