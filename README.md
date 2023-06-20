@@ -21,3 +21,5 @@ To Do:
 - [ ] Make README.md (screenshots about, api)
 - [ ] Remove commented CSS once done
 - [ ] Issue templates
+- [ ] Remove unused packages
+- [ ] Go home button
