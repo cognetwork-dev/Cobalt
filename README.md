@@ -23,3 +23,6 @@ To Do:
 - [ ] Issue templates
 - [ ] Remove unused packages
 - [ ] Go home button
+- [ ] Error on internal pages when not iframed
+- [ ] Make error page
+- [ ] Loading and cancel loading work

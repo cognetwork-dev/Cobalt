@@ -37,7 +37,6 @@ body * {
     padding: 0 0.5rem;
     width: -webkit-fill-available;
     padding-left: 2.25rem;
-    cursor: default;
 }
 
 .searchIcon {
@@ -90,7 +89,7 @@ body * {
     right: 0;
     width: 22rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     transform: translateX(22rem);
     transition: transform 100ms;
@@ -99,8 +98,9 @@ body * {
 .sidePanel {
     background: var(--primary);
     width: 20rem;
-    height: calc(100% - 2rem);
+    height: calc(100% - 2rem + 0.75rem);
     border-radius: 0.25rem;
+    margin-top: 0.5rem;
 }
 
 .web {

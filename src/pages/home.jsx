@@ -4,11 +4,19 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
+import HomeIcon from '@mui/icons-material/Home';
 
 function Home() {
     const web = React.useRef();
     const search = React.useRef();
-    var webFirstLoad = false
+    const [ lastURL, setLastURL] = React.useState("");
+    const [ homeURL, setHomeURL ] = React.useState("cobalt://home");
+    const [ loading, setLoading] = React.useState(false);
+    const internalURLS = ["home"]
+
+    React.useEffect(() => {
+        console.log(loading)
+    }, [loading])
 
     const reloadPage = () => {
         web.current.contentWindow.location.reload();
@@ -23,10 +31,24 @@ function Home() {
     }
 
     const webLoad = () => {
-        //console.log(web.current, search.current)
+        setLoading(false)
+        
         var webChange = function () {
             setTimeout(function () {
-                console.log(__uv$config.decodeUrl(web.current.contentWindow.location.toString().split(__uv$config.prefix)[1]))
+                setLoading(true)
+
+                if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                    var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+                } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                } else {
+                    var url = web.current.contentWindow.location.toString()
+                }
+
+                if (url !== lastURL) {
+                    search.current.value = url
+                    setLastURL(url)
+                }
             })
         }
         
@@ -55,15 +77,22 @@ function Home() {
         }
     }
 
-    const searchURL = (e) => {
-        let checkURL = isURL(e.target.value)
+    const searchURL = (value) => {
+        value = value.trim()
 
-        if (checkURL) {
-            search.current.value = checkURL
-            web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(checkURL), window.location)
+        if (value.startsWith("cobalt://") && internalURLS.includes(value.split("cobalt://")[1])) {
+            search.current.value = value
+            web.current.contentWindow.location = new URL("/internal/" + value.split("cobalt://")[1], window.location)
         } else {
-            search.current.value = new URL("https://www.google.com/search?q=" + encodeURIComponent(e.target.value)).toString()
-            web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl("https://www.google.com/search?q=" + encodeURIComponent(e.target.value)), window.location)
+            var checkURL = isURL(value)
+
+            if (checkURL) {
+                search.current.value = checkURL
+                web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(checkURL), window.location)
+            } else {
+                search.current.value = new URL("https://www.google.com/search?q=" + encodeURIComponent(value)).toString()
+                web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(search.current.value), window.location)
+            }
         }
 
         search.current.blur()
@@ -93,11 +122,14 @@ function Home() {
                     <div className="controlsButton" onClick={reloadPage}>
                         <RefreshIcon fontSize="small" />
                     </div>
+                    <div className="controlsButton" onClick={() => searchURL(homeURL)}>
+                        <HomeIcon fontSize="small" />
+                    </div>
                 </div>
                 <div className="omnibox">
-                    <input ref={search} autoComplete="off" className="search" onKeyUp={(e) => {
+                    <input ref={search} defaultValue={homeURL} autoComplete="off" className="search" onKeyUp={(e) => {
                         if (e.key == "Enter") {
-                            return searchURL(e)
+                            return searchURL(e.target.value)
                         }
                     }} />
                     <div className="searchIcon">
@@ -110,7 +142,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <iframe ref={web} onLoad={webLoad} src="/ultraviolet/hvtrs8%2F-ezaopne%2Ccmm-" className="web"></iframe>
+            <iframe ref={web} onLoad={webLoad} src="/internal/home" className="web"></iframe>
             <div className="panel">
                 <div className="sidePanel"></div>
             </div>
