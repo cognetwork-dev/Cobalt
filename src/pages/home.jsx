@@ -3,6 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -14,20 +15,28 @@ function Home() {
     const [ loading, setLoading] = React.useState(false);
     const internalURLS = ["home"]
 
-    React.useEffect(() => {
-        console.log(loading)
-    }, [loading])
-
     const reloadPage = () => {
+        setLoading(true)
+
         web.current.contentWindow.location.reload();
     }
 
     const historyBack = () => {
+        setLoading(true)
+
         web.current.contentWindow.history.back();
     }
 
     const historyForward = () => {
+        setLoading(true)
+
         web.current.contentWindow.history.forward();
+    }
+
+    const stopLoadingPage = () => {
+        setLoading(false)
+
+        web.current.contentWindow.stop();
     }
 
     const webLoad = () => {
@@ -35,8 +44,6 @@ function Home() {
         
         var webChange = function () {
             setTimeout(function () {
-                setLoading(true)
-
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
                 } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
@@ -80,6 +87,8 @@ function Home() {
     const searchURL = (value) => {
         value = value.trim()
 
+        setLoading(true)
+
         if (value.startsWith("cobalt://") && internalURLS.includes(value.split("cobalt://")[1])) {
             search.current.value = value
             web.current.contentWindow.location = new URL("/internal/" + value.split("cobalt://")[1], window.location)
@@ -119,9 +128,16 @@ function Home() {
                     <div className="controlsButton" onClick={historyForward}>
                         <ArrowForwardIcon fontSize="small" />
                     </div>
-                    <div className="controlsButton" onClick={reloadPage}>
-                        <RefreshIcon fontSize="small" />
-                    </div>
+                    { !loading ? (
+                        <div className="controlsButton" onClick={reloadPage}>
+                            <RefreshIcon fontSize="small" />
+                        </div>
+                    ) : (
+                        <div className="controlsButton" onClick={stopLoadingPage}>
+                            <CloseIcon fontSize="small" />
+                        </div>
+                    )
+                    }
                     <div className="controlsButton" onClick={() => searchURL(homeURL)}>
                         <HomeIcon fontSize="small" />
                     </div>

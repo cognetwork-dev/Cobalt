@@ -26,3 +26,5 @@ To Do:
 - [ ] Error on internal pages when not iframed
 - [ ] Make error page
 - [ ] Loading and cancel loading work
+- [ ] Make logo
+- [ ] Text inverse color for themes

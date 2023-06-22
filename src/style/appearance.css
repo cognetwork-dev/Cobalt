@@ -1,6 +1,15 @@
 body {
-    --background: #292353;
+    --background: #121212;
     --secondary: #292353;
     --primary: #0d0c20;
     --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=frog] {
+    --background: #121212;
+    --secondary: #535323;
+    --primary: #201c0c;
+    --text: white;
+    --text-inverse: white;
 }

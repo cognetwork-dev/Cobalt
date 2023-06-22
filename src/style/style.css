@@ -82,25 +82,24 @@ body * {
 }
 
 .panel {
-    background: var(--secondary);
+    background: var(--background);
     position: fixed;
     top: 3rem;
     bottom: 0;
     right: 0;
     width: 22rem;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     transform: translateX(22rem);
     transition: transform 100ms;
 }
 
 .sidePanel {
-    background: var(--primary);
+    background: var(--secondary);
     width: 20rem;
-    height: calc(100% - 2rem + 0.75rem);
+    height: calc(100% - 2rem);
     border-radius: 0.25rem;
-    margin-top: 0.5rem;
 }
 
 .web {
@@ -112,7 +111,7 @@ body * {
     width: 100%;
     height: calc(100% - 3rem);
     border: none;
-    background: var(--secondary);
+    background: var(--background);
     user-select: none;
     transition: width 100ms, right 100ms;
 }
