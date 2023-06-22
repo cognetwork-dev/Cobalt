@@ -1,15 +1,181 @@
 body {
     --background: #121212;
-    --secondary: #292353;
-    --primary: #0d0c20;
+    --primary: #292353;
     --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=light] {
+    --background: #d8dee9;
+    --primary: #292353;
+    --text: black;
     --text-inverse: white;
 }
 
 body[data-appearance=frog] {
     --background: #121212;
-    --secondary: #535323;
-    --primary: #201c0c;
+    --primary: #535323;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=space] {
+    --background: #181c19;
+    --primary: #7f00ff;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=molten] {
+    --background: #121212;
+    --primary: #ff6868;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=swamp] {
+    --background: #006072;
+    --primary: #15fc95;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=squid] {
+    --background: black;
+    --primary: #00b0f4;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=lemon] {
+    --background: #222222;
+    --primary: #feeb01;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=shadow] {
+    --background: black;
+    --primary: white;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=nord] {
+    --background: #242933;
+    --primary: #3b4252;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=violet] {
+    --background: #0d0d0d;
+    --primary: #592f7f;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=connection] {
+    --background: #1c1b29;
+    --primary: #43b581;
+    --text: #43b581;
+    --text-inverse: #1c1b29;
+}
+
+body[data-appearance=dune] {
+    --background: #d2c59d;
+    --primary: #7d7259;
+    --text: #282425;
+    --text-inverse: #d2c59d;
+}
+
+body[data-appearance=dracula] {
+    --background: #282a36;
+    --primary: #383a59;
+    --text: #50fa7b;
+    --text-inverse: #50fa7b;
+}
+
+body[data-appearance=tiktok] {
+    --background: #121212;
+    --primary: #ff3b5c;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=fracital] {
+    --background: #222;
+    --primary: #333;
+    --text: #f971e4;
+    --text-inverse: #f971e4;
+}
+
+body[data-appearance=nebula] {
+    --background: #191724;
+    --primary: #7967dd;
+    --text: #e0def4;
+    --text-inverse: #191724;
+}
+
+body[data-appearance=tsunami] {
+    --background: #121212;
+    --primary: #2493ff;
+    --text: white;
+    --text-inverse: black;
+}
+
+body[data-appearance=metallic] {
+    --background: #171717;
+    --primary: #004953;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=ice] {
+    --background: #e8e8ea;
+    --primary: #70aecb;
+    --text: black;
+    --text-inverse: black;
+}
+
+body[data-appearance=chocolate] {
+    --background: #28201b;
+    --primary: #684d43;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=campfire] {
+    --background: #333538;
+    --primary: #f17755;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=elixir] {
+    --background: #121037;
+    --primary: #fb6f18;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=happiness] {
+    --background: #c4c3bb;
+    --primary: #a7022e;
+    --text: black;
+    --text-inverse: white;
+}
+
+body[data-appearance=tranquillity] {
+    --background: #d9d8da;
+    --primary: #131012;
+    --text: black;
+    --text-inverse: white;
+}
+
+body[data-appearance=robot] {
+    --background: #22262a;
+    --primary: #6d767e;
     --text: white;
     --text-inverse: white;
 }

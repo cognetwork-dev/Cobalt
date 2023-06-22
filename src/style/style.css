@@ -9,7 +9,7 @@ body * {
 }
 
 .nav {
-    background: var(--secondary);
+    background: var(--background);
     height: 3rem;
     width: 100%;
     position: fixed;
@@ -37,13 +37,14 @@ body * {
     padding: 0 0.5rem;
     width: -webkit-fill-available;
     padding-left: 2.25rem;
+    color: var(--text-inverse);
 }
 
 .searchIcon {
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 100%;
-    background: var(--secondary);
+    background: var(--background);
     position: absolute;
     left: 0.35rem;
     top: 0.35rem;
@@ -96,7 +97,7 @@ body * {
 }
 
 .sidePanel {
-    background: var(--secondary);
+    background: var(--primary);
     width: 20rem;
     height: calc(100% - 2rem);
     border-radius: 0.25rem;

@@ -22,8 +22,9 @@ To Do:
 - [ ] Remove commented CSS once done
 - [ ] Issue templates
 - [ ] Remove unused packages
-- [x] Go home button
 - [ ] Error on internal pages when not iframed
 - [ ] Make real error page
-- [x] Loading and cancel loading work
 - [ ] Text inverse color for themes
+- [ ] Add suggestions to omnibox
+- [x] Go home button
+- [x] Loading and cancel loading work

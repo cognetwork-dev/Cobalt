@@ -1,9 +1,11 @@
 import React from "react";
+import "../../style/home.css";
 
 function InternalHome() {
     return (
         <>
-            <div>Cobalt</div>
+            <div className="title">Cobalt</div>
+            <input />
         </>
     )
 }
