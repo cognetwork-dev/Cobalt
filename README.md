@@ -22,9 +22,8 @@ To Do:
 - [ ] Remove commented CSS once done
 - [ ] Issue templates
 - [ ] Remove unused packages
-- [ ] Go home button
+- [x] Go home button
 - [ ] Error on internal pages when not iframed
-- [ ] Make error page
-- [ ] Loading and cancel loading work
-- [ ] Make logo
+- [ ] Make real error page
+- [x] Loading and cancel loading work
 - [ ] Text inverse color for themes
