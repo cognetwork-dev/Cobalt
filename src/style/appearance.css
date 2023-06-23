@@ -166,16 +166,23 @@ body[data-appearance=happiness] {
     --text-inverse: white;
 }
 
-body[data-appearance=tranquillity] {
-    --background: #d9d8da;
-    --primary: #131012;
-    --text: black;
-    --text-inverse: white;
-}
-
 body[data-appearance=robot] {
     --background: #22262a;
     --primary: #6d767e;
+    --text: white;
+    --text-inverse: white;
+}
+
+body[data-appearance=butter] {
+    --background: #f7d5c5;
+    --primary: #e79974;
+    --text: black;
+    --text-inverse: black;
+}
+
+body[data-appearance=chrome] {
+    --background: #3c3c3c;
+    --primary: #2a2a2a;
     --text: white;
     --text-inverse: white;
 }
