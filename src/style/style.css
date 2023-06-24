@@ -12,7 +12,7 @@ body * {
     background: var(--background);
     height: 3rem;
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     left: 0;
@@ -115,4 +115,26 @@ body * {
     background: var(--background);
     user-select: none;
     transition: width 100ms, right 100ms;
+}
+
+.suggestions {
+    position: absolute;
+    width: 100%;
+    right: 0;
+    left: 0;
+    height: calc(2.25rem * 7 + 2px * 7);
+    z-index: 9;
+    border-radius: 0 0 1rem 1rem;
+    overflow: hidden;
+    background: var(--background);
+}
+
+.suggestion {
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    padding-left: 2.25rem;
+    background: var(--primary);
+    border-bottom: 2px solid var(--background);
+    cursor: pointer;
 }

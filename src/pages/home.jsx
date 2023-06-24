@@ -118,6 +118,13 @@ function Home() {
         }
     }
 
+    const searchClick = (e) => {
+        console.log(document.activeElement)
+        if (search.current) {
+            e.target.select()
+        }
+    }
+
     return (
         <>
             <div className="nav">
@@ -143,7 +150,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="omnibox">
-                    <input ref={search} defaultValue={homeURL} autoComplete="off" className="search" onKeyUp={(e) => {
+                    <input ref={search} defaultValue={homeURL} onClick={searchClick} autoComplete="off" className="search" onKeyUp={(e) => {
                         if (e.key == "Enter") {
                             return searchURL(e.target.value)
                         }

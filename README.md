@@ -26,5 +26,7 @@ To Do:
 - [ ] Make real error page
 - [ ] Text inverse color for themes
 - [ ] Add suggestions to omnibox
+- [ ] Fix search focus onclick
+- [ ] Use "navigation.canGoBack" and "navigation.canGoForward"
 - [x] Go home button
 - [x] Loading and cancel loading work
