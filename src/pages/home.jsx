@@ -13,7 +13,9 @@ function Home() {
     const [ lastURL, setLastURL] = React.useState("");
     const [ homeURL, setHomeURL ] = React.useState("cobalt://home");
     const [ loading, setLoading] = React.useState(false);
-    const internalURLS = ["home"]
+    const internalURLS = ["home"];
+    const [ canGoBack, setCanGoBack] = React.useState(false);
+    const [ canGoForward, setCanGoForward] = React.useState(false);
 
     const reloadPage = () => {
         setLoading(true)
@@ -44,6 +46,9 @@ function Home() {
         
         var webChange = function () {
             setTimeout(function () {
+                setCanGoBack(web.current.contentWindow.navigation.canGoBack)
+                setCanGoForward(web.current.contentWindow.navigation.canGoForward)
+
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
                 } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
@@ -118,21 +123,18 @@ function Home() {
         }
     }
 
-    const searchClick = (e) => {
-        console.log(document.activeElement)
-        if (search.current) {
-            e.target.select()
-        }
+    const searchFocus = (e) => {
+        e.target.select()
     }
 
     return (
         <>
             <div className="nav">
                 <div className="controls" data-side="left">
-                    <div className="controlsButton" onClick={historyBack}>
+                    <div className="controlsButton" onClick={historyBack} data-disabled={canGoBack ? "false": "true"}>
                         <ArrowBackIcon fontSize="small" />
                     </div>
-                    <div className="controlsButton" onClick={historyForward}>
+                    <div className="controlsButton" onClick={historyForward} data-disabled={canGoForward ? "false": "true"}>
                         <ArrowForwardIcon fontSize="small" />
                     </div>
                     { !loading ? (
@@ -150,11 +152,20 @@ function Home() {
                     </div>
                 </div>
                 <div className="omnibox">
-                    <input ref={search} defaultValue={homeURL} onClick={searchClick} autoComplete="off" className="search" onKeyUp={(e) => {
+                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} autoComplete="off" className="search" onKeyUp={(e) => {
                         if (e.key == "Enter") {
                             return searchURL(e.target.value)
                         }
                     }} />
+                    <div className="suggestions">
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                        <div className="suggestion">example</div>
+                    </div>
                     <div className="searchIcon">
                         <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />
                     </div>

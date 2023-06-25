@@ -82,6 +82,12 @@ body * {
     cursor: pointer;
 }
 
+.controlsButton[data-disabled=true] {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
 .panel {
     background: var(--background);
     position: fixed;
