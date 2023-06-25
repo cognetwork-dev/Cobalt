@@ -29,7 +29,6 @@ body * {
 
 .search {
     height: 2.25rem;
-    /*border-radius: 0.25rem;*/
     border-radius: 100px;
     background: var(--primary);
     border: none;
@@ -38,6 +37,10 @@ body * {
     width: -webkit-fill-available;
     padding-left: 2.25rem;
     color: var(--text-inverse);
+}
+
+.omnibox[data-suggestions=true] .search {
+    border-radius: 1rem 1rem 0 0;
 }
 
 .searchIcon {
@@ -71,9 +74,7 @@ body * {
 
 .controlsButton {
     height: 2rem;
-    /*border-radius: 0.25rem;*/
     border-radius: 100%;
-    /*background: #0d0c20;*/
     background: transparent;
     width: 2rem;
     display: flex;
@@ -128,11 +129,16 @@ body * {
     width: 100%;
     right: 0;
     left: 0;
-    height: calc(2.25rem * 7 + 2px * 7);
     z-index: 9;
     border-radius: 0 0 1rem 1rem;
     overflow: hidden;
     background: var(--background);
+    box-shadow: 0 1px 3px var(--background);
+    display: none;
+}
+
+.omnibox[data-suggestions=true] .suggestions {
+    display: inherit;
 }
 
 .suggestion {
@@ -141,6 +147,6 @@ body * {
     align-items: center;
     padding-left: 2.25rem;
     background: var(--primary);
-    border-bottom: 2px solid var(--background);
+    border-top: 2px solid var(--background);
     cursor: pointer;
 }

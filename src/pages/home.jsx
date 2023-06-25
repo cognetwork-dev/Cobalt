@@ -6,8 +6,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
+import { BareClient } from "@tomphttp/bare-client";
+import { bareServerURL } from "../consts.jsx";
 
 function Home() {
+    const bare = React.useMemo(() => new BareClient(bareServerURL), []);
+
     const web = React.useRef();
     const search = React.useRef();
     const [ lastURL, setLastURL] = React.useState("");
@@ -16,6 +20,7 @@ function Home() {
     const internalURLS = ["home"];
     const [ canGoBack, setCanGoBack] = React.useState(false);
     const [ canGoForward, setCanGoForward] = React.useState(false);
+    const [ suggestions, setSuggestions ] = React.useState([]);
 
     const reloadPage = () => {
         setLoading(true)
@@ -127,6 +132,33 @@ function Home() {
         e.target.select()
     }
 
+    const searchType = (e) =>{
+        if (e.key == "Enter") {
+            return searchURL(e.target.value)
+        }
+    }
+
+    const searchChange = async (e) => {
+        if (e.target.value) {
+            try {
+                var site = await bare.fetch(
+                    "https://www.google.com/complete/search?client=gws-wiz&q=" + e.target.value
+                );
+                var results = await site.text();
+                results = JSON.parse(
+                    results.replaceAll("window.google.ac.h(", "").slice(0, -1)
+                )[0]
+                results.forEach((item, number) => (results[number] = item[0]))
+                results = results.slice(0, 8)
+                setSuggestions(results)
+            } catch {
+                setSuggestions([])
+            }
+        } else {
+            setSuggestions([])
+        }
+    }
+
     return (
         <>
             <div className="nav">
@@ -151,20 +183,12 @@ function Home() {
                         <HomeIcon fontSize="small" />
                     </div>
                 </div>
-                <div className="omnibox">
-                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} autoComplete="off" className="search" onKeyUp={(e) => {
-                        if (e.key == "Enter") {
-                            return searchURL(e.target.value)
-                        }
-                    }} />
+                <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
+                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
                     <div className="suggestions">
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
-                        <div className="suggestion">example</div>
+                        {suggestions.map((suggestion, index) => (
+                            <div className="suggestion" onClick={() => searchURL("https://example.com")} dangerouslySetInnerHTML={{__html: suggestion}} key={index}></div>
+                        ))}
                     </div>
                     <div className="searchIcon">
                         <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />

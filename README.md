@@ -19,12 +19,12 @@ To Do:
 - [ ] Change theme color in start.mjs
 - [ ] Update files in build.mjs
 - [ ] Make README.md (screenshots about, api)
-- [ ] Remove commented CSS once done
 - [ ] Issue templates
 - [ ] Remove unused packages
 - [ ] Error on internal pages when not iframed
 - [ ] Make real error page
 - [ ] Add suggestions to omnibox
+- [x] Remove commented CSS once done
 - [x] Text inverse color for themes
 - [x] Fix search focus onclick
 - [x] Use "navigation.canGoBack" and "navigation.canGoForward"
