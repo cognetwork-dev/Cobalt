@@ -131,10 +131,19 @@ body * {
     left: 0;
     z-index: 9;
     border-radius: 0 0 1rem 1rem;
-    overflow: hidden;
     background: var(--background);
-    box-shadow: 0 1px 3px var(--background);
+    box-shadow: 0 1px 2px 0 var(--background);
     display: none;
+}
+
+.suggestions::before {
+    content: '';
+    position: absolute;
+    background: var(--primary);
+    height: 4px;
+    width: 100%;
+    top: -2px;
+    pointer-events: none;
 }
 
 .omnibox[data-suggestions=true] .suggestions {
@@ -145,8 +154,31 @@ body * {
     height: 2.25rem;
     display: flex;
     align-items: center;
-    padding-left: 2.25rem;
+    padding-left: 0.35rem;
     background: var(--primary);
-    border-top: 2px solid var(--background);
+    /*border-top: 2px solid var(--background);*/
     cursor: pointer;
+    color: var(--text-inverse);
+}
+
+.suggestion:last-child {
+    border-radius: 0 0 1rem 1rem;
+}
+
+.suggestionIcon {
+    margin-right: 0.35rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+
+.MuiSvgIcon-root path {
+    fill: currentColor;
+}
+
+.suggestionIcon .MuiSvgIcon-root path {
+    color: var(--text-inverse);
 }

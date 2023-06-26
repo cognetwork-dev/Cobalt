@@ -23,7 +23,8 @@ To Do:
 - [ ] Remove unused packages
 - [ ] Error on internal pages when not iframed
 - [ ] Make real error page
-- [ ] Add suggestions to omnibox
+- [ ] Share button
+- [x] Add suggestions to omnibox
 - [x] Remove commented CSS once done
 - [x] Text inverse color for themes
 - [x] Fix search focus onclick

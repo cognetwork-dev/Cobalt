@@ -142,13 +142,10 @@ function Home() {
         if (e.target.value) {
             try {
                 var site = await bare.fetch(
-                    "https://www.google.com/complete/search?client=gws-wiz&q=" + e.target.value
+                    "https://www.google.com/complete/search?client=firefox&q=" + e.target.value
                 );
-                var results = await site.text();
-                results = JSON.parse(
-                    results.replaceAll("window.google.ac.h(", "").slice(0, -1)
-                )[0]
-                results.forEach((item, number) => (results[number] = item[0]))
+                var results = await site.json();
+                results = results[1];
                 results = results.slice(0, 8)
                 setSuggestions(results)
             } catch {
@@ -157,6 +154,12 @@ function Home() {
         } else {
             setSuggestions([])
         }
+    }
+
+    const searchBlur = () => {
+        setTimeout(() => {
+            setSuggestions([])
+        }, 100)
     }
 
     return (
@@ -184,10 +187,15 @@ function Home() {
                     </div>
                 </div>
                 <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
-                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
+                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
                     <div className="suggestions">
                         {suggestions.map((suggestion, index) => (
-                            <div className="suggestion" onClick={() => searchURL("https://example.com")} dangerouslySetInnerHTML={{__html: suggestion}} key={index}></div>
+                            <div className="suggestion" onClick={() => {searchURL(suggestion); setSuggestions([])}} key={index}>
+                                <div className="suggestionIcon">
+                                    <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />
+                                </div>
+                                {suggestion}
+                            </div>
                         ))}
                     </div>
                     <div className="searchIcon">
