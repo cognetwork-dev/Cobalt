@@ -13,17 +13,16 @@ Features:
 
 To Do:
 - [ ] All of the features
-- [ ] Obfuscate things
 - [ ] Add PWA manifest
-- [ ] Make and add logos
 - [ ] Change theme color in start.mjs
-- [ ] Update files in build.mjs
 - [ ] Make README.md (screenshots about, api)
 - [ ] Issue templates
 - [ ] Remove unused packages
-- [ ] Error on internal pages when not iframed
 - [ ] Make real error page
-- [ ] Share button
+- [x] Make and add logos
+- [x] Update files in build.mjs
+- [x] Error on internal pages when not iframed
+- [x] Obfuscate things
 - [x] Add suggestions to omnibox
 - [x] Remove commented CSS once done
 - [x] Text inverse color for themes
@@ -31,3 +30,6 @@ To Do:
 - [x] Use "navigation.canGoBack" and "navigation.canGoForward"
 - [x] Go home button
 - [x] Loading and cancel loading work
+
+Future Additions:
+- [ ] Share button

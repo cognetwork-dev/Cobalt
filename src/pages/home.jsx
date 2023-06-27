@@ -8,6 +8,7 @@ import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 import { BareClient } from "@tomphttp/bare-client";
 import { bareServerURL } from "../consts.jsx";
+import Obfuscate from "../components/obfuscate.jsx"
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
@@ -29,15 +30,19 @@ function Home() {
     }
 
     const historyBack = () => {
-        setLoading(true)
+        if (canGoBack) {
+            setLoading(true)
 
-        web.current.contentWindow.history.back();
+            web.current.contentWindow.history.back();
+        }
     }
 
     const historyForward = () => {
-        setLoading(true)
+        if (canGoForward) {
+            setLoading(true)
 
-        web.current.contentWindow.history.forward();
+            web.current.contentWindow.history.forward();
+        }
     }
 
     const stopLoadingPage = () => {
@@ -162,6 +167,17 @@ function Home() {
         }, 100)
     }
 
+    if (!window.Cobalt) {
+        window.Cobalt = {
+            "url": "TODO",
+            "navigate": searchURL,
+            "reload": reloadPage,
+            "back": historyBack,
+            "forward": historyForward,
+            "togglePanel": togglePanel
+        }
+    }
+
     return (
         <>
             <div className="nav">
@@ -194,7 +210,7 @@ function Home() {
                                 <div className="suggestionIcon">
                                     <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />
                                 </div>
-                                {suggestion}
+                                <Obfuscate>{suggestion}</Obfuscate>
                             </div>
                         ))}
                     </div>

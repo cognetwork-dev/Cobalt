@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { ObfuscateLayout } from "../components/obfuscate.jsx";
+
 import "../style/index.css";
 import "../navigationBackup.jsx";
 import "../proxy.jsx";
@@ -9,8 +11,21 @@ var InternalHome = React.lazy(() => import("./internal/home.jsx"));
 var Error = React.lazy(() => import("./error.jsx"));
 
 function App() {
+    const InternalPage = (props) => {
+      if (window !== window.top) {
+        return (
+          props.children
+        )
+      } else {
+        return (
+          <Error />
+        )
+      }
+    }
+
     return (
         <>
+            <ObfuscateLayout />
             <Routes>
                 <Route
                   path="/"
@@ -24,7 +39,9 @@ function App() {
                   path="/internal/home"
                   element={
                     <Suspense fallback={<></>}>
-                      <InternalHome />
+                      <InternalPage>
+                        <InternalHome />
+                      </InternalPage>
                     </Suspense>
                   }
                 />

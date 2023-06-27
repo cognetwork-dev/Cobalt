@@ -10,6 +10,7 @@ const indexURL = new URL("index.html", buildURL);
  * Paths relative to buildURL
  */
 const files = [
+  "internal/home.html",
   // for static file hosts
   "404.html",
 ];

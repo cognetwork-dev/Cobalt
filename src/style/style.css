@@ -5,7 +5,12 @@ body {
 
 body * {
     color: var(--text);
-    font-family: "Noto Sans";
+    font-family: var(--font);
+}
+
+::placeholder {
+    color: var(--text-inverse);
+    opacity: 0.5;
 }
 
 .nav {

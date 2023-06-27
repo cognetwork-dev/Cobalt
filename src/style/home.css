@@ -1,6 +1,39 @@
+.home {
+    position: fixed;
+    top: -53.2px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logo {
+    width: 160px;
+    margin-bottom: -20px;
+}
+
 .title {
     font-size: 2.25rem;
     margin-top: 8rem;
     font-weight: bold;
     text-align: center;
+}
+
+.mainSearch {
+    background: var(--primary);
+    border: none;
+    outline: none;
+    color: var(--text-inverse);
+    height: 3rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.25rem;
+    width: 45rem;
+    font-size: 1rem;
+    max-width: calc(100% - 4rem);
+    box-sizing: border-box;
 }
