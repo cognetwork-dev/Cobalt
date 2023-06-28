@@ -4,6 +4,18 @@ import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
 import "../../style/home.css";
 
 function InternalHome() {
+    const mainSearch = React.useRef()
+    
+    React.useEffect(() => {
+        mainSearch.current.focus()
+    }, []);
+
+    const searchType = (e) =>{
+        if (e.key == "Enter") {
+            return window.parent.Cobalt.navigate(e.target.value)
+        }
+    }
+
     return (
         <>
             <div className="home">
@@ -11,7 +23,7 @@ function InternalHome() {
                     <LogoSVG />
                 </div>
                 <div className="homeOmnibox">
-                    <input className="mainSearch" />
+                    <input ref={mainSearch} className="mainSearch" onKeyUp={searchType} />
                     <div className="homeSearchIcon">
                         <SearchIcon style={{"height": "70%", "width": "70%"}} />
                     </div>

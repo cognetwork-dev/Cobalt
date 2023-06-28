@@ -70,6 +70,14 @@ body[data-appearance=lemon] {
     --font: "Noto Sans";
 }
 
+body[data-appearance=lime] {
+    --background: #030303;
+    --primary: #57F287;
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
 body[data-appearance=shadow] {
     --background: black;
     --primary: white;
