@@ -229,3 +229,19 @@ body[data-appearance=classic] {
     --text-inverse: white;
     --font: "Noto Sans";
 }
+
+body[data-appearance=sun] {
+    --background: #ffdfb7;
+    --primary: #ffa534;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=alice] {
+    --background: #1b1b1b;
+    --primary: black;
+    --text: #ff00ca;
+    --text-inverse: #ff00ca;
+    --font: "Noto Sans";
+}

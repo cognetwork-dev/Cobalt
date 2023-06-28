@@ -1,4 +1,5 @@
 import React from "react";
+import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
 import "../../style/home.css";
 
@@ -9,7 +10,12 @@ function InternalHome() {
                 <div className="logo">
                     <LogoSVG />
                 </div>
-                <input className="mainSearch" placeholder="Search or type a URL" />
+                <div className="homeOmnibox">
+                    <input className="mainSearch" />
+                    <div className="homeSearchIcon">
+                        <SearchIcon style={{"height": "70%", "width": "70%"}} />
+                    </div>
+                </div>
             </div>
         </>
     )

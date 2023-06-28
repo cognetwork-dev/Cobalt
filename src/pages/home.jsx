@@ -215,12 +215,12 @@ function Home() {
                         ))}
                     </div>
                     <div className="searchIcon">
-                        <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />
+                        <SearchIcon style={{"height": "70%", "width": "70%"}} />
                     </div>
                 </div>
                 <div className="controls" data-side="right">
                     <div className="controlsButton" onClick={() => togglePanel()}>
-                        <DockSVG style={{"height": "1.25em", "width": "1.25em"}} />
+                        <DockSVG style={{"height": "70%", "width": "70%"}} />
                     </div>
                 </div>
             </div>
