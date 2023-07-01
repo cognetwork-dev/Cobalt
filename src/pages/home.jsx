@@ -27,7 +27,7 @@ function Home() {
     const [ searchEngine, setSearchEngine ] = React.useState("https://www.google.com/search?q=%s");
     const [ useSuggestions, setUseSuggestions ] = React.useState(true);
     const [ currentURL, setCurrentURL ] = React.useState(homeURL);
-    const [ panelOptions, setPanelOptions ] = React.useState(["Favorites", "History", "Themes", "Extensons", "Settings"]);
+    const [ panelOptions, setPanelOptions ] = React.useState(["Favorites", "History", "Themes", "Custom Style", "Extensons", "Settings"]);
     const sidePanelNav = React.useRef();
 
     React.useEffect(() => {
