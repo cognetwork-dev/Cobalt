@@ -27,6 +27,8 @@ function Home() {
     const [ searchEngine, setSearchEngine ] = React.useState("https://www.google.com/search?q=%s");
     const [ useSuggestions, setUseSuggestions ] = React.useState(true);
     const [ currentURL, setCurrentURL ] = React.useState(homeURL);
+    const [ panelOptions, setPanelOptions ] = React.useState(["Favorites", "History", "Themes", "Extensons", "Settings"]);
+    const sidePanelNav = React.useRef();
 
     React.useEffect(() => {
         searchURL(homeURL)
@@ -156,12 +158,22 @@ function Home() {
         }
     }
 
+    const toggleSidePanelNav = () => {
+        if (!sidePanelNav.current.dataset.open) {
+            return sidePanelNav.current.dataset.open = "true"
+        } else if (sidePanelNav.current.dataset.open == "true") {
+            return sidePanelNav.current.dataset.open = "false"
+        } else if (sidePanelNav.current.dataset.open == "false") {
+            return sidePanelNav.current.dataset.open = "true"
+        }
+    }
+
     const searchFocus = (e) => {
         e.target.select()
     }
 
     const searchType = (e) =>{
-        if (e.key == "Enter") {
+        if (e.key == "Enter" && e.target.value) {
             return searchURL(e.target.value)
         }
     }
@@ -291,17 +303,25 @@ function Home() {
             <iframe ref={web} onLoad={webLoad} className="web"></iframe>
             <div className="panel">
                 <div className="sidePanel">
-                    <div className="sidePanelNav">
+                    <div className="sidePanelNav" ref={sidePanelNav} onClick={toggleSidePanelNav}>
                         <div className="sidePanelItem">
                             <div className="sidePanelItemTitle">Favorites</div>
                             <div className="sidePanelItemIcon">
                                 <ArrowDropDownIcon fontSize="small" />
                             </div>
+                            <div className="sidePanelItems">
+                                {panelOptions.map((option, index) => (
+                                    <div className="sidePanelItemsOption" key={index}>
+                                        <Obfuscate>{option}</Obfuscate>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="sidePanelClose" onClick={togglePanel}>
+                            <CloseIcon fontSize="small" />
                         </div>
                     </div>
-                    <div className="sidePanelBody">
-
-                    </div>
+                    <div className="sidePanelBody"></div>
                 </div>
             </div>
         </>

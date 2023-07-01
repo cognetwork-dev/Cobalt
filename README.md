@@ -14,11 +14,14 @@ Features:
 To Do:
 - [ ] All of the features
 - [ ] Add PWA manifest
-- [ ] Change theme color in start.mjs
 - [ ] Make README.md (screenshots about, api)
 - [ ] Issue templates
-- [ ] Remove unused packages
 - [ ] Make real error page
+- [ ] Blocklist
+- [ ] Suggestions for home page
+- [ ] Home page footer
+- [x] Change theme color in start.mjs
+- [x] Remove unused packages
 - [x] Make and add logos
 - [x] Update files in build.mjs
 - [x] Error on internal pages when not iframed
@@ -32,4 +35,8 @@ To Do:
 - [x] Loading and cancel loading work
 
 Future Additions:
+- [ ] Games
+- [ ] Section to change headers sent to site on proxy (eg. user-agent)
 - [ ] Share button
+- [ ] Use Typescript (not needed for main release)
+- [ ] Have real components and not everything in one file lol

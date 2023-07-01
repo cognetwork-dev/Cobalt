@@ -253,3 +253,67 @@ body[data-appearance=alice] {
     --text-inverse: #ff00ca;
     --font: "Noto Sans";
 }
+
+body[data-appearance=plum] {
+    --background: #6e4b74;
+    --primary: #343061;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=sky] {
+    --background: #12c2e9;
+    --primary: #0e9bba;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=matrix] {
+    --background: black;
+    --primary: #00ff38;
+    --text: #00ff38;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=gruvbox] {
+    --background: #282828;
+    --primary: #000000;
+    --text: #fdf4c1;
+    --text-inverse: #fdf4c1;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=quantum] {
+    --background: #ffd3ae;
+    --primary: white;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=manjaro] {
+    --background: #2d3134;
+    --primary: #202328;
+    --text: #b3d9ff;
+    --text-inverse: #b3d9ff;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=leafy] {
+    --background: #91d1a7;
+    --primary: #daeedf;
+    --text: #084015;
+    --text-inverse: #084015;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=blackpink] {
+    --background: #000000;
+    --primary: #f8708c;
+    --text: #f8708c;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
