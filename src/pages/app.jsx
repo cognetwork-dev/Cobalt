@@ -8,6 +8,8 @@ import "../proxy.jsx";
 
 var Home = React.lazy(() => import("./home.jsx"));
 var InternalHome = React.lazy(() => import("./internal/home.jsx"));
+var InternalBlank = React.lazy(() => import("./internal/blank.jsx"));
+var InternalViewSource = React.lazy(() => import("./internal/viewsource.jsx"));
 var Error = React.lazy(() => import("./error.jsx"));
 
 function App() {
@@ -41,6 +43,26 @@ function App() {
                     <Suspense fallback={<></>}>
                       <InternalPage>
                         <InternalHome />
+                      </InternalPage>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/internal/blank"
+                  element={
+                    <Suspense fallback={<></>}>
+                      <InternalPage>
+                        <InternalBlank />
+                      </InternalPage>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/internal/viewsource"
+                  element={
+                    <Suspense fallback={<></>}>
+                      <InternalPage>
+                        <InternalViewSource />
                       </InternalPage>
                     </Suspense>
                   }

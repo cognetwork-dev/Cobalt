@@ -19,6 +19,10 @@ To Do:
 - [ ] Blocklist
 - [ ] Suggestions for home page
 - [ ] Home page footer
+- [ ] Keyboard shortcuts (reload, back, fowrad, favorite)
+- [ ] view-source:* page
+- [ ] Change home page url option
+- [x] cobalt://blank page
 
 Future Additions:
 - [ ] Games

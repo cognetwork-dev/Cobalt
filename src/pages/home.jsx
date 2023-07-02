@@ -20,15 +20,45 @@ function Home() {
     const [ lastURL, setLastURL] = React.useState("");
     const [ homeURL, setHomeURL ] = React.useState("cobalt://home");
     const [ loading, setLoading] = React.useState(false);
-    const internalURLS = ["home"];
+    const internalURLS = ["home", "blank"];
     const [ canGoBack, setCanGoBack] = React.useState(false);
     const [ canGoForward, setCanGoForward] = React.useState(false);
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ searchEngine, setSearchEngine ] = React.useState("https://www.google.com/search?q=%s");
     const [ useSuggestions, setUseSuggestions ] = React.useState(true);
     const [ currentURL, setCurrentURL ] = React.useState(homeURL);
-    const [ panelOptions, setPanelOptions ] = React.useState(["Favorites", "History", "Themes", "Custom Style", "Extensons", "Settings"]);
+    const defaultPanelOptions = [
+        {
+            "name": "Favorites",
+            "content": "<p>Favorites</p>",
+            "script": "Cobalt.sidePanelBody.innerHTML = '<h1>Load here</h1>'"
+        },
+        {
+            "name": "History",
+            "content": "<p>History</p>"
+        },
+        {
+            "name": "Themes",
+            "content": "<p>Themes</p>"
+        },
+        {
+            "name": "Custom Style",
+            "content": "<p>Custom Style</p>"
+        },
+        {
+            "name": "Extensons",
+            "content": "<p>Extensons</p>"
+        },
+        {
+            "name": "Settings",
+            "content": "<p>Settings</p>",
+            "script": "console.log('Clicked on settings tab')"
+        }
+    ]
+    const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions);
+    const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
     const sidePanelNav = React.useRef();
+    const sidePanelBody = React.useRef();
 
     React.useEffect(() => {
         searchURL(homeURL)
@@ -130,6 +160,11 @@ function Home() {
             search.current.value = value
             web.current.contentWindow.location = new URL("/internal/" + value.split("cobalt://")[1], window.location)
             setCurrentURL(value)
+        } else if (value.startsWith("view-source:") && value !== "view-source:") {
+            search.current.value = value
+            web.current.contentWindow.location = new URL("/internal/viewsource?url=" + value.split("view-source:")[1], window.location)
+            setCurrentURL(value.split("view-source:")[1])
+
         } else {
             var checkURL = isURL(value)
 
@@ -207,6 +242,27 @@ function Home() {
         }, 100)
     }
 
+    const sidePanelNavBlur = () => {
+        sidePanelNav.current.dataset.open = "false"
+    }
+
+    const setSidePanelOption = (index) => {
+        setCurrentPanelOption(index)
+    }
+
+    React.useEffect(() => {
+        if (panelOptions[currentPanelOption].script && sidePanelBody.current) {
+            setTimeout(() => {
+                try {
+                    Function("return " + panelOptions[currentPanelOption].script)()
+                } catch(e) {
+                    console.error("Error is side panel script")
+                    console.error(e)
+                }
+            })
+        }
+    }, [currentPanelOption])
+
     if (!window.Cobalt) {
         window.Cobalt = {
             "url": currentURL,
@@ -221,7 +277,8 @@ function Home() {
             "canGoForward": canGoForward,
             "useSuggestions": useSuggestions,
             "searchEngine": searchEngine,
-            "getSuggestions": getSuggestions
+            "getSuggestions": getSuggestions,
+            "sidePanelBody": sidePanelBody.current
         }
     }
 
@@ -252,6 +309,10 @@ function Home() {
     React.useEffect(() => {
         window.Cobalt.url = currentURL
     }, [currentURL])
+
+    React.useEffect(() => {
+        window.Cobalt.sidePanelBody = sidePanelBody.current
+    }, [sidePanelBody.current])
 
     return (
         <>
@@ -303,16 +364,16 @@ function Home() {
             <iframe ref={web} onLoad={webLoad} className="web"></iframe>
             <div className="panel">
                 <div className="sidePanel">
-                    <div className="sidePanelNav" ref={sidePanelNav} onClick={toggleSidePanelNav}>
-                        <div className="sidePanelItem">
-                            <div className="sidePanelItemTitle">Favorites</div>
+                    <div className="sidePanelNav" ref={sidePanelNav}>
+                        <div className="sidePanelItem" tabIndex="0" onClick={toggleSidePanelNav} onBlur={sidePanelNavBlur}>
+                            <div className="sidePanelItemTitle"><Obfuscate>{panelOptions[currentPanelOption].name}</Obfuscate></div>
                             <div className="sidePanelItemIcon">
                                 <ArrowDropDownIcon fontSize="small" />
                             </div>
                             <div className="sidePanelItems">
                                 {panelOptions.map((option, index) => (
-                                    <div className="sidePanelItemsOption" key={index}>
-                                        <Obfuscate>{option}</Obfuscate>
+                                    <div className="sidePanelItemsOption" onClick={() => setSidePanelOption(index)} key={index}>
+                                        <Obfuscate>{option.name}</Obfuscate>
                                     </div>
                                 ))}
                             </div>
@@ -321,7 +382,7 @@ function Home() {
                             <CloseIcon fontSize="small" />
                         </div>
                     </div>
-                    <div className="sidePanelBody"></div>
+                    <div ref={sidePanelBody} className="sidePanelBody" dangerouslySetInnerHTML={{__html: panelOptions[currentPanelOption].content}}></div>
                 </div>
             </div>
         </>
