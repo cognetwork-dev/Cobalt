@@ -32,3 +32,4 @@ Future Additions:
 - [ ] Use Typescript (not needed for main release)
 - [ ] Translations
 - [ ] Have real components and not everything in one file
+- [ ] Syntax highlighting for view-source: (make it work with theme)

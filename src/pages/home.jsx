@@ -61,6 +61,7 @@ function Home() {
     const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
+    const [ history, setHistory ] = React.useState([]);
 
     React.useEffect(() => {
         searchURL(homeURL)
@@ -134,6 +135,9 @@ function Home() {
                     search.current.value = url
                     setCurrentURL(url)
                     setLastURL(url)
+                    setHistory(history =>  [...history, {
+                        url: url
+                    }])
                 }
             })
         }
