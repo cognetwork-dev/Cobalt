@@ -5,6 +5,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 import { BareClient } from "@tomphttp/bare-client";
@@ -112,8 +114,18 @@ function Home() {
 
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+
+                    //Extension test: Darkreader
+                    setTimeout(function() {
+                        var darkreader = web.current.contentWindow.document.createElement("script");darkreader.src = "https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js";web.current.contentWindow.document.head.appendChild(darkreader);darkreader.onload = function() {web.current.contentWindow.DarkReader.enable()};
+                    })
+
                 } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
-                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                    if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                        var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                    } else {
+                        var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                    }
                 } else {
                     var url = web.current.contentWindow.location.toString()
                 }
@@ -164,7 +176,6 @@ function Home() {
             search.current.value = value
             web.current.contentWindow.location = new URL("/internal/viewsource?url=" + value.split("view-source:")[1], window.location)
             setCurrentURL(value.split("view-source:")[1])
-
         } else {
             var checkURL = isURL(value)
 
@@ -353,6 +364,10 @@ function Home() {
                     </div>
                     <div className="searchIcon">
                         <SearchIcon style={{"height": "70%", "width": "70%"}} />
+                    </div>
+                    <div className="favoriteIcon">
+                        <StarBorderIcon fontSize="small" />
+                        {/**StarIcon */}
                     </div>
                 </div>
                 <div className="controls" data-side="right">

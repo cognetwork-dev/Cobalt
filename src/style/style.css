@@ -8,6 +8,17 @@ body * {
     font-family: var(--font);
 }
 
+body::-webkit-scrollbar {
+    width: 16px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border: 4px solid transparent;
+    background-clip: content-box;
+    border-radius: 8px;
+}
+
 ::placeholder {
     color: var(--text-inverse);
     opacity: 0.8;
@@ -188,7 +199,7 @@ body * {
     fill: currentColor;
 }
 
-.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path {
+.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path {
     color: var(--text-inverse);
 }
 
@@ -275,4 +286,54 @@ body * {
 
 .sidePanelNav[data-open=true] .sidePanelItems {
     display: flex;
+}
+
+.favoriteIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 100%;
+    background: transparent;
+    position: absolute;
+    right: 0.35rem;
+    top: 0.35rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sourceCode {
+    word-break: normal;
+    overflow-wrap: anywhere;
+    white-space-collapse: preserve;
+    text-wrap: wrap;
+    color: var(--text);
+    position: relative;
+}
+
+.sourceCode::before {
+    content: "";
+    position: absolute;
+    background: var(--primary);
+    top: 0;
+    bottom: 0;
+    left: 0.5rem;
+    width: 2rem;
+    z-index: -1;
+    border-radius: 0.25rem;
+}
+
+.lines {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.line {
+    padding-left: 0.5rem;
+}
+
+.line::marker {
+    color: var(--text-inverse);
+    font-size: 0.75rem;
 }

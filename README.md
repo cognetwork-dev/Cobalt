@@ -20,9 +20,10 @@ To Do:
 - [ ] Suggestions for home page
 - [ ] Home page footer
 - [ ] Keyboard shortcuts (reload, back, fowrad, favorite)
-- [ ] view-source:* page
 - [ ] Change home page url option
-- [x] cobalt://blank page
+- [ ] Favorites
+- [ ] History
+- [x] view-source:* page
 
 Future Additions:
 - [ ] Games
