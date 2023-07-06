@@ -317,3 +317,11 @@ body[data-appearance=blackpink] {
     --text-inverse: black;
     --font: "Noto Sans";
 }
+
+body[data-appearance=cyrillic] {
+    --background: #191e24;
+    --primary: #949ba7;
+    --text: #60666f;
+    --text-inverse: var(--background);
+    --font: "Noto Sans";
+}

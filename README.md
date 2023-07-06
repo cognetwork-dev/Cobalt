@@ -23,7 +23,9 @@ To Do:
 - [ ] Change home page url option
 - [ ] Favorites
 - [ ] History
-- [x] view-source:* page
+- [ ] Search Engine Change
+- [ ] Tab Cloaking
+- [ ] Change rounding
 
 Future Additions:
 - [ ] Games

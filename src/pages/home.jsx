@@ -32,12 +32,12 @@ function Home() {
     const defaultPanelOptions = [
         {
             "name": "Favorites",
-            "content": "<p>Favorites</p>",
-            "script": "Cobalt.sidePanelBody.innerHTML = '<h1>Load here</h1>'"
+            "content": "",
+            "script": ""//"Cobalt.sidePanelBody.querySelector('div').querySelector('div').textContent = 'Favorites load script'"
         },
         {
             "name": "History",
-            "content": "<p>History</p>"
+            "component": "history"
         },
         {
             "name": "Themes",
@@ -62,6 +62,22 @@ function Home() {
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
     const [ history, setHistory ] = React.useState([]);
+
+    const HistoryComponent = () => {        
+        return (
+            <>
+                {history.map((item, index) => (
+                    <div key={index}>{item.url}</div>
+                ))}
+            </>
+        )
+    }
+
+    const SidePanelMainComponent = () => {
+        return (
+            <div dangerouslySetInnerHTML={{__html: panelOptions[currentPanelOption].content}}></div>
+        )
+    }
 
     React.useEffect(() => {
         searchURL(homeURL)
@@ -266,7 +282,7 @@ function Home() {
     }
 
     React.useEffect(() => {
-        if (panelOptions[currentPanelOption].script && sidePanelBody.current) {
+        if (panelOptions[currentPanelOption].script && sidePanelBody.current) {            
             setTimeout(() => {
                 try {
                     Function("return " + panelOptions[currentPanelOption].script)()
@@ -401,7 +417,13 @@ function Home() {
                             <CloseIcon fontSize="small" />
                         </div>
                     </div>
-                    <div ref={sidePanelBody} className="sidePanelBody" dangerouslySetInnerHTML={{__html: panelOptions[currentPanelOption].content}}></div>
+                    <div ref={sidePanelBody} className="sidePanelBody">
+                        <div>
+                            {
+                                panelOptions[currentPanelOption].component ? <HistoryComponent /> : <SidePanelMainComponent />
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
