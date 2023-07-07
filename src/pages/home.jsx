@@ -13,10 +13,10 @@ import { BareClient } from "@tomphttp/bare-client";
 import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
+import { useLocalHistory } from "../settings.jsx";
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
-
     const web = React.useRef();
     const search = React.useRef();
     const [ lastURL, setLastURL] = React.useState("");
@@ -62,14 +62,14 @@ function Home() {
     const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
-    const [ history, setHistory ] = React.useState([]);
     const [ sidePanelBodyData, setSidePanelBodyData ] = React.useState({});
+    const [history, setHistory] = useLocalHistory();
 
     const HistoryComponent = () => {        
         return (
             <>
-                {history.map((item, index) => (
-                    <div key={index}>{item.url}</div>
+                {JSON.parse(history).map((item, index) => (
+                    <div key={index}>{(item.title || item.url) + " (" + item.url + ")"}</div>
                 ))}
             </>
         )
@@ -131,6 +131,14 @@ function Home() {
         web.current.contentWindow.stop();
     }
 
+    try {
+        JSON.parse(history)
+    } catch {
+        console.log("Error with history")
+        console.log(history)
+        setHistory("[]")
+    }
+
     const webLoad = () => {
         setLoading(false)
 
@@ -149,29 +157,39 @@ function Home() {
         var title = web.current.contentWindow.document.title
 
         function addHistory() {
-            setHistory(history =>  [...history, {
+            var tempHistory = JSON.parse(history)
+
+            console.log("ADD HISTORY")
+            console.log(tempHistory)
+
+            tempHistory.unshift({
                 url: url,
                 title: title
-            }])
+            })
 
-            var tempHistory = [...history, {
-                url: url,
-                title: title
-            }]
+            setHistory(JSON.stringify(tempHistory))
 
+            console.log(tempHistory)
 
             setInterval(() => {
-                if (web.current.contentWindow.document.title !== tempHistory[tempHistory.length - 1].title) {
-                    tempHistory[tempHistory.length - 1].title = web.current.contentWindow.document.title
-                    console.log(tempHistory)
-                    setHistory(tempHistory)
+                var tempHistory = Cobalt.history
+
+                var realTitle = web.current.contentWindow.document.head.querySelector("title").textContent
+
+                if (realTitle !== tempHistory[0].title) {
+                    tempHistory[0].title = realTitle
+                    console.log(tempHistory[0].title)
+                    setHistory(JSON.stringify(tempHistory))
                 }
             }, 500)
 
         }
 
-        if (Cobalt.history[Cobalt.history.length - 1]) {
-            if (url !== Cobalt.history[Cobalt.history.length - 1].url) {
+        var tempHistory = JSON.parse(history)
+
+        //All 1 duplicate on first page load
+        if (tempHistory[0]) {
+            if (url !== tempHistory[0].url) {
                 addHistory()
             }
         } else {
@@ -350,7 +368,7 @@ function Home() {
             "url": currentURL,
             "navigate": searchURL,
             "reload": reloadPage,
-            "history": history,
+            "history": JSON.parse(history),
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
@@ -378,7 +396,7 @@ function Home() {
     }, [sidePanelBodyData])
 
     React.useEffect(() => {
-        window.Cobalt.history = history
+        window.Cobalt.history = JSON.parse(history)
     }, [history])
 
     React.useEffect(() => {
