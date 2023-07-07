@@ -5,7 +5,7 @@ function Head({ defaultTitle }) {
     var localTitle = null
 
     React.useEffect(() => {
-        var mainTitle = defaultTitle ? defaultTitle + " | " + "Cobalt" : "Cobalt"
+        var mainTitle = defaultTitle ? defaultTitle : "Cobalt"
         var title = localTitle || mainTitle || "";    
         document.title = title;
     }, [localTitle]);

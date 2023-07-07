@@ -1,6 +1,7 @@
 import React from "react";
 import { BareClient } from "@tomphttp/bare-client";
 import { bareServerURL } from "../../consts.jsx";
+import Head from "../../components/head.jsx"
 
 function ViewSource() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
@@ -32,6 +33,7 @@ function ViewSource() {
 
     return (
         <>
+            <Head defaultTitle="View Source" />
             <div className="sourceCode" dangerouslySetInnerHTML={{__html: source}}></div>
         </>
     )

@@ -33,7 +33,8 @@ function Home() {
         {
             "name": "Favorites",
             "content": "",
-            "script": ""//"Cobalt.sidePanelBody.querySelector('div').querySelector('div').textContent = 'Favorites load script'"
+            "id": "defaultFavorites",
+            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>It works</h1>')"
         },
         {
             "name": "History",
@@ -62,6 +63,7 @@ function Home() {
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
     const [ history, setHistory ] = React.useState([]);
+    const [ sidePanelBodyData, setSidePanelBodyData ] = React.useState({});
 
     const HistoryComponent = () => {        
         return (
@@ -74,8 +76,16 @@ function Home() {
     }
 
     const SidePanelMainComponent = () => {
+        if (panelOptions[currentPanelOption].id) {
+            if (sidePanelBodyData[panelOptions[currentPanelOption].id]) {
+                var content = sidePanelBodyData[panelOptions[currentPanelOption].id]
+            }
+        } else {
+            var content = panelOptions[currentPanelOption].content
+        }
+
         return (
-            <div dangerouslySetInnerHTML={{__html: panelOptions[currentPanelOption].content}}></div>
+            <div dangerouslySetInnerHTML={{__html: content}}></div>
         )
     }
 
@@ -123,6 +133,50 @@ function Home() {
 
     const webLoad = () => {
         setLoading(false)
+
+        if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+            var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+        } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+            if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+            } else {
+                var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+            }
+        } else {
+            var url = web.current.contentWindow.location.toString()
+        }
+
+        var title = web.current.contentWindow.document.title
+
+        function addHistory() {
+            setHistory(history =>  [...history, {
+                url: url,
+                title: title
+            }])
+
+            var tempHistory = [...history, {
+                url: url,
+                title: title
+            }]
+
+
+            setInterval(() => {
+                if (web.current.contentWindow.document.title !== tempHistory[tempHistory.length - 1].title) {
+                    tempHistory[tempHistory.length - 1].title = web.current.contentWindow.document.title
+                    console.log(tempHistory)
+                    setHistory(tempHistory)
+                }
+            }, 500)
+
+        }
+
+        if (Cobalt.history[Cobalt.history.length - 1]) {
+            if (url !== Cobalt.history[Cobalt.history.length - 1].url) {
+                addHistory()
+            }
+        } else {
+            addHistory()
+        }
         
         var webChange = function () {
             setTimeout(function () {
@@ -151,9 +205,6 @@ function Home() {
                     search.current.value = url
                     setCurrentURL(url)
                     setLastURL(url)
-                    setHistory(history =>  [...history, {
-                        url: url
-                    }])
                 }
             })
         }
@@ -299,6 +350,7 @@ function Home() {
             "url": currentURL,
             "navigate": searchURL,
             "reload": reloadPage,
+            "history": history,
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
@@ -309,9 +361,25 @@ function Home() {
             "useSuggestions": useSuggestions,
             "searchEngine": searchEngine,
             "getSuggestions": getSuggestions,
-            "sidePanelBody": sidePanelBody.current
+            "sidePanelBodyData": sidePanelBodyData,
+            "setSidePanelBody": (id, value) => {
+                if (id && value) {
+                    setSidePanelBodyData(sidePanelBodyData => ({
+                        ...sidePanelBodyData,
+                        [id]: value
+                    }))
+                }
+            }
         }
     }
+
+    React.useEffect(() => {
+        window.Cobalt.sidePanelBodyData = sidePanelBodyData
+    }, [sidePanelBodyData])
+
+    React.useEffect(() => {
+        window.Cobalt.history = history
+    }, [history])
 
     React.useEffect(() => {
         window.Cobalt.homeURL = homeURL
@@ -340,10 +408,6 @@ function Home() {
     React.useEffect(() => {
         window.Cobalt.url = currentURL
     }, [currentURL])
-
-    React.useEffect(() => {
-        window.Cobalt.sidePanelBody = sidePanelBody.current
-    }, [sidePanelBody.current])
 
     return (
         <>
@@ -419,9 +483,8 @@ function Home() {
                     </div>
                     <div ref={sidePanelBody} className="sidePanelBody">
                         <div>
-                            {
-                                panelOptions[currentPanelOption].component ? <HistoryComponent /> : <SidePanelMainComponent />
-                            }
+                        {{ history: <HistoryComponent />,
+                        }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>
                 </div>

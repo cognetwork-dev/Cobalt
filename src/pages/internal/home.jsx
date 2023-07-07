@@ -1,6 +1,7 @@
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
+import Head from "../../components/head.jsx"
 import "../../style/home.css";
 
 function InternalHome() {
@@ -18,6 +19,7 @@ function InternalHome() {
 
     return (
         <>
+            <Head defaultTitle="Home" />
             <div className="home">
                 <div className="logo">
                     <LogoSVG />
