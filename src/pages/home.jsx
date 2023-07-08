@@ -64,6 +64,8 @@ function Home() {
     const sidePanelBody = React.useRef();
     const [ sidePanelBodyData, setSidePanelBodyData ] = React.useState({});
     const [history, setHistory] = useLocalHistory();
+    const [ loaded, setLoaded ] = React.useState(true);
+    const [ checking, setChecking ] = React.useState(false);
 
     const HistoryComponent = () => {        
         return (
@@ -134,8 +136,8 @@ function Home() {
     try {
         JSON.parse(history)
     } catch {
-        console.log("Error with history")
-        console.log(history)
+        console.error("Error with history: Not valid JSON")
+        console.error(history)
         setHistory("[]")
     }
 
@@ -155,33 +157,56 @@ function Home() {
         }
 
         var title = web.current.contentWindow.document.title
+        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? __uv$config.prefix + __uv$config.encodeUrl([...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href) : "" : ""
 
         function addHistory() {
             var tempHistory = JSON.parse(history)
 
-            console.log("ADD HISTORY")
-            console.log(tempHistory)
-
             tempHistory.unshift({
                 url: url,
-                title: title
+                title: title,
+                time: Date.now(),
+                favicon: favicon
             })
 
             setHistory(JSON.stringify(tempHistory))
 
-            console.log(tempHistory)
+            if (!checking && loaded) {
+                setChecking(true)
 
-            setInterval(() => {
-                var tempHistory = Cobalt.history
+                setInterval(() => {
+                    if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                        var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+                    } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                        if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                            var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                        } else {
+                            var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                        }
+                    } else {
+                        var url = web.current.contentWindow.location.toString()
+                    }
 
-                var realTitle = web.current.contentWindow.document.head.querySelector("title").textContent
+                    var tempHistory = Cobalt.history
 
-                if (realTitle !== tempHistory[0].title) {
-                    tempHistory[0].title = realTitle
-                    console.log(tempHistory[0].title)
-                    setHistory(JSON.stringify(tempHistory))
-                }
-            }, 500)
+                    if (tempHistory[0].url == url) {
+                        var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
+                        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? __uv$config.prefix + __uv$config.encodeUrl([...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href) : "" : ""
+
+                        if (realTitle !== tempHistory[0].title) {
+                            tempHistory[0].title = realTitle
+                            setHistory(JSON.stringify(tempHistory))
+                        }
+
+                        if (favicon !== tempHistory[0].favicon) {
+                            tempHistory[0].favicon = favicon
+                            setHistory(JSON.stringify(tempHistory))
+                        }
+                    }
+                }, 100)
+            }
+
+            setLoaded(true)
 
         }
 
@@ -197,6 +222,8 @@ function Home() {
         }
         
         var webChange = function () {
+            setLoaded(false)
+
             setTimeout(function () {
                 setCanGoBack(web.current.contentWindow.navigation.canGoBack)
                 setCanGoForward(web.current.contentWindow.navigation.canGoForward)

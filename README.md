@@ -12,7 +12,6 @@ Features:
 
 To Do:
 - [ ] All of the features
-- [ ] Add PWA manifest
 - [ ] Make README.md (screenshots about, api)
 - [ ] Issue templates
 - [ ] Make real error page

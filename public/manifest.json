@@ -1,0 +1,28 @@
+{
+  "name": "Cobalt",
+  "short_name": "Cobalt",
+  "description": "A new minimal clean proxy site, built for developers.",
+  "icons": [
+      {
+        "src": "/logos/logo.svg",
+        "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/logos/logo192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/logos/logo512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+  ],
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "black",
+  "theme_color": "black"
+}
