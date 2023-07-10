@@ -25,6 +25,7 @@ To Do:
 - [ ] Search Engine Change
 - [ ] Tab Cloaking
 - [ ] Change rounding
+- [ ] Fix favicons
 
 Future Additions:
 - [ ] Games

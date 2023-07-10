@@ -67,11 +67,32 @@ function Home() {
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
 
-    const HistoryComponent = () => {        
+    const HistoryComponent = () => {
+        async function createFavicon(url) {
+            console.log(url)
+
+            var response = await bare.fetch(url)
+            var blob = await response.blob()
+            var reader = new FileReader()
+
+            reader.onloadend = function() {
+                console.log(reader.result)
+            }
+      
+            var result = reader.readAsDataURL(blob)
+
+            console.log(result)
+
+            return result;
+        }
+
         return (
             <>
                 {JSON.parse(history).map((item, index) => (
-                    <div key={index}>{(item.title || item.url) + " (" + item.url + ")"}</div>
+                    <div key={index}>
+                        <div>{item.title || item.url}</div>
+                        <img src={createFavicon(item.favicon)} />
+                    </div>
                 ))}
             </>
         )
@@ -157,7 +178,7 @@ function Home() {
         }
 
         var title = web.current.contentWindow.document.title
-        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? __uv$config.prefix + __uv$config.encodeUrl([...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href) : "" : ""
+        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
         function addHistory() {
             var tempHistory = JSON.parse(history)
@@ -191,7 +212,7 @@ function Home() {
 
                     if (tempHistory[0].url == url) {
                         var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
-                        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? __uv$config.prefix + __uv$config.encodeUrl([...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href) : "" : ""
+                        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ?[...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
                         if (realTitle !== tempHistory[0].title) {
                             tempHistory[0].title = realTitle
