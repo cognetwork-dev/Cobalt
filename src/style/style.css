@@ -200,7 +200,7 @@ body::-webkit-scrollbar-thumb {
     fill: currentColor;
 }
 
-.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path {
+.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path, .historyPanelFaviconGlobe .MuiSvgIcon-root path {
     color: var(--text-inverse);
 }
 
@@ -245,6 +245,22 @@ body::-webkit-scrollbar-thumb {
     height: calc(100% - 44px - 0.75rem);
     border-radius: 0 0 0.25rem 0.25rem;
     word-wrap: break-word;
+    overflow-x: scroll;
+}
+
+.sidePanelBody::-webkit-scrollbar {
+    width: 16px;
+}
+
+.sidePanelBody::-webkit-scrollbar-thumb {
+    background: var(--text-inverse);
+    border: 4px solid transparent;
+    background-clip: content-box;
+    border-radius: 8px;
+}
+
+.sidePanelBody::-webkit-scrollbar-corner {
+    display: none;
 }
 
 .sidePanelClose {
@@ -338,4 +354,39 @@ body::-webkit-scrollbar-thumb {
 .line::marker {
     color: var(--text-inverse);
     font-size: 0.75rem;
+}
+
+.historyPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 0.5rem;
+}
+
+.historyPanelItem {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.historyPanelTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-inverse);
+}
+
+.historyPanelFavicon {
+    height: 1em;
+    width: 1em;
+}
+
+.historyPanelFaviconGlobe {
+    display: flex;
+    height: 1em;
+    width: 1em;
+    align-items: center;
+    justify-content: center;
 }

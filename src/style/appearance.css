@@ -325,3 +325,19 @@ body[data-appearance=cyrillic] {
     --text-inverse: var(--background);
     --font: "Noto Sans";
 }
+
+body[data-appearance=retro] {
+    --background: #000000;
+    --primary: #009600;
+    --text: white;
+    --text-inverse: black;
+    --font: "Ubuntu Mono";
+}
+
+body[data-appearance=eaglenet] {
+    --background: #9824d3;
+    --primary: #4d004d;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}

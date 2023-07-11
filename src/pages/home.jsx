@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import PublicIcon from '@mui/icons-material/Public';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 import { BareClient } from "@tomphttp/bare-client";
@@ -68,33 +69,23 @@ function Home() {
     const [ checking, setChecking ] = React.useState(false);
 
     const HistoryComponent = () => {
-        async function createFavicon(url) {
-            console.log(url)
-
-            var response = await bare.fetch(url)
-            var blob = await response.blob()
-            var reader = new FileReader()
-
-            reader.onloadend = function() {
-                console.log(reader.result)
-            }
-      
-            var result = reader.readAsDataURL(blob)
-
-            console.log(result)
-
-            return result;
-        }
-
         return (
-            <>
+            <div className="historyPanel">
                 {JSON.parse(history).map((item, index) => (
-                    <div key={index}>
-                        <div>{item.title || item.url}</div>
-                        <img src={createFavicon(item.favicon)} />
+                    <div key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
+                        {
+                            item.favicon ? (
+                                <img className="historyPanelFavicon" src={item.favicon} />
+                            ) : (
+                                <div className="historyPanelFaviconGlobe">
+                                    <PublicIcon style={{"height": "18px", "width": "18px"}} />
+                                </div>
+                            )
+                        }
+                        <div className="historyPanelTitle">{item.title || item.url}</div>
                     </div>
                 ))}
-            </>
+            </div>
         )
     }
 
@@ -162,7 +153,25 @@ function Home() {
         setHistory("[]")
     }
 
-    const webLoad = () => {
+    async function createFavicon(url) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                var response = await bare.fetch(url)
+                var blob = await response.blob()
+                var reader = new FileReader()
+
+                reader.onloadend = function() {
+                    resolve(reader.result)
+                }
+            
+                reader.readAsDataURL(blob)
+            } catch {
+                resolve("")
+            }
+        })
+    }
+
+    const webLoad = async () => {
         setLoading(false)
 
         if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
@@ -179,6 +188,14 @@ function Home() {
 
         var title = web.current.contentWindow.document.title
         var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
+        
+        if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+            favicon = ""
+        }
+
+        if (favicon) {
+            favicon = await createFavicon(favicon)
+        }
 
         function addHistory() {
             var tempHistory = JSON.parse(history)
@@ -195,7 +212,7 @@ function Home() {
             if (!checking && loaded) {
                 setChecking(true)
 
-                setInterval(() => {
+                setInterval(async () => {
                     if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                         var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
                     } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
@@ -214,12 +231,20 @@ function Home() {
                         var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
                         var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ?[...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
+                        if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                            favicon = ""
+                        }
+
                         if (realTitle !== tempHistory[0].title) {
                             tempHistory[0].title = realTitle
                             setHistory(JSON.stringify(tempHistory))
                         }
 
                         if (favicon !== tempHistory[0].favicon) {
+                            if (favicon) {
+                                favicon = await createFavicon(favicon)
+                            }
+
                             tempHistory[0].favicon = favicon
                             setHistory(JSON.stringify(tempHistory))
                         }

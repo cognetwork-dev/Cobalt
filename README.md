@@ -25,7 +25,8 @@ To Do:
 - [ ] Search Engine Change
 - [ ] Tab Cloaking
 - [ ] Change rounding
-- [ ] Fix favicons
+- [ ] Full history page where you can remove an item or clear entire history
+- [ ] Add more Metalli themes
 
 Future Additions:
 - [ ] Games
