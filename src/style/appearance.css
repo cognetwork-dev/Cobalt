@@ -341,3 +341,119 @@ body[data-appearance=eaglenet] {
     --text-inverse: white;
     --font: "Noto Sans";
 }
+
+body[data-appearance=honey] {
+    --background: #ffa15f;
+    --primary: #e66102;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=pod] {
+    --background: #161616;
+    --primary: #ffb703;
+    --text: white;
+    --text-inverse: #161616;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=flamingo] {
+    --background: #fcacd0;
+    --primary: white;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=magma] {
+    --background: #1d0003;
+    --primary: #ff001f;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=hacker] {
+    --background: #090909;
+    --primary: #232323;
+    --text: #7de38d;
+    --text-inverse: #7de38d;
+    --font: "Ubuntu Mono";
+}
+
+body[data-appearance=jungle] {
+    --background: #006400;
+    --primary: #38b000;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=simple] {
+    --background: #18191c;
+    --primary: #292b2f;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=corn] {
+    --background: black;
+    --primary: #ff9000;
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=nebelung] {
+    --background: #dabc9a;
+    --primary: #190f05;
+    --text: #190f05;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=echo] {
+    --background: #1c1c1c;
+    --primary: #4caf50;
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=kahoot] {
+    --background: #381272;
+    --primary: white;
+    --text: white;
+    --text-inverse: #333333;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=booklet] {
+    --background: #0bc2cf;
+    --primary: #9a49aa;
+    --text: black;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=pride] {
+    --background: #000000c4;
+    --primary: #ffffff;
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+.web[data-appearance=pride] {
+    background: linear-gradient(180deg, #FE0000 16.66%, #FD8C00 16.66%, 33.32%, #FFE500 33.32%, 49.98%, #119F0B 49.98%, 66.64%, #0644B3 66.64%, 83.3%, #C22EDC 83.3%), #000000c4 !important;
+}
+
+body[data-appearance=catppuccin-latte] {
+    --background: #eff1f5;
+    --primary: var(--text);
+    --text: #4c4f69;
+    --text-inverse: #f8f9fb;
+    --font: "Noto Sans";
+}
