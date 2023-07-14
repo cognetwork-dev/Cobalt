@@ -6,3 +6,4 @@ const useLocalFallback = (key, fallback) => {
 };
 
 export var useLocalHistory = () => useLocalFallback("history", "[]");
+export var useLocalAppearance = () => useLocalFallback("appearance", "default");

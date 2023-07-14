@@ -1,4 +1,90 @@
 body {
+    --dark-theme: #0047ab;
+    --light-theme: #292353;
+    --ruby-theme: #c01c73;
+    --frog-theme: #535323;
+    --space-theme: #7f00ff;
+    --molten-theme: #ff6868;
+    --swamp-theme: #15fc95;
+    --squid-theme: #00b0f4;
+    --lemon-theme: #feeb01;
+    --lime-theme: #57F287;
+    --shadow-theme: white;
+    --nord-theme: #3b4252;
+    --violet-theme: #592f7f;
+    --online-theme: #43b581;
+    --dune-theme: #7d7259;
+    --dracula-theme: #383a59;
+    --tiktok-theme: #ff3b5c;
+    --fracital-theme: #333;
+    --nebula-theme: #7967dd;
+    --tsunami-theme: #2493ff;
+    --metallic-theme: #004953;
+    --ice-theme: #70aecb;
+    --chocolate-theme: #684d43;
+    --campfire-theme: #f17755;
+    --elixir-theme: #fb6f18;
+    --happiness-theme: #a7022e;
+    --robot-theme: #6d767e;
+    --butter-theme: #e79974;
+    --chrome-theme: #2a2a2a;
+    --classic-theme: #292353;
+    --sun-theme: #ffa534;
+    --alice-theme: black;
+    --plum-theme: #343061;
+    --sky-theme: #0e9bba;
+    --matrix-theme: #00ff38;
+    --gruvbox-theme: #000000;
+    --quantum-theme: white;
+    --manjaro-theme: #202328;
+    --leafy-theme: #daeedf;
+    --blackpink-theme: #f8708c;
+    --cyrillic-theme: #949ba7;
+    --retro-theme: #009600;
+    --eaglenet-theme: #4d004d;
+    --honey-theme: #e66102;
+    --pod-theme: #ffb703;
+    --flamingo-theme: white;
+    --magma-theme: #ff001f;
+    --hacker-theme: #232323;
+    --jungle-theme: #38b000;
+    --simple-theme: #292b2f;
+    --corn-theme: #ff9000;
+    --nebelung-theme: #190f05;
+    --echo-theme: #4caf50;
+    --kahoot-theme: white;
+    --booklet-theme: #9a49aa;
+    --pride-theme: #ffffff;
+    --catppuccin-latte-theme: #4c4f69;
+    --catppuccin-frappe-theme: #c6d0f5;
+    --catppuccin-macchiato-theme: #cad3f5;
+    --catppuccin-mocha-theme: #cdd6f4;
+    --cobalt2-theme: #193549;
+    --rose-pine-theme: #252239;
+    --tokyo-night-theme: #3d59a1;
+}
+
+@media (prefers-color-scheme: dark) {
+    body[data-appearance=default] {
+        --background: #030303;
+        --primary: #0047ab;
+        --text: white;
+        --text-inverse: white;
+        --font: "Noto Sans";
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body[data-appearance=default] {
+        --background: #d8dee9;
+        --primary: #292353;
+        --text: black;
+        --text-inverse: white;
+        --font: "Noto Sans";    
+    }
+}
+
+body[data-appearance=dark] {
     --background: #030303;
     --primary: #0047ab;
     --text: white;
@@ -102,7 +188,7 @@ body[data-appearance=violet] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=connection] {
+body[data-appearance=online] {
     --background: #1c1b29;
     --primary: #43b581;
     --text: #43b581;
@@ -446,7 +532,7 @@ body[data-appearance=pride] {
     --font: "Noto Sans";
 }
 
-.web[data-appearance=pride] {
+body[data-appearance=pride] .web {
     background: linear-gradient(180deg, #FE0000 16.66%, #FD8C00 16.66%, 33.32%, #FFE500 33.32%, 49.98%, #119F0B 49.98%, 66.64%, #0644B3 66.64%, 83.3%, #C22EDC 83.3%), #000000c4 !important;
 }
 
@@ -455,5 +541,53 @@ body[data-appearance=catppuccin-latte] {
     --primary: var(--text);
     --text: #4c4f69;
     --text-inverse: #f8f9fb;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=catppuccin-frappe] {
+    --background: #303446;
+    --primary: var(--text);
+    --text: #c6d0f5;
+    --text-inverse: #292c3c;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=catppuccin-macchiato] {
+    --background: #24273a;
+    --primary: var(--text);
+    --text: #cad3f5;
+    --text-inverse: #1e2030;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=catppuccin-mocha] {
+    --background: #1e1e2e;
+    --primary: var(--text);
+    --text: #cdd6f4;
+    --text-inverse: #181825;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=cobalt2] {
+    --background: #15232d;
+    --primary: #193549;
+    --text: #e8e8e8;
+    --text-inverse: #e8e8e8;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=rose-pine] {
+    --background: #1a1825;
+    --primary: #252239;
+    --text: #deddf4;
+    --text-inverse: #c4a7e7;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=tokyo-night] {
+    --background: #1a1b26;
+    --primary: #3d59a1;
+    --text: #787c99;
+    --text-inverse: var(--background);
     --font: "Noto Sans";
 }

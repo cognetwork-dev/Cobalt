@@ -1,6 +1,10 @@
 body {
     margin: 0;
     background: var(--background);
+    --border-radius: 0.25rem;
+    --border-radius-secondary: 1rem;
+    --border-radius-round: 100px;
+    --border-radius-circle: 100%;
 }
 
 body * {
@@ -49,7 +53,7 @@ body::-webkit-scrollbar-thumb {
 
 .search {
     height: 2.25rem;
-    border-radius: 100px;
+    border-radius: var(--border-radius-round);
     background: var(--primary);
     border: none;
     outline: none;
@@ -61,13 +65,13 @@ body::-webkit-scrollbar-thumb {
 }
 
 .omnibox[data-suggestions=true] .search {
-    border-radius: 1rem 1rem 0 0;
+    border-radius: var(--border-radius-secondary) var(--border-radius-secondary) 0 0;
 }
 
 .searchIcon {
     height: 1.5rem;
     width: 1.5rem;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
     background: var(--background);
     position: absolute;
     left: 0.35rem;
@@ -95,7 +99,7 @@ body::-webkit-scrollbar-thumb {
 
 .controlsButton {
     height: 2rem;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
     background: transparent;
     width: 2rem;
     display: flex;
@@ -128,7 +132,7 @@ body::-webkit-scrollbar-thumb {
     background: var(--primary);
     width: 20rem;
     height: calc(100% - 2rem);
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius);
 }
 
 .web {
@@ -151,7 +155,7 @@ body::-webkit-scrollbar-thumb {
     right: 0;
     left: 0;
     z-index: 9;
-    border-radius: 0 0 1rem 1rem;
+    border-radius: 0 0 var(--border-radius-secondary) var(--border-radius-secondary);
     background: var(--background);
     box-shadow: 0 1px 2px 0 var(--background);
     display: none;
@@ -182,8 +186,12 @@ body::-webkit-scrollbar-thumb {
     color: var(--text-inverse);
 }
 
+.suggestion span {
+    color: var(--text-inverse);
+}
+
 .suggestion:last-child {
-    border-radius: 0 0 1rem 1rem;
+    border-radius: 0 0 var(--border-radius-secondary) var(--border-radius-secondary);
 }
 
 .suggestionIcon {
@@ -193,14 +201,14 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
 }
 
 .MuiSvgIcon-root path {
     fill: currentColor;
 }
 
-.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path, .historyPanelFaviconGlobe .MuiSvgIcon-root path {
+.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path, .historyPanelFaviconGlobe .MuiSvgIcon-root path, .historyPanelRemove .MuiSvgIcon-root path, .sidePanelThemePreviewDefault .MuiSvgIcon-root path {
     color: var(--text-inverse);
 }
 
@@ -212,7 +220,7 @@ body::-webkit-scrollbar-thumb {
 
 .sidePanelItem {
     height: 40px;
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius);
     width: 60%;
     background: var(--background);
     cursor: pointer;
@@ -237,13 +245,13 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
 }
 
 .sidePanelBody {
     width: 100%;
     height: calc(100% - 44px - 0.75rem);
-    border-radius: 0 0 0.25rem 0.25rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
     word-wrap: break-word;
     overflow-x: scroll;
 }
@@ -266,7 +274,7 @@ body::-webkit-scrollbar-thumb {
 .sidePanelClose {
     margin-left: auto;
     height: 2rem;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
     background: transparent;
     width: 2rem;
     display: flex;
@@ -276,7 +284,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sidePanelNav[data-open=true] .sidePanelItem {
-    border-radius: 0.25rem 0.25rem 0 0;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .sidePanelItems {
@@ -285,7 +293,7 @@ body::-webkit-scrollbar-thumb {
     top: 40px;
     left: 0;
     width: 100%;
-    border-radius: 0 0 0.25rem 0.25rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
     overflow: hidden;
     flex-direction: column;
     display: none;
@@ -309,7 +317,7 @@ body::-webkit-scrollbar-thumb {
 .favoriteIcon {
     height: 1.5rem;
     width: 1.5rem;
-    border-radius: 100%;
+    border-radius: var(--border-radius-circle);
     background: transparent;
     position: absolute;
     right: 0.35rem;
@@ -339,7 +347,7 @@ body::-webkit-scrollbar-thumb {
     left: 0.5rem;
     width: 2rem;
     z-index: -1;
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius);
 }
 
 .lines {
@@ -359,7 +367,7 @@ body::-webkit-scrollbar-thumb {
 .historyPanel {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.5rem;
     padding: 0 0.5rem;
 }
 
@@ -389,4 +397,83 @@ body::-webkit-scrollbar-thumb {
     width: 1em;
     align-items: center;
     justify-content: center;
+}
+
+.historyPanelRemove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.historyPanelRemoveAll {
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 0.5rem;
+    background: var(--background);
+    width: fit-content;
+    border-radius: var(--border-radius-round);
+    height: 2.25rem;
+    margin: 0.5rem;
+    margin-top: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidePanelThemes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5rem, max-content));
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sidePanelTheme {
+    border-radius: var(--border-radius);
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 0.25rem;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--text-inverse);
+    margin: 0.25rem;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.sidePanelTheme span {
+    color: var(--text-inverse);
+}
+
+.sidePanelThemePreview {
+    height: 2.75rem;
+    border-radius: var(--border-radius-circle);
+    background: var(--theme);
+    width: 2.75rem;
+    border: 1px solid var(--text-inverse);
+}
+
+.sidePanelThemePreviewDefault {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent!important;
+    border: none;
+}
+
+.sidePanelThemeActive {
+    background: var(--background);
+    color: var(--text);
+}
+
+.sidePanelThemeActive span {
+    color: var(--text);
 }

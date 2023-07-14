@@ -8,13 +8,17 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import PublicIcon from '@mui/icons-material/Public';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { BareClient } from "@tomphttp/bare-client";
+import clsx from "clsx";
 import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalHistory } from "../settings.jsx";
+import { useLocalAppearance } from "../settings.jsx";
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
@@ -43,7 +47,11 @@ function Home() {
         },
         {
             "name": "Themes",
-            "content": "<p>Themes</p>"
+            "component": "themes"
+        },
+        {
+            "name": "Tab Claok",
+            "content": "<p>Tab Cloak</p>"
         },
         {
             "name": "Custom Style",
@@ -67,12 +75,30 @@ function Home() {
     const [history, setHistory] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
+    const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
 
     const HistoryComponent = () => {
+        const removeHistory = (e, index) => {
+            e.stopPropagation()
+    
+            let tempHistory = JSON.parse(history)
+            tempHistory = tempHistory.filter((item, index2) => index2 !== index)
+            setHistory(JSON.stringify(tempHistory))
+        }
+
+        const clearHistory = () => {
+            setHistory(JSON.stringify([]))
+        }
+        
         return (
+            <>
+            <div className="historyPanelRemoveAll" onClick={() => clearHistory()}>
+                <DeleteIcon fontSize="small" />
+                Clear History
+            </div>
             <div className="historyPanel">
                 {JSON.parse(history).map((item, index) => (
-                    <div key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
+                    <div title={item.url + " - " + new Date(item.time).toLocaleTimeString(90, {hour: "numeric", minute: "numeric"}) + " " + new Date(item.time).toLocaleDateString()} key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
                         {
                             item.favicon ? (
                                 <img className="historyPanelFavicon" src={item.favicon} />
@@ -83,8 +109,301 @@ function Home() {
                             )
                         }
                         <div className="historyPanelTitle">{item.title || item.url}</div>
+                        <div className="historyPanelRemove" onClick={(e) => removeHistory(e, index)}>
+                            <DeleteIcon fontSize="small" />
+                        </div>
                     </div>
                 ))}
+            </div>
+            </>
+        )
+    }
+
+    function ThemeOption({ theme, noPreview, children }) {
+        const [localAppearance, setLocalAppearance] = useLocalAppearance();
+      
+        var themeStyle = !noPreview ? {"--theme": "var(--" + theme + "-theme)"} : {}
+      
+        return (
+          <div
+            onClick={() => {
+              setLocalAppearance(theme);
+              if (currentURL.startsWith("cobalt://") || currentURL.startsWith("view-source:")) {
+                web.current.contentWindow.document.body.setAttribute("data-appearance", theme)
+              }
+            }}
+            style={themeStyle}
+            className={clsx(
+              "sidePanelTheme",
+              theme === localAppearance && "sidePanelThemeActive"
+            )}
+          >
+            {children}
+          </div>
+        );
+      }      
+
+    const ThemesComponent = () => {
+        return (
+            <div className="sidePanelThemes">
+                <ThemeOption theme="default" noPreview="true">
+                  <div className="sidePanelThemePreview sidePanelThemePreviewDefault">
+                    <AutoAwesomeIcon fontSize="large" />
+                  </div>
+                  <Obfuscate>Default</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="dark">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Dark</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="light">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Light</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="ruby">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Ruby</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="frog">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Frog</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="space">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Space</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="molten">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Molten</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="swamp">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Swamp</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="squid">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Squid</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="lemon">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Lemon</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="lime">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Lime</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="shadow">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Shadow</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="nord">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Nord</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="violet">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Violet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="online">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Online</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="dune">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Dune</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="dracula">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Dracula</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="tiktok">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Tiktok</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="fracital">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Fracital</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="nebula">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Nebula</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="tsunami">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Tsunami</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="metallic">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Metallic</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="ice">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Ice</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="chocolate">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Chocolate</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="campfire">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Campfire</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="elixir">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Elixir</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="happiness">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Happiness</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="robot">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Robot</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="butter">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Butter</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="chrome">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Chrome</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="classic">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Classic</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="sun">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Sun</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="alice">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Alice</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="plum">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Plum</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="sky">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Sky</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="matrix">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Matrix</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="gruvbox">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Gruvbox</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="quantum">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Quantum</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="manjaro">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Manjaro</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="leafy">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Leafy</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="blackpink">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Blackpink</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="cyrillic">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Cyrillic</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="retro">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Retro</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="eaglenet">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Eaglenet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="honey">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Honey</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="pod">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Pod</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="flamingo">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Flamingo</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="magma">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Magma</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="hacker">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Hacker</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="jungle">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Jungle</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="simple">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Simple</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="corn">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Corn</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="nebelung">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Nebelung</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="echo">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>3kh0</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="kahoot">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Kahoot</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="booklet">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Booklet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="pride">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Pride</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="catppuccin-latte">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Latte</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="catppuccin-frappe">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Frappe</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="catppuccin-macchiato">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Macchiato</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="catppuccin-mocha">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Mocha</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="cobalt2">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Cobalt2</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="rose-pine">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Rosé Pine</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="tokyo-night">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Tokyo</Obfuscate>
+                </ThemeOption>
             </div>
         )
     }
@@ -193,6 +512,11 @@ function Home() {
             favicon = ""
         }
 
+        if (url.startsWith("cobalt://")) {
+            title = url.split("cobalt://")[1]
+            title = title.charAt(0).toUpperCase() + title.slice(1)
+        }
+
         if (favicon) {
             favicon = await createFavicon(favicon)
         }
@@ -225,14 +549,21 @@ function Home() {
                         var url = web.current.contentWindow.location.toString()
                     }
 
-                    var tempHistory = Cobalt.history
+                    let tempHistory = Cobalt.history
 
-                    if (tempHistory[0].url == url) {
+                    let checkURLHistory = tempHistory[0] ? tempHistory[0].url == url : true
+
+                    if (checkURLHistory) {
                         var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
                         var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ?[...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
                         if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
                             favicon = ""
+                        }
+
+                        if (url.startsWith("cobalt://")) {
+                            realTitle = url.split("cobalt://")[1]
+                            realTitle = realTitle.charAt(0).toUpperCase() + realTitle.slice(1)
                         }
 
                         if (realTitle !== tempHistory[0].title) {
@@ -575,6 +906,7 @@ function Home() {
                     <div ref={sidePanelBody} className="sidePanelBody">
                         <div>
                         {{ history: <HistoryComponent />,
+                        themes: <ThemesComponent />,
                         }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>
