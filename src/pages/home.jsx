@@ -18,7 +18,8 @@ import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalHistory } from "../settings.jsx";
-import { useLocalAppearance } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon } from "../settings.jsx";
+import Editor from '@monaco-editor/react';
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
@@ -39,7 +40,7 @@ function Home() {
             "name": "Favorites",
             "content": "",
             "id": "defaultFavorites",
-            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>It works</h1>')"
+            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>Coming soon!</h1>')"
         },
         {
             "name": "History",
@@ -50,12 +51,12 @@ function Home() {
             "component": "themes"
         },
         {
-            "name": "Tab Claok",
-            "content": "<p>Tab Cloak</p>"
+            "name": "Cloaking",
+            "component": "cloaking"
         },
         {
             "name": "Custom Style",
-            "content": "<p>Custom Style</p>"
+            "component": "customStyle"
         },
         {
             "name": "Extensons",
@@ -75,8 +76,7 @@ function Home() {
     const [history, setHistory] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
-    const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
-
+  
     const HistoryComponent = () => {
         const removeHistory = (e, index) => {
             e.stopPropagation()
@@ -141,7 +141,67 @@ function Home() {
             {children}
           </div>
         );
-      }      
+    }
+
+    const CustomStyleComponent = () => {
+        return (
+            <>
+                <Editor height="90vh" defaultLanguage="css" defaultValue="// some comment" />
+            </>
+        )
+    }
+    
+    const CloakingComponent = () => {
+        var [localTitle, setLocalTitle] = useLocalTitle();
+        var [localIcon, setLocalIcon] = useLocalIcon();
+        var title = React.useRef();
+        var icon = React.useRef();
+
+        const resetCloaking = () => {
+            setLocalTitle("")
+            setLocalIcon("")
+        }
+
+        function ChangeIcon({ title, icon }) {
+            return (
+              <div
+                onClick={() => {
+                  setLocalTitle(title);
+                  setLocalIcon(icon);
+                }}
+                className="sidePanelCloakingPreset"
+              >
+                <img style={{ pointerEvents: "none" }} src={icon} alt={title} />
+              </div>
+            );
+          }        
+
+        return (
+            <>
+                <div className="sidePanelCloakingPresets">
+                    <div className="sidePanelCloakingPreset" onClick={resetCloaking}>
+                        <CloseIcon style={{ pointerEvents: "none" }} fontSize="medium" />
+                    </div>
+                    <ChangeIcon icon="https://www.google.com/favicon.ico" title="Google" />
+                    <ChangeIcon
+                      icon="https://www.drive.google.com/favicon.ico"
+                      title="Google Drive"
+                    />
+                    <ChangeIcon
+                      icon="https://edpuzzle.imgix.net/favicons/favicon-32.png"
+                      title="EdPuzzle"
+                    />
+                    <ChangeIcon icon="https://st1.zoom.us/zoom.ico" title="Zoom" />
+                    <ChangeIcon
+                      icon="https://www.khanacademy.org/favicon.ico"
+                      title="Khan Academy"
+                    />
+                </div>
+                <input ref={title} onChange={(e) => setLocalTitle(e.target.value)} autoComplete="off" value={localTitle} className="sidePanelCloakingInput" placeholder="Title" />
+                <input ref={icon} onChange={(e) => setLocalIcon(e.target.value)} autoComplete="off" value={localIcon} className="sidePanelCloakingInput" placeholder="Favicon URL" />
+            </>
+        )
+    }
 
     const ThemesComponent = () => {
         return (
@@ -399,6 +459,10 @@ function Home() {
                 <ThemeOption theme="immortal">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Immortal</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="baja-blast">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Baja Blast</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="tsunami">
                   <div className="sidePanelThemePreview"></div>
@@ -911,6 +975,8 @@ function Home() {
                         <div>
                         {{ history: <HistoryComponent />,
                         themes: <ThemesComponent />,
+                        cloaking: <CloakingComponent />,
+                        customStyle: <CustomStyleComponent />,
                         }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>

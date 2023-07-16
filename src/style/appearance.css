@@ -63,6 +63,7 @@ body {
     --rose-pine-theme: #252239;
     --tokyo-night-theme: #3d59a1;
     --immortal-theme: #155e75;
+    --baja-blast-theme: #225450;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -596,6 +597,14 @@ body[data-appearance=tokyo-night] {
 body[data-appearance=immortal] {
     --background: #121212;
     --primary: #155e75;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=baja-blast] {
+    --background: #3b8680;
+    --primary: #225450;
     --text: white;
     --text-inverse: white;
     --font: "Noto Sans";

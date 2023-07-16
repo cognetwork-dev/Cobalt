@@ -297,6 +297,7 @@ body::-webkit-scrollbar-thumb {
     overflow: hidden;
     flex-direction: column;
     display: none;
+    z-index: 9;
 }
 
 .sidePanelItemsOption {
@@ -507,4 +508,38 @@ body::-webkit-scrollbar-thumb {
 
 .errorTextUrl span {
     text-decoration: underline;
+}
+
+.sidePanelCloakingPresets {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+}
+
+.sidePanelCloakingPreset {
+    height: 2.5rem;
+    width: 2.5rem;
+    background: var(--background);
+    border-radius: var(--border-radius-circle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidePanelCloakingInput {
+    background: var(--background);
+    border: none;
+    height: 2.5rem;
+    outline: none;
+    border-radius: var(--border-radius);
+    width: -webkit-fill-available;
+    margin: 0 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.85rem;
+}
+
+.sidePanelCloakingInput::placeholder {
+    color: var(--text);
 }

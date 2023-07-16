@@ -14,12 +14,10 @@ To Do:
 - [ ] Make README.md (screenshots about, api)
 - [ ] Blocklist
 - [ ] Suggestions for home page
-- [ ] Home page footer
 - [ ] Keyboard shortcuts (reload, back, fowrad, favorite)
 - [ ] Change home page url option
 - [ ] Favorites
 - [ ] Search Engine Change
-- [ ] Tab Cloaking
 - [ ] Change rounding
 
 Future Additions:
@@ -31,3 +29,5 @@ Future Additions:
 - [ ] Have real components and not everything in one file
 - [ ] Syntax highlighting for view-source: (make it work with theme)
 - [ ] Dashboard with widgets
+- [ ] Make Ultraviolet take less space
+- [ ] URL option for cloaking

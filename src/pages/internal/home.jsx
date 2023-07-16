@@ -1,8 +1,10 @@
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
-import Head from "../../components/head.jsx"
+import Head from "../../components/head.jsx";
+import { github, discord } from "../../consts.jsx";
 import "../../style/home.css";
+import Obfuscate from "../../components/obfuscate";
 
 function InternalHome() {
     const mainSearch = React.useRef()
@@ -32,7 +34,7 @@ function InternalHome() {
                 </div>
             </div>
             <div className="footer">
-                Cobalt 2023 | Discord Github
+                <Obfuscate>Cobalt 2023 | </Obfuscate><a href={discord}><Obfuscate>Discord</Obfuscate></a><Obfuscate> / </Obfuscate><a href={github}><Obfuscate>Source</Obfuscate></a>
             </div>
         </>
     )
