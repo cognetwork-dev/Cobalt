@@ -2,19 +2,16 @@
 A new minimal clean proxy site, built for developers.
 
 Features:
-- Add custom and pre-made "extensions" or user scripts.
-- Chrome like sidebar for extensions and features such as themes and history.
+- Add custom and pre-made "extensions" or user scripts
+- Chrome like sidebar for extensions and features such as themes and history
 - History page
 - Lots of new themes and custom CSS for custom themes
 - Devtools and view source
-- Maybe dashboard with widgets
-- Maybe api for making themes/extensons(user script) and maybe widgets
+- Maybe API for making themes/extensons (user scripts)
 
 To Do:
 - [ ] All of the features
 - [ ] Make README.md (screenshots about, api)
-- [ ] Issue templates
-- [ ] Make real error page
 - [ ] Blocklist
 - [ ] Suggestions for home page
 - [ ] Home page footer
@@ -33,3 +30,4 @@ Future Additions:
 - [ ] Translations
 - [ ] Have real components and not everything in one file
 - [ ] Syntax highlighting for view-source: (make it work with theme)
+- [ ] Dashboard with widgets

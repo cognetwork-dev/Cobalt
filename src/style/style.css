@@ -477,3 +477,34 @@ body::-webkit-scrollbar-thumb {
 .sidePanelThemeActive span {
     color: var(--text);
 }
+
+.errorIcon {
+    height: 10rem;
+    width: 10rem;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.errorIcon .MuiSvgIcon-root path {
+    color: var(--primary);
+}
+
+.errorTitle {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
+}
+
+.errorText {
+    text-align: center;
+}
+
+.errorTextUrl {
+    text-decoration: underline;
+}
+
+.errorTextUrl span {
+    text-decoration: underline;
+}
