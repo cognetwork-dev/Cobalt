@@ -55,3 +55,12 @@
     border-radius: var(--border-radius-circle);
     aspect-ratio: 1 / 1;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0.25rem;
+    right: 0;
+    left: 0;
+    text-align: center;
+    font-size: 14px;
+}

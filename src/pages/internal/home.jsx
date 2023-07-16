@@ -31,6 +31,9 @@ function InternalHome() {
                     </div>
                 </div>
             </div>
+            <div className="footer">
+                Cobalt 2023 | Discord Github
+            </div>
         </>
     )
 }
