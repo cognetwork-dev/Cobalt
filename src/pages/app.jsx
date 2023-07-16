@@ -13,18 +13,6 @@ var InternalViewSource = React.lazy(() => import("./internal/viewsource.jsx"));
 var Error = React.lazy(() => import("./error.jsx"));
 
 function App() {
-    const InternalPage = (props) => {
-      if (window !== window.top) {
-        return (
-          props.children
-        )
-      } else {
-        return (
-          <Error />
-        )
-      }
-    }
-
     return (
         <>
             <ObfuscateLayout />
@@ -41,9 +29,7 @@ function App() {
                   path="/internal/home"
                   element={
                     <Suspense fallback={<></>}>
-                      <InternalPage>
-                        <InternalHome />
-                      </InternalPage>
+                      <InternalHome />
                     </Suspense>
                   }
                 />
@@ -51,9 +37,7 @@ function App() {
                   path="/internal/blank"
                   element={
                     <Suspense fallback={<></>}>
-                      <InternalPage>
-                        <InternalBlank />
-                      </InternalPage>
+                      <InternalBlank />
                     </Suspense>
                   }
                 />
@@ -61,9 +45,7 @@ function App() {
                   path="/internal/viewsource"
                   element={
                     <Suspense fallback={<></>}>
-                      <InternalPage>
-                        <InternalViewSource />
-                      </InternalPage>
+                      <InternalViewSource />
                     </Suspense>
                   }
                 />

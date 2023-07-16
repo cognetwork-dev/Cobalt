@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import chalk from "chalk";
 
 const httpServer = http.createServer();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 
 // Run the Bare server in the /bare/ namespace. This will prevent conflicts between the static files and the bare server.
 const bareServer = createBareServer("/bare/", {
@@ -19,6 +19,7 @@ const bareServer = createBareServer("/bare/", {
 
 const serve = serveStatic(fileURLToPath(new URL("./build/", import.meta.url)), {
   fallthrough: false,
+  extensions: ["html"]
 });
 
 const fail = (req, res, err) => {

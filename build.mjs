@@ -11,6 +11,8 @@ const indexURL = new URL("index.html", buildURL);
  */
 const files = [
   "internal/home.html",
+  "internal/blank.html",
+  "internal/viewsource.html",
   // for static file hosts
   "404.html",
 ];

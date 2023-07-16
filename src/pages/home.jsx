@@ -192,10 +192,6 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Lime</Obfuscate>
                 </ThemeOption>
-                <ThemeOption theme="shadow">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Shadow</Obfuscate>
-                </ThemeOption>
                 <ThemeOption theme="nord">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Nord</Obfuscate>
@@ -215,26 +211,6 @@ function Home() {
                 <ThemeOption theme="dracula">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Dracula</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="tiktok">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Tiktok</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="fracital">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Fracital</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="nebula">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Nebula</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="tsunami">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Tsunami</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="metallic">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Metallic</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="ice">
                   <div className="sidePanelThemePreview"></div>
@@ -264,21 +240,9 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Butter</Obfuscate>
                 </ThemeOption>
-                <ThemeOption theme="chrome">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Chrome</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="classic">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Classic</Obfuscate>
-                </ThemeOption>
                 <ThemeOption theme="sun">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Sun</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="alice">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Alice</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="plum">
                   <div className="sidePanelThemePreview"></div>
@@ -312,17 +276,9 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Blackpink</Obfuscate>
                 </ThemeOption>
-                <ThemeOption theme="cyrillic">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Cyrillic</Obfuscate>
-                </ThemeOption>
                 <ThemeOption theme="retro">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Retro</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="eaglenet">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Eaglenet</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="honey">
                   <div className="sidePanelThemePreview"></div>
@@ -348,33 +304,9 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Jungle</Obfuscate>
                 </ThemeOption>
-                <ThemeOption theme="simple">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Simple</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="corn">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Corn</Obfuscate>
-                </ThemeOption>
                 <ThemeOption theme="nebelung">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Nebelung</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="echo">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>3kh0</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="kahoot">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Kahoot</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="booklet">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Booklet</Obfuscate>
-                </ThemeOption>
-                <ThemeOption theme="pride">
-                  <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Pride</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-latte">
                   <div className="sidePanelThemePreview"></div>
@@ -403,6 +335,78 @@ function Home() {
                 <ThemeOption theme="tokyo-night">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Tokyo</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="classic">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Classic</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="simple">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Simple</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="corn">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Corn</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="alice">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Alice</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="kahoot">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Kahoot</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="booklet">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Booklet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="chrome">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Chrome</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="tiktok">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Tiktok</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="pride">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Pride</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="shadow">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Shadow</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="eaglenet">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Eaglenet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="echo">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>3kh0</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="fracital">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Fracital</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="nebula">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Nebula</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="atom">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Atom</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="immortal">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Immortal</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="tsunami">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Tsunami</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="metallic">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Metallic</Obfuscate>
                 </ThemeOption>
             </div>
         )
@@ -857,7 +861,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
-                    <input ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
+                    <input aria-label="Search" ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
                     <div className="suggestions">
                         {suggestions.map((suggestion, index) => (
                             <div className="suggestion" onClick={() => {searchURL(suggestion); setSuggestions([])}} key={index}>
@@ -882,7 +886,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <iframe ref={web} onLoad={webLoad} className="web"></iframe>
+            <iframe ref={web} onLoad={webLoad} className="web" title="Web"></iframe>
             <div className="panel">
                 <div className="sidePanel">
                     <div className="sidePanelNav" ref={sidePanelNav}>
