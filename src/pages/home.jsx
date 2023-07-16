@@ -146,7 +146,7 @@ function Home() {
     const CustomStyleComponent = () => {
         return (
             <>
-                <Editor height="90vh" defaultLanguage="css" defaultValue="// some comment" />
+                <Editor height="100vh" defaultLanguage="css" defaultValue="// some comment" />
             </>
         )
     }
@@ -197,8 +197,8 @@ function Home() {
                       title="Khan Academy"
                     />
                 </div>
-                <input ref={title} onChange={(e) => setLocalTitle(e.target.value)} autoComplete="off" value={localTitle} className="sidePanelCloakingInput" placeholder="Title" />
-                <input ref={icon} onChange={(e) => setLocalIcon(e.target.value)} autoComplete="off" value={localIcon} className="sidePanelCloakingInput" placeholder="Favicon URL" />
+                <input ref={title} onChange={(e) => setLocalTitle(e.target.value)} autoComplete="off" value={localTitle || ""} className="sidePanelCloakingInput" placeholder="Title" />
+                <input ref={icon} onChange={(e) => setLocalIcon(e.target.value)} autoComplete="off" value={localIcon || ""} className="sidePanelCloakingInput" placeholder="Favicon URL" />
             </>
         )
     }
@@ -619,7 +619,7 @@ function Home() {
 
                     let tempHistory = Cobalt.history
 
-                    let checkURLHistory = tempHistory[0] ? tempHistory[0].url == url : true
+                    let checkURLHistory = tempHistory[0] ? tempHistory[0].url == url : false
 
                     if (checkURLHistory) {
                         var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
