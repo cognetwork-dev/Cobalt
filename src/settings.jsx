@@ -10,3 +10,4 @@ export var useLocalAppearance = () => useLocalFallback("appearance", "default");
 export var useLocalTitle = () => useLocalStorage("title");
 export var useLocalIcon = () => useLocalStorage("icon");
 export var useLocalCustomStyle = () => useLocalFallback("customStyle", "");
+export var useLocalBorderRadius = () => useLocalFallback("borderRadius", "default");

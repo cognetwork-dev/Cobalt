@@ -17,7 +17,7 @@ import clsx from "clsx";
 import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
-import { useLocalHistory } from "../settings.jsx";
+import { useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
 import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 
@@ -143,6 +143,27 @@ function Home() {
         );
     }
 
+    function BorderRadiusOption({ name, children }) {
+        const [localBorderRadius, setLocalBorderRadius] = useLocalBorderRadius();
+      
+        return (
+          <div
+            onClick={() => {
+              setLocalBorderRadius(name);
+              if (currentURL.startsWith("cobalt://") || currentURL.startsWith("view-source:")) {
+                web.current.contentWindow.document.body.setAttribute("data-border-radius", name)
+              }
+            }}
+            className={clsx(
+              "settingsOption",
+              name === localBorderRadius && "settingsOptionSelected"
+            )}
+          >
+            {children}
+          </div>
+        );
+    }
+
     const SettingsComponent = () => {
         const setHomeURL = (value) => {
             localStorage.setItem("homeURL", (value || "cobalt://home"))
@@ -161,6 +182,13 @@ function Home() {
                     <input onChange={(e) => setHomeURL(e.target.value)} defaultValue={homeURL || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
                     <div className="settingsTitle settingsTitleSecondary">Search Engine</div>
                     <input onChange={(e) => setSearchEngineURL(e.target.value)} defaultValue={searchEngine || ""} placeholder="URL with %s in place of query" autoComplete="off" className="sidePanelCloakingInput"></input>
+                    <div className="settingsTitle settingsTitleSecondary">Border Radius</div>
+                    <div className="settingsOptions">
+                        <BorderRadiusOption name="default">Default</BorderRadiusOption>
+                        <BorderRadiusOption name="round">Round</BorderRadiusOption>
+                        <BorderRadiusOption name="fancy">Fancy</BorderRadiusOption>
+                        <BorderRadiusOption name="square">Square</BorderRadiusOption>
+                    </div>
                 </div>
             </>
         )
@@ -452,6 +480,10 @@ function Home() {
                 <ThemeOption theme="chrome">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Chrome</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="vs-code">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>VS Code</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="tiktok">
                   <div className="sidePanelThemePreview"></div>

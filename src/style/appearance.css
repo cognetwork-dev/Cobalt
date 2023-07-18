@@ -64,6 +64,7 @@ body {
     --tokyo-night-theme: #3d59a1;
     --immortal-theme: #155e75;
     --baja-blast-theme: #225450;
+    --vs-code-theme: #0078d4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -606,6 +607,14 @@ body[data-appearance=baja-blast] {
     --background: #3b8680;
     --primary: #225450;
     --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=vs-code] {
+    --background: #1f1f1f;
+    --primary: #0078d4;
+    --text: #cccccc;
     --text-inverse: white;
     --font: "Noto Sans";
 }

@@ -1,11 +1,13 @@
 import React from "react";
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalBorderRadius } from "../settings.jsx";
+import { doc } from "prettier";
 
 function Head({ defaultTitle }) {
     const [ localAppearance ] = useLocalAppearance();
     const [ localTitle ] = useLocalTitle();
     const [ localIcon ] = useLocalIcon();
     const [ localCustomStyle ] = useLocalCustomStyle();
+    const [ localBorderRadius ] = useLocalBorderRadius();
 
     React.useEffect(() => {
       document.querySelector("#customStyle")?.remove()
@@ -16,6 +18,7 @@ function Head({ defaultTitle }) {
     }, [localCustomStyle]);
 
     document.body.setAttribute("data-appearance", localAppearance);
+    document.body.setAttribute("data-border-radius", localBorderRadius);
 
     React.useEffect(() => {
         var mainTitle = defaultTitle ? defaultTitle : "Cobalt"
@@ -34,6 +37,10 @@ function Head({ defaultTitle }) {
     React.useEffect(() => {
         document.body.setAttribute("data-appearance", localAppearance);
     }, [localAppearance]);
+
+    React.useEffect(() => {
+      document.body.setAttribute("data-border-radius", localBorderRadius);
+    }, [localBorderRadius]);
 
     return <></>;
 }

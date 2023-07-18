@@ -1,0 +1,27 @@
+body[data-border-radius=default] {
+    --border-radius: 0.25rem;
+    --border-radius-secondary: 1rem;
+    --border-radius-round: 100px;
+    --border-radius-circle: 100%;
+}
+
+body[data-border-radius=round] {
+    --border-radius: 30px;
+    --border-radius-secondary: 18px;
+    --border-radius-round: 100px;
+    --border-radius-circle: 100%;
+}
+
+body[data-border-radius=fancy] {
+    --border-radius: 15px;
+    --border-radius-secondary: 15px;
+    --border-radius-round: 15px;
+    --border-radius-circle: 10px;
+}
+
+body[data-border-radius=square] {
+    --border-radius: 1px;
+    --border-radius-secondary: 1px;
+    --border-radius-round: 1px;
+    --border-radius-circle: 1px;
+}

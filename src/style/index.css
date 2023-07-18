@@ -2,5 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
 
 @import url("./appearance.css");
+@import url("./rounding.css");
 @import url("./style.css");
 @import url("./panel.css");
