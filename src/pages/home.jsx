@@ -18,7 +18,7 @@ import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalHistory } from "../settings.jsx";
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalHome } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 
 function Home() {
@@ -26,15 +26,15 @@ function Home() {
     const web = React.useRef();
     const search = React.useRef();
     const [ lastURL, setLastURL] = React.useState("");
-    const [ localHome, setLocalHome ] = useLocalHome();
+    var homeURL = (localStorage.getItem("homeURL") || "cobalt://home");
     const [ loading, setLoading] = React.useState(false);
     const internalURLS = ["home", "blank"];
     const [ canGoBack, setCanGoBack] = React.useState(false);
     const [ canGoForward, setCanGoForward] = React.useState(false);
     const [ suggestions, setSuggestions ] = React.useState([]);
-    const [ searchEngine, setSearchEngine ] = React.useState("https://www.google.com/search?q=%s");
+    const [ searchEngine, setSearchEngine ] = React.useState(localStorage.getItem("engine") || "https://www.google.com/search?q=%s");
     const [ useSuggestions, setUseSuggestions ] = React.useState(true);
-    const [ currentURL, setCurrentURL ] = React.useState(localHome);
+    const [ currentURL, setCurrentURL ] = React.useState(homeURL);
     const defaultPanelOptions = [
         {
             "name": "Favorites",
@@ -144,11 +144,23 @@ function Home() {
     }
 
     const SettingsComponent = () => {
+        const setHomeURL = (value) => {
+            localStorage.setItem("homeURL", (value || "cobalt://home"))
+            homeURL = (value || "cobalt://home")
+        }
+
+        const setSearchEngineURL = (value) => {
+            localStorage.setItem("engine", (value || "https://www.google.com/search?q=%s"))
+            setSearchEngine(value || "https://www.google.com/search?q=%s")
+        }
+
         return (
             <>
                 <div>
                     <div className="settingsTitle">Home Page</div>
-                    <input onChange={(e) => setLocalHome(e.target.value)} defaultValue={localHome || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
+                    <input onChange={(e) => setHomeURL(e.target.value)} defaultValue={homeURL || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
+                    <div className="settingsTitle settingsTitleSecondary">Search Engine</div>
+                    <input onChange={(e) => setSearchEngineURL(e.target.value)} defaultValue={searchEngine || ""} placeholder="URL with %s in place of query" autoComplete="off" className="sidePanelCloakingInput"></input>
                 </div>
             </>
         )
@@ -508,7 +520,7 @@ function Home() {
     }
 
     React.useEffect(() => {
-        searchURL(localHome)
+        searchURL(homeURL)
     }, [])
 
     React.useEffect(() => {
@@ -516,10 +528,6 @@ function Home() {
             setSuggestions([]);
         }
     }, [useSuggestions]);
-
-    const searchEngineURL = (query) => {
-        return searchEngine.replace("%s", query)
-    }
 
     const reloadPage = () => {
         setLoading(true)
@@ -694,9 +702,11 @@ function Home() {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
 
                     //Extension test: Darkreader
+                    /*
                     setTimeout(function() {
                         var darkreader = web.current.contentWindow.document.createElement("script");darkreader.src = "https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js";web.current.contentWindow.document.head.appendChild(darkreader);darkreader.onload = function() {web.current.contentWindow.DarkReader.enable()};
                     })
+                    */
 
                 } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
                     if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
@@ -762,9 +772,9 @@ function Home() {
                 web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(checkURL), window.location)
                 setCurrentURL(checkURL)
             } else {
-                search.current.value = new URL(searchEngineURL(encodeURIComponent(value)).toString()).toString()
+                search.current.value = new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString()
                 web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(search.current.value), window.location)
-                setCurrentURL(new URL(searchEngineURL(encodeURIComponent(value)).toString()).toString())
+                setCurrentURL(new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString())
             }
         }
 
@@ -861,7 +871,7 @@ function Home() {
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
-            "localHome": localHome,
+            "homeURL": homeURL,
             "loading": loading,
             "canGoBack": canGoBack,
             "canGoForward": canGoForward,
@@ -889,8 +899,8 @@ function Home() {
     }, [history])
 
     React.useEffect(() => {
-        window.Cobalt.localHome = localHome
-    }, [localHome])
+        window.Cobalt.homeURL = homeURL
+    }, [homeURL])
 
     React.useEffect(() => {
         window.Cobalt.loading = loading
@@ -909,12 +919,13 @@ function Home() {
     }, [useSuggestions])
 
     React.useEffect(() => {
-        window.Cobalt.searchEngine = searchEngine
-    }, [searchEngine])
-
-    React.useEffect(() => {
         window.Cobalt.url = currentURL
     }, [currentURL])
+
+    React.useEffect(() => {
+        window.Cobalt.searchEngine = searchEngine
+        window.Cobalt.navigate = searchURL
+    }, [searchEngine])
 
     return (
         <>
@@ -937,12 +948,12 @@ function Home() {
                         </div>
                     )
                     }
-                    <div className="controlsButton" onClick={() => searchURL(localHome)}>
+                    <div className="controlsButton" onClick={() => searchURL(homeURL)}>
                         <HomeIcon fontSize="small" />
                     </div>
                 </div>
                 <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
-                    <input aria-label="Search" ref={search} defaultValue={localHome} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
+                    <input aria-label="Search" ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
                     <div className="suggestions">
                         {suggestions.map((suggestion, index) => (
                             <div className="suggestion" onClick={() => {searchURL(suggestion); setSuggestions([])}} key={index}>

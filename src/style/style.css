@@ -562,4 +562,9 @@ body::-webkit-scrollbar-thumb {
     margin: 0 0.5rem;
     font-size: 1rem;
     color: var(--text-inverse);
+    user-select: none;
+}
+
+.settingsTitleSecondary {
+    margin-top: 0.5rem;
 }

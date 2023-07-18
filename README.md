@@ -12,15 +12,11 @@ Features:
 To Do:
 - [ ] All of the features
 - [ ] Make README.md (screenshots about, api)
-- [ ] Blocklist
-- [ ] Suggestions for home page
 - [ ] Keyboard shortcuts (reload, back, forward, favorite)
-- [ ] Change home page url option
 - [ ] Favorites
-- [ ] Search Engine Change
 - [ ] Change rounding
 
-Future Additions:
+To Do (but after):
 - [ ] Games
 - [ ] Section to change headers sent to site on proxy (eg. user-agent)
 - [ ] Share button
@@ -33,3 +29,5 @@ Future Additions:
 - [ ] URL option for cloaking
 - [ ] Make Monaco Editor use style
 - [ ] Update iframe on custom style change
+- [ ] Blocklist with custom bloacked page
+- [ ] Suggestions for home page
