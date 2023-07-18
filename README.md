@@ -1,7 +1,18 @@
-# Cobalt
-A new minimal clean proxy site, built for developers.
+<div align="center">
+<img height="150px" src="https://raw.githubusercontent.com/Cobalt-Web/Cobalt/main/src/assets/logo.svg">
+<h1>Cobalt</h1>
+<h3>A new minimal yet powerful proxy site, built for both users and developers.</h3>
+<p>View the censored internet like never before new web proxy service made in React supporting many sites. Entry for <a href="https://github.com/titaniumnetwork-dev">TN</a>'s 2023 Proxathon.</p>
+</div>
 
-Features:
+<p align="center">
+<a href="https://repl.it/github/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/replit2.svg"><img></a>
+<a href="https://glitch.com/edit/#!/import/github/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/glitch2.svg"><img></a>
+<a href="https://railway.app/new/template?template=https://github.com/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/railway2.svg"><img></a>
+<a href="https://app.koyeb.com/deploy?type=git&repository=github.com/Cobalt-Web/Cobalt&branch=main&name=Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/koyeb2.svg"><img></a>
+</p>
+
+## Features
 - Add custom and pre-made "extensions" or user scripts
 - Chrome like sidebar for extensions and features such as themes and history
 - History page
