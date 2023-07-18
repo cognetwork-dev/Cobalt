@@ -18,7 +18,7 @@ import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalHistory } from "../settings.jsx";
-import { useLocalAppearance, useLocalTitle, useLocalIcon } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalHome } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
     const web = React.useRef();
     const search = React.useRef();
     const [ lastURL, setLastURL] = React.useState("");
-    const [ homeURL, setHomeURL ] = React.useState("cobalt://home");
+    const [ localHome, setLocalHome ] = useLocalHome();
     const [ loading, setLoading] = React.useState(false);
     const internalURLS = ["home", "blank"];
     const [ canGoBack, setCanGoBack] = React.useState(false);
@@ -34,7 +34,7 @@ function Home() {
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ searchEngine, setSearchEngine ] = React.useState("https://www.google.com/search?q=%s");
     const [ useSuggestions, setUseSuggestions ] = React.useState(true);
-    const [ currentURL, setCurrentURL ] = React.useState(homeURL);
+    const [ currentURL, setCurrentURL ] = React.useState(localHome);
     const defaultPanelOptions = [
         {
             "name": "Favorites",
@@ -60,12 +60,12 @@ function Home() {
         },
         {
             "name": "Extensons",
-            "content": "<p>Extensons</p>"
+            "content": "<div>Coming Soon!</div>",
+            "script": "console.log('Clicked on extensions tab')"
         },
         {
             "name": "Settings",
-            "content": "<p>Settings</p>",
-            "script": "console.log('Clicked on settings tab')"
+            "component": "settings",
         }
     ]
     const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions);
@@ -143,11 +143,28 @@ function Home() {
         );
     }
 
-    const CustomStyleComponent = () => {
+    const SettingsComponent = () => {
         return (
             <>
-                <Editor height="100vh" defaultLanguage="css" defaultValue="// some comment" />
+                <div>
+                    <div className="settingsTitle">Home Page</div>
+                    <input onChange={(e) => setLocalHome(e.target.value)} defaultValue={localHome || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
+                </div>
             </>
+        )
+    }
+
+    const CustomStyleComponent = () => {
+        const [localCustomStyle, setLocalCustomStyle] = useLocalCustomStyle();
+
+        const customStyleChange = (value, event) => {
+            setLocalCustomStyle(value)
+        }
+
+        return (
+            <div className="customStyleMain" >
+                <Editor onChange={customStyleChange} value={localCustomStyle} options={{wordWrap: true, roundedSelection: true, minimap: { enabled: false }, tabSize: 8, quickSuggestions: false}} loading="" height="100%" defaultLanguage="css" theme="vs-dark" />
+            </div>
         )
     }
     
@@ -491,7 +508,7 @@ function Home() {
     }
 
     React.useEffect(() => {
-        searchURL(homeURL)
+        searchURL(localHome)
     }, [])
 
     React.useEffect(() => {
@@ -844,7 +861,7 @@ function Home() {
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
-            "homeURL": homeURL,
+            "localHome": localHome,
             "loading": loading,
             "canGoBack": canGoBack,
             "canGoForward": canGoForward,
@@ -872,8 +889,8 @@ function Home() {
     }, [history])
 
     React.useEffect(() => {
-        window.Cobalt.homeURL = homeURL
-    }, [homeURL])
+        window.Cobalt.localHome = localHome
+    }, [localHome])
 
     React.useEffect(() => {
         window.Cobalt.loading = loading
@@ -920,12 +937,12 @@ function Home() {
                         </div>
                     )
                     }
-                    <div className="controlsButton" onClick={() => searchURL(homeURL)}>
+                    <div className="controlsButton" onClick={() => searchURL(localHome)}>
                         <HomeIcon fontSize="small" />
                     </div>
                 </div>
                 <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
-                    <input aria-label="Search" ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
+                    <input aria-label="Search" ref={search} defaultValue={localHome} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
                     <div className="suggestions">
                         {suggestions.map((suggestion, index) => (
                             <div className="suggestion" onClick={() => {searchURL(suggestion); setSuggestions([])}} key={index}>
@@ -977,6 +994,7 @@ function Home() {
                         themes: <ThemesComponent />,
                         cloaking: <CloakingComponent />,
                         customStyle: <CustomStyleComponent />,
+                        settings: <SettingsComponent />,
                         }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>

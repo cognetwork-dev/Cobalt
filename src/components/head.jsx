@@ -1,11 +1,19 @@
 import React from "react";
-import { useLocalAppearance, useLocalTitle, useLocalIcon } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle } from "../settings.jsx";
 
 function Head({ defaultTitle }) {
-    //TEMP fix for tab cloaking
-    var [ localAppearance ] = useLocalAppearance();
-    var [ localTitle ] = useLocalTitle();
-    var [ localIcon ] = useLocalIcon();
+    const [ localAppearance ] = useLocalAppearance();
+    const [ localTitle ] = useLocalTitle();
+    const [ localIcon ] = useLocalIcon();
+    const [ localCustomStyle ] = useLocalCustomStyle();
+
+    React.useEffect(() => {
+      document.querySelector("#customStyle")?.remove()
+      var style = document.createElement("style")
+      style.id = "customStyle"
+      style.textContent = localCustomStyle
+      document.querySelector("head").appendChild(style)
+    }, [localCustomStyle]);
 
     document.body.setAttribute("data-appearance", localAppearance);
 
@@ -15,9 +23,7 @@ function Head({ defaultTitle }) {
         document.title = title;
     }, [localTitle]);
 
-    React.useEffect(() => {
-        document.body.setAttribute("appearance", localAppearance);
-            
+    React.useEffect(() => {            
         var icon = localIcon || "/logos/logo.svg"
     
         for (var link of document.querySelectorAll("link[rel*='icon']")) {
@@ -27,7 +33,7 @@ function Head({ defaultTitle }) {
 
     React.useEffect(() => {
         document.body.setAttribute("data-appearance", localAppearance);
-    }, [localAppearance]);    
+    }, [localAppearance]);
 
     return <></>;
 }

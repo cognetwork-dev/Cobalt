@@ -14,7 +14,7 @@ To Do:
 - [ ] Make README.md (screenshots about, api)
 - [ ] Blocklist
 - [ ] Suggestions for home page
-- [ ] Keyboard shortcuts (reload, back, fowrad, favorite)
+- [ ] Keyboard shortcuts (reload, back, forward, favorite)
 - [ ] Change home page url option
 - [ ] Favorites
 - [ ] Search Engine Change
@@ -31,3 +31,5 @@ Future Additions:
 - [ ] Dashboard with widgets
 - [ ] Make Ultraviolet take less space
 - [ ] URL option for cloaking
+- [ ] Make Monaco Editor use style
+- [ ] Update iframe on custom style change

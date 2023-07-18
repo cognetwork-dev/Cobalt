@@ -26,6 +26,7 @@ body::-webkit-scrollbar-thumb {
 ::placeholder {
     color: var(--text-inverse);
     opacity: 0.8;
+    user-select: none;
 }
 
 ::selection {
@@ -253,7 +254,9 @@ body::-webkit-scrollbar-thumb {
     height: calc(100% - 44px - 0.75rem);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     word-wrap: break-word;
-    overflow-x: scroll;
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
 }
 
 .sidePanelBody::-webkit-scrollbar {
@@ -525,6 +528,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 .sidePanelCloakingInput {
@@ -542,4 +546,20 @@ body::-webkit-scrollbar-thumb {
 
 .sidePanelCloakingInput::placeholder {
     color: var(--text);
+}
+
+.customStyleMain {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.settingsTitle {
+    margin: 0 0.5rem;
+    font-size: 1rem;
+    color: var(--text-inverse);
 }
