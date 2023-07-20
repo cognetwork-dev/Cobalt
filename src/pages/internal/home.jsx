@@ -34,7 +34,7 @@ function InternalHome() {
                 </div>
             </div>
             <div className="footer">
-                <Obfuscate>Cobalt 2023 | </Obfuscate><a href={discord}><Obfuscate>Discord</Obfuscate></a><Obfuscate> / </Obfuscate><a href={github}><Obfuscate>Source</Obfuscate></a>
+                <Obfuscate>Cobalt 2023 | </Obfuscate><a target="_blank" href={discord}><Obfuscate>Discord</Obfuscate></a><Obfuscate> / </Obfuscate><a target="_blank" href={github}><Obfuscate>Source</Obfuscate></a>
             </div>
         </>
     )
