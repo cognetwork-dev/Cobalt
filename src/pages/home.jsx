@@ -38,9 +38,7 @@ function Home() {
     const defaultPanelOptions = [
         {
             "name": "Favorites",
-            "content": "",
-            "id": "defaultFavorites",
-            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>Coming soon!</h1>')"
+            "component": "favorites"
         },
         {
             "name": "History",
@@ -60,14 +58,21 @@ function Home() {
         },
         {
             "name": "Extensons",
-            "content": "<div>Coming Soon!</div>",
-            "script": "console.log('Clicked on extensions tab')"
+            "component": "extensons",
         },
         {
             "name": "Settings",
             "component": "settings",
         }
     ]
+    /*
+        {
+            "name": "Favorites",
+            "content": "",
+            "id": "defaultFavorites",
+            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>Coming soon!</h1>')"
+        },
+    */
     const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions);
     const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
     const sidePanelNav = React.useRef();
@@ -76,6 +81,22 @@ function Home() {
     const [history, setHistory] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
+
+    const FavoritesComponent = () => {
+        return (
+            <>
+                <div className="settingsTitle">Coming Soon!</div>
+            </>
+        )
+    }
+
+    const ExtensonsComponent = () => {
+        return (
+            <>
+                <div className="settingsTitle">Coming Soon!</div>
+            </>
+        )
+    }
   
     const HistoryComponent = () => {
         const removeHistory = (e, index) => {
@@ -1038,6 +1059,8 @@ function Home() {
                         cloaking: <CloakingComponent />,
                         customStyle: <CustomStyleComponent />,
                         settings: <SettingsComponent />,
+                        favorites: <FavoritesComponent />,
+                        extensons: <ExtensonsComponent />,
                         }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>
