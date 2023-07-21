@@ -589,3 +589,47 @@ body::-webkit-scrollbar-thumb {
     background: var(--background);
     color: var(--text);
 }
+
+.sidePanelExtensions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidePanelExtension {
+    background: var(--background);
+    margin: 0 0.5rem;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+.sidePanelExtensionAuthor {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.sidePanelExtensionName, .sidePanelExtensionAuthor, .sidePanelExtensionDescription {
+    user-select: none;
+}
+
+.sidePanelExtensionInstall {
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5rem;
+    font-size: 0.85rem;
+    border-radius: var(--border-radius);
+    color: var(--text-inverse);
+    user-select: none;
+    cursor: pointer;
+    background: var(--primary);
+    outline: none;
+    border: none;
+}
+
+.sidePanelExtensionDescription {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}

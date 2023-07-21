@@ -65,6 +65,8 @@ body {
     --immortal-theme: #155e75;
     --baja-blast-theme: #225450;
     --vs-code-theme: #0078d4;
+    --noctura-theme: #4d008c;
+    --bubblegum-theme: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -616,5 +618,21 @@ body[data-appearance=vs-code] {
     --primary: #0078d4;
     --text: #cccccc;
     --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=noctura] {
+    --background: black;
+    --primary: #4d008c;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=bubblegum] {
+    --background: #FF9A8B;
+    --primary: white;
+    --text: white;
+    --text-inverse: black;
     --font: "Noto Sans";
 }

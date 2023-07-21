@@ -18,7 +18,7 @@ import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 
 function Home() {
@@ -81,16 +81,75 @@ function Home() {
     const [history, setHistory] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
+    const defaultExtensions = [
+        {
+            name: "Dark Reader",
+            author: "darkreader.org",
+            description: "Dark mode for every website. Take care of your eyes, use dark theme for night and daily browsing.",
+            load: `setTimeout(function() {var darkreader = Cobalt.web.current.contentWindow.document.createElement("script");darkreader.src = "https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js";Cobalt.web.current.contentWindow.document.head.appendChild(darkreader);darkreader.onload = function() {Cobalt.web.current.contentWindow.DarkReader.enable()}}, 1)`,
+            id: "default-dark-mode"
+        },
+        {
+            name: "Youtube Speed Controller",
+            author: "ehrenjn",
+            description: "Adds an extra control to Youtube video playbars that allows you to speed up videos past 2x speed (up to 16x speed).",
+            load: `Cobalt.web.current.contentWindow.addEventListener("load", () => {if (Cobalt.url.startsWith("https://www.youtube.com/watch?v=")) {(function(){function setRate(n) {Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate = n};function getRate() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate};function hasVideo() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls").length != 0};function injectController() {var i = Cobalt.web.current.contentWindow.document.createElement('input');i.style = "width: 30%; height: 70%; position: relative; bottom: 37%; background-Color: transparent; color: white; border-Color: transparent;";i.id = 'spdctrl';i.title = 'Playback Rate';i.style.fontSize = '100%';i.type = 'number';i.value = getRate();i.step = 0.1;i.max = 16;i.min = 0;i.onchange = function() {var s = i.value;setRate(s)};Cobalt.web.current.contentWindow.document.getElementsByTagName('video')[0].onratechange = function() {if (Cobalt.web.current.contentWindow.document.activeElement != i) {i.value = getRate()}};toolbar = Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls")[0];toolbar.prepend(i)};window.setInterval(function(){var controller = Cobalt.web.current.contentWindow.document.getElementById('spdctrl');if (controller === null && hasVideo()){injectController()}}, 300)})()}})`,
+            id: "default-yt-speed-controller"
+        }
+    ]
+    const [ localInstalledExtensions, setLocalInstalledExtensions ] = useLocalInstalledExtensions();
+    const [ extensions, setExtensions] = React.useState(defaultExtensions.map(item => {
+        if (JSON.parse(localInstalledExtensions).includes(item.id)) {
+            item.installed = true
+        } else {
+            item.installed = false
+        }
+        
+        return item
+    }))
 
-    const FavoritesComponent = () => {
+    React.useEffect(() => {
+        setExtensions(defaultExtensions.map(item => {
+            if (JSON.parse(localInstalledExtensions).includes(item.id)) {
+                item.installed = true
+            } else {
+                item.installed = false
+            }
+            
+            return item
+        }))
+    }, [localInstalledExtensions])
+
+    const ExtensonsComponent = () => {
+        const toggleExtension = (id) => {
+            let tempLocalInstalledExtensions = JSON.parse(localInstalledExtensions)
+
+            if (tempLocalInstalledExtensions.includes(id)) {
+                tempLocalInstalledExtensions = tempLocalInstalledExtensions.filter(item => item !== id)
+            } else {
+                tempLocalInstalledExtensions.push(id)
+            }
+
+            setLocalInstalledExtensions(JSON.stringify(tempLocalInstalledExtensions))
+        }
+
         return (
             <>
-                <div className="settingsTitle">Coming Soon!</div>
+                <div className="sidePanelExtensions">
+                    {extensions.map((item, index) => (
+                        <div key={index} className="sidePanelExtension">
+                            <div className="sidePanelExtensionName">{item.name}</div>
+                            <div className="sidePanelExtensionAuthor">{item.author}</div>
+                            <div className="sidePanelExtensionDescription">{item.description}</div>
+                            <button onClick={() => toggleExtension(item.id)} className="sidePanelExtensionInstall">{!item.installed ? "Install" : "Uninstall"}</button>
+                        </div>
+                    ))}
+                </div>
             </>
         )
     }
 
-    const ExtensonsComponent = () => {
+    const FavoritesComponent = () => {
         return (
             <>
                 <div className="settingsTitle">Coming Soon!</div>
@@ -442,6 +501,10 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Jungle</Obfuscate>
                 </ThemeOption>
+                <ThemeOption theme="bubblegum">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Gum</Obfuscate>
+                </ThemeOption>
                 <ThemeOption theme="nebelung">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Nebelung</Obfuscate>
@@ -533,6 +596,10 @@ function Home() {
                 <ThemeOption theme="nebula">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Nebula</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="noctura">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Noctura</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="atom">
                   <div className="sidePanelThemePreview"></div>
@@ -754,13 +821,13 @@ function Home() {
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
 
-                    //Extension test: Darkreader
-                    /*
-                    setTimeout(function() {
-                        var darkreader = web.current.contentWindow.document.createElement("script");darkreader.src = "https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js";web.current.contentWindow.document.head.appendChild(darkreader);darkreader.onload = function() {web.current.contentWindow.DarkReader.enable()};
-                    })
-                    */
-
+                    for (let extension of extensions) {
+                        if (extension.load) {
+                            if (extension.installed) {
+                                eval(extension.load)
+                            }
+                        }
+                    }
                 } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
                     if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
                         var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
@@ -924,6 +991,8 @@ function Home() {
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
+            "extensions": extensions,
+            "web": web,
             "homeURL": homeURL,
             "loading": loading,
             "canGoBack": canGoBack,
@@ -950,6 +1019,14 @@ function Home() {
     React.useEffect(() => {
         window.Cobalt.history = JSON.parse(history)
     }, [history])
+
+    React.useEffect(() => {
+        window.Cobalt.extensions = extensions
+    }, [extensions])
+
+    React.useEffect(() => {
+        window.Cobalt.web = web
+    }, [web])
 
     React.useEffect(() => {
         window.Cobalt.homeURL = homeURL
