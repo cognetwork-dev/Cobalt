@@ -22,25 +22,31 @@
 
 ## Setup
 **Run**
+
 Run `npm start` to start a webserver and the Bare server. You may deploy Cobalt by using an external bare server and a static file host. Cobalt must be built before attempting to start.
 
 **Build**
+
 Run `npm run build` to build app for production to the `build` folder.
 
 **Development**
+
 Run `npm run dev` to run the app in development mode.
 
 **Deploy**
+
 Click a button at the top of this page and follow the directions for an easy way to host Cobalt.
 
 ## Configuration
 
 **Obfuscation**
+
 File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts.js)
 
 `const obfuscation = true | false;` - Choose to obfuscate text
 
 **Github and Discord**
+
 File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts.js)
 
 `const github = "string";` - Update the Github links
@@ -48,6 +54,7 @@ File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts
 `const discord = "string";` - Update the Discord link
 
 **Bare Server**
+
 File: [/public/uv/uv.config.js](https://github.com/Cobalt-Web/Cobalt/blob/main/public/uv/uv.config.js)
 
 `bare: url,` - Ultraviolet bare server
