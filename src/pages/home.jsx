@@ -17,8 +17,7 @@ import clsx from "clsx";
 import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
-import { useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 
 function Home() {
@@ -78,7 +77,7 @@ function Home() {
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
     const [ sidePanelBodyData, setSidePanelBodyData ] = React.useState({});
-    const [history, setHistory] = useLocalHistory();
+    const [ history, setHistory ] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
     const [ checking, setChecking ] = React.useState(false);
     const defaultExtensions = [
@@ -107,6 +106,7 @@ function Home() {
         
         return item
     }))
+    const [ localFavorites, setLocalFavorites ] = useLocalFavorites();
 
     React.useEffect(() => {
         setExtensions(defaultExtensions.map(item => {
@@ -149,10 +149,82 @@ function Home() {
         )
     }
 
+    const toggleFavorite = async () => {
+        if (JSON.parse(localFavorites).filter((item) => item.url == currentURL).length > 0) {
+            let tempFavorites = JSON.parse(localFavorites)
+            tempFavorites = tempFavorites.filter((item) => item.url !== currentURL)
+            setLocalFavorites(JSON.stringify(tempFavorites))
+        } else {
+            if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+            } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                    var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                } else {
+                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                }
+            } else {
+                var url = web.current.contentWindow.location.toString()
+            }
+    
+            var title = web.current.contentWindow.document.title
+            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
+            
+            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                favicon = ""
+            }
+    
+            if (url.startsWith("cobalt://")) {
+                title = url.split("cobalt://")[1]
+                title = title.charAt(0).toUpperCase() + title.slice(1)
+            }
+    
+            if (favicon) {
+                favicon = await createFavicon(favicon)
+            }
+            
+            let tempFavorites = JSON.parse(localFavorites)
+            
+            tempFavorites.unshift({
+                url: url,
+                title: title,
+                favicon: favicon
+            })
+
+            setLocalFavorites(JSON.stringify(tempFavorites))
+        }
+    }
+
     const FavoritesComponent = () => {
+        const removeFavorite = (e, url) => {
+            e.stopPropagation()
+    
+            let tempFavorites = JSON.parse(localFavorites)
+            tempFavorites = tempFavorites.filter((item) => item.url !== url)
+            setLocalFavorites(JSON.stringify(tempFavorites))
+        }
+
         return (
             <>
-                <div className="settingsTitle">Coming Soon!</div>
+                <div className="historyPanel">
+                    {JSON.parse(localFavorites).map((item, index) => (
+                        <div title={item.url} key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
+                        {
+                            item.favicon ? (
+                                <img className="historyPanelFavicon" src={item.favicon} />
+                            ) : (
+                                <div className="historyPanelFaviconGlobe">
+                                    <PublicIcon style={{"height": "18px", "width": "18px"}} />
+                                </div>
+                            )
+                        }
+                        <div className="historyPanelTitle"><Obfuscate>{item.title || item.url}</Obfuscate></div>
+                        <div className="historyPanelRemove" onClick={(e) => removeFavorite(e, item.url)}>
+                            <DeleteIcon fontSize="small" />
+                        </div>
+                        </div>
+                    ))}
+                </div>
             </>
         )
     }
@@ -174,7 +246,7 @@ function Home() {
             <>
             <div className="historyPanelRemoveAll" onClick={() => clearHistory()}>
                 <DeleteIcon fontSize="small" />
-                Clear History
+                <Obfuscate>Clear History</Obfuscate>
             </div>
             <div className="historyPanel">
                 {JSON.parse(history).map((item, index) => (
@@ -188,7 +260,7 @@ function Home() {
                                 </div>
                             )
                         }
-                        <div className="historyPanelTitle">{item.title || item.url}</div>
+                        <div className="historyPanelTitle"><Obfuscate>{item.title || item.url}</Obfuscate></div>
                         <div className="historyPanelRemove" onClick={(e) => removeHistory(e, index)}>
                             <DeleteIcon fontSize="small" />
                         </div>
@@ -258,16 +330,16 @@ function Home() {
         return (
             <>
                 <div>
-                    <div className="settingsTitle">Home Page</div>
+                    <div className="settingsTitle"><Obfuscate>Home Page</Obfuscate></div>
                     <input onChange={(e) => setHomeURL(e.target.value)} defaultValue={homeURL || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
-                    <div className="settingsTitle settingsTitleSecondary">Search Engine</div>
+                    <div className="settingsTitle settingsTitleSecondary"><Obfuscate>Search Engine</Obfuscate></div>
                     <input onChange={(e) => setSearchEngineURL(e.target.value)} defaultValue={searchEngine || ""} placeholder="URL with %s in place of query" autoComplete="off" className="sidePanelCloakingInput"></input>
-                    <div className="settingsTitle settingsTitleSecondary">Border Radius</div>
+                    <div className="settingsTitle settingsTitleSecondary"><Obfuscate>Border Radius</Obfuscate></div>
                     <div className="settingsOptions">
-                        <BorderRadiusOption name="default">Default</BorderRadiusOption>
-                        <BorderRadiusOption name="round">Round</BorderRadiusOption>
-                        <BorderRadiusOption name="fancy">Fancy</BorderRadiusOption>
-                        <BorderRadiusOption name="square">Square</BorderRadiusOption>
+                        <BorderRadiusOption name="default"><Obfuscate>Default</Obfuscate></BorderRadiusOption>
+                        <BorderRadiusOption name="round"><Obfuscate>Round</Obfuscate></BorderRadiusOption>
+                        <BorderRadiusOption name="fancy"><Obfuscate>Fancy</Obfuscate></BorderRadiusOption>
+                        <BorderRadiusOption name="square"><Obfuscate>Square</Obfuscate></BorderRadiusOption>
                     </div>
                 </div>
             </>
@@ -685,6 +757,22 @@ function Home() {
         setHistory("[]")
     }
 
+    try {
+        JSON.parse(localFavorites)
+    } catch {
+        console.error("Error with favorites: Not valid JSON")
+        console.error(localFavorites)
+        setLocalFavorites("[]")
+    }
+
+    try {
+        JSON.parse(localInstalledExtensions)
+    } catch {
+        console.error("Error with local install extensions: Not valid JSON")
+        console.error(localInstalledExtensions)
+        setLocalInstalledExtensions("[]")
+    }
+
     async function createFavicon(url) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -746,7 +834,7 @@ function Home() {
 
             setHistory(JSON.stringify(tempHistory))
 
-            if (!checking && loaded) {
+            if (!checking) {
                 setChecking(true)
 
                 setInterval(async () => {
@@ -791,6 +879,26 @@ function Home() {
 
                             tempHistory[0].favicon = favicon
                             setHistory(JSON.stringify(tempHistory))
+                        }
+
+                        if (Cobalt.favorites.filter((item) => item.url == url).length > 0) {
+                            let tempFavorites = Cobalt.favorites
+
+                            let currentFavoriteItem = tempFavorites.filter((item) => item.url == url)[0]
+
+                            if (realTitle !== currentFavoriteItem.title) {
+                                currentFavoriteItem.title = realTitle
+                            }
+    
+                            if (favicon !== currentFavoriteItem.favicon) {
+                                if (favicon) {
+                                    favicon = await createFavicon(favicon)
+                                }
+    
+                                currentFavoriteItem.favicon = favicon
+                            }
+
+                            setLocalFavorites(JSON.stringify(tempFavorites))
                         }
                     }
                 }, 100)
@@ -988,6 +1096,7 @@ function Home() {
             "navigate": searchURL,
             "reload": reloadPage,
             "history": JSON.parse(history),
+            "favorites": JSON.parse(localFavorites),
             "back": historyBack,
             "forward": historyForward,
             "togglePanel": togglePanel,
@@ -1019,6 +1128,10 @@ function Home() {
     React.useEffect(() => {
         window.Cobalt.history = JSON.parse(history)
     }, [history])
+
+    React.useEffect(() => {
+        window.Cobalt.favorites = JSON.parse(localFavorites)
+    }, [localFavorites])
 
     React.useEffect(() => {
         window.Cobalt.extensions = extensions
@@ -1097,9 +1210,8 @@ function Home() {
                     <div className="searchIcon">
                         <SearchIcon style={{"height": "70%", "width": "70%"}} />
                     </div>
-                    <div className="favoriteIcon">
-                        <StarBorderIcon fontSize="small" />
-                        {/**StarIcon */}
+                    <div className="favoriteIcon" onClick={toggleFavorite}>
+                        {JSON.parse(localFavorites).filter((item) => item.url == currentURL).length > 0 ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
                     </div>
                 </div>
                 <div className="controls" data-side="right">

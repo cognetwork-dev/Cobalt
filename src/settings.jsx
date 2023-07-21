@@ -12,3 +12,4 @@ export var useLocalIcon = () => useLocalStorage("icon");
 export var useLocalCustomStyle = () => useLocalFallback("customStyle", "");
 export var useLocalBorderRadius = () => useLocalFallback("borderRadius", "default");
 export var useLocalInstalledExtensions = () => useLocalFallback("installedExtensions", "[]");
+export var useLocalFavorites = () => useLocalFallback("favorites", "[]");
