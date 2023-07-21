@@ -56,8 +56,8 @@ function Home() {
             "component": "customStyle"
         },
         {
-            "name": "Extensons",
-            "component": "extensons",
+            "name": "Extensions",
+            "component": "extensions",
         },
         {
             "name": "Settings",
@@ -120,7 +120,7 @@ function Home() {
         }))
     }, [localInstalledExtensions])
 
-    const ExtensonsComponent = () => {
+    const ExtensionsComponent = () => {
         const toggleExtension = (id) => {
             let tempLocalInstalledExtensions = JSON.parse(localInstalledExtensions)
 
@@ -138,10 +138,10 @@ function Home() {
                 <div className="sidePanelExtensions">
                     {extensions.map((item, index) => (
                         <div key={index} className="sidePanelExtension">
-                            <div className="sidePanelExtensionName">{item.name}</div>
-                            <div className="sidePanelExtensionAuthor">{item.author}</div>
-                            <div className="sidePanelExtensionDescription">{item.description}</div>
-                            <button onClick={() => toggleExtension(item.id)} className="sidePanelExtensionInstall">{!item.installed ? "Install" : "Uninstall"}</button>
+                            <div className="sidePanelExtensionName"><Obfuscate>{item.name}</Obfuscate></div>
+                            <div className="sidePanelExtensionAuthor"><Obfuscate>{item.author}</Obfuscate></div>
+                            <div className="sidePanelExtensionDescription"><Obfuscate>{item.description}</Obfuscate></div>
+                            <button onClick={() => toggleExtension(item.id)} className="sidePanelExtensionInstall"><Obfuscate>{!item.installed ? "Install" : "Uninstall"}</Obfuscate></button>
                         </div>
                     ))}
                 </div>
@@ -1301,7 +1301,7 @@ function Home() {
                         customStyle: <CustomStyleComponent />,
                         settings: <SettingsComponent />,
                         favorites: <FavoritesComponent />,
-                        extensons: <ExtensonsComponent />,
+                        extensions: <ExtensionsComponent />,
                         }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>

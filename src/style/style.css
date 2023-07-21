@@ -627,6 +627,7 @@ body::-webkit-scrollbar-thumb {
     background: var(--primary);
     outline: none;
     border: none;
+    margin-left: auto;
 }
 
 .sidePanelExtensionDescription {
