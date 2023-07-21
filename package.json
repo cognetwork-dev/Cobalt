@@ -1,7 +1,7 @@
 {
     "name": "cobalt",
     "version": "1.0",
-    "description": "A new minimal clean proxy site, built for developers.",
+    "description": "A new minimal yet powerful proxy site, built for both users and developers.",
     "repository": "https://github.com/Cobalt-Web/Cobalt.git",
     "license": "MIT",
     "author": "Nebelung",
@@ -26,7 +26,7 @@
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^14.4.3",
-        "@tomphttp/bare-server-node": "^2.0.0",
+        "@tomphttp/bare-server-node": "^2.0.1",
         "@vitejs/plugin-react": "^4.0.1",
         "eslint": "^8.43.0",
         "prettier": "^2.8.8",
