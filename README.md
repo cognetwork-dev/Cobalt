@@ -18,7 +18,7 @@
 - Extremely customizable
 - Massive library of themes
 - Star you favorite sites (coming soon) and view you browsing history
-- Extensions with easy api (coming soon!) 
+- Extensions
 
 ## Setup
 ### Run
