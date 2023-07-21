@@ -636,3 +636,107 @@ body[data-appearance=bubblegum] {
     --text-inverse: black;
     --font: "Noto Sans";
 }
+
+body[data-appearance=flower] {
+    --background: #030303;
+    --primary: linear-gradient(90deg, #FBAB7E, #F7CE68);
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=sylvie] {
+    --background: #030303;
+    --primary: linear-gradient(to right, #4acfff, #8ae0ff);
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=riftriot] {
+    --background: #0a0017;
+    --primary: #3e008f;
+    --text: white;
+    --text-inverse: whie;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=adv3] {
+    --background: #030303;
+    --primary: #5b8257;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=cat] {
+    --background: #bfbfbf;
+    --primary: #4d4d4d;
+    --text: #4d4d4d;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=koaku] {
+    --background: #3d0c0c;
+    --primary: #ff0000;
+    --text: var(--primary);
+    --text-inverse: var(--background);
+    --font: "Noto Sans";
+}
+
+body[data-appearance=spritz] {
+    --background: #000;
+    --primary: #0c1242;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=shadow2] {
+    --background: #1a1f2b;
+    --primary: #10151e;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=flowOS] {
+    --background: #24273a;
+    --primary: #181926;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=discord] {
+    --background: #313338;
+    --primary: #7289da;
+    --text: white;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=ludicrous] {
+    --background: black;
+    --primary: linear-gradient(90deg,#0c2f4b,#030b11);
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=mercury-workshop] {
+    --background: #fff;
+    --primary: #5BCEFA;
+    --text: black;
+    --text-inverse: black;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=airtag] {
+    --background: #285c30;
+    --primary: #222;
+    --text: white;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
