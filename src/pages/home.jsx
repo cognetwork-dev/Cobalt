@@ -577,9 +577,41 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Gum</Obfuscate>
                 </ThemeOption>
+                <ThemeOption theme="flower">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Flower</Obfuscate>
+                </ThemeOption>
                 <ThemeOption theme="nebelung">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Nebelung</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="sylvie">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Sylvie</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="riftriot">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Riftriot</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="adv3">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Adv3</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="cat">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Cat</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="koaku">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Koaku</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="spritz">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Spritz</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="airtag">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Airtag</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-latte">
                   <div className="sidePanelThemePreview"></div>
@@ -645,6 +677,10 @@ function Home() {
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Tiktok</Obfuscate>
                 </ThemeOption>
+                <ThemeOption theme="discord">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Discord</Obfuscate>
+                </ThemeOption>
                 <ThemeOption theme="pride">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Pride</Obfuscate>
@@ -656,6 +692,14 @@ function Home() {
                 <ThemeOption theme="eaglenet">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Eaglenet</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="ludicrous">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Ludicrous</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="mercury-workshop">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>MW</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="echo">
                   <div className="sidePanelThemePreview"></div>
@@ -680,6 +724,14 @@ function Home() {
                 <ThemeOption theme="immortal">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Immortal</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="shadow2">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Shadow</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="flowos">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Flow OS</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="baja-blast">
                   <div className="sidePanelThemePreview"></div>

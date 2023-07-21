@@ -67,6 +67,19 @@ body {
     --vs-code-theme: #0078d4;
     --noctura-theme: #4d008c;
     --bubblegum-theme: white;
+    --flower-theme: linear-gradient(90deg, #FBAB7E, #F7CE68);
+    --sylvie-theme: linear-gradient(to right, #4acfff, #8ae0ff);
+    --riftriot-theme: #3e008f;
+    --adv3-theme: #5b8257;
+    --cat-theme: #4d4d4d;
+    --koaku-theme: #ff0000;
+    --spritz-theme: #0c1242;
+    --shadow2-theme: #10151e;
+    --flowos-theme: #181926;
+    --discord-theme: #7289da;
+    --ludicrous-theme: linear-gradient(90deg,#0c2f4b,#030b11);
+    --mercury-workshop-theme: #5BCEFA;
+    --airtag-theme: #222;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -701,7 +714,7 @@ body[data-appearance=shadow2] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=flowOS] {
+body[data-appearance=flowos] {
     --background: #24273a;
     --primary: #181926;
     --text: white;
