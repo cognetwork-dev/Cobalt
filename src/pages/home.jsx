@@ -282,6 +282,7 @@ function Home() {
               setLocalAppearance(theme);
               if (currentURL.startsWith("cobalt://") || currentURL.startsWith("view-source:")) {
                 web.current.contentWindow.document.body.setAttribute("data-appearance", theme)
+                web.current.contentWindow.changeTheme(theme)
               }
             }}
             style={themeStyle}
@@ -608,6 +609,10 @@ function Home() {
                 <ThemeOption theme="spritz">
                   <div className="sidePanelThemePreview"></div>
                   <Obfuscate>Spritz</Obfuscate>
+                </ThemeOption>
+                <ThemeOption theme="retron">
+                  <div className="sidePanelThemePreview"></div>
+                  <Obfuscate>Retron</Obfuscate>
                 </ThemeOption>
                 <ThemeOption theme="airtag">
                   <div className="sidePanelThemePreview"></div>

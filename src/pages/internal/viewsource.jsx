@@ -2,8 +2,15 @@ import React from "react";
 import { BareClient } from "@tomphttp/bare-client";
 import { bareServerURL } from "../../consts.jsx";
 import Head from "../../components/head.jsx"
+import { useLocalAppearance } from "../../settings.jsx";
 
 function ViewSource() {
+    const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
+
+    window.changeTheme = (theme) => {
+        setLocalAppearance(theme)
+    }
+    
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
     const [ source, setSource ] = React.useState(""); 
 

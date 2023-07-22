@@ -80,6 +80,7 @@ body {
     --ludicrous-theme: linear-gradient(90deg,#0c2f4b,#030b11);
     --mercury-workshop-theme: #5BCEFA;
     --airtag-theme: #222;
+    --retron-theme: linear-gradient(to right, #ff8200, #ffba01);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -751,5 +752,13 @@ body[data-appearance=airtag] {
     --primary: #222;
     --text: white;
     --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance=retron] {
+    --background: #161616;
+    --primary: linear-gradient(to right, #ff8200, #ffba01);
+    --text: white;
+    --text-inverse: black;
     --font: "Noto Sans";
 }
