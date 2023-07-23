@@ -9,6 +9,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CodeIcon from '@mui/icons-material/Code';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -983,9 +984,21 @@ function Home() {
                 setCanGoBack(web.current.contentWindow.navigation.canGoBack)
                 setCanGoForward(web.current.contentWindow.navigation.canGoForward)
 
+                setTimeout(() => {
+                if (!web.current.contentWindow.eruda) {
+                    var erudaScript = web.current.contentWindow.document.createElement('script');
+                    erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+                    web.current.contentWindow.document.head.appendChild(erudaScript) 
+                    erudaScript.onload = () => {
+                        web.current.contentWindow.eruda.init()
+                        web.current.contentWindow.document.querySelector("#eruda").shadowRoot.querySelector(".eruda-entry-btn").style.display = "none"
+                    }
+                }
+                }, 1)
+
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
                     var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
-
+                    
                     for (let extension of extensions) {
                         if (extension.load) {
                             if (extension.installed) {
@@ -1074,6 +1087,30 @@ function Home() {
             return document.body.dataset.panel = "false"
         } else if (document.body.dataset.panel == "false") {
             return document.body.dataset.panel = "true"
+        }
+    }
+
+    const toggleDevtools = () => {
+        if (!web.current.contentWindow.eruda) {
+            var erudaScript = web.current.contentWindow.document.createElement('script');
+            erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+            web.current.contentWindow.document.body.append(erudaScript) 
+            erudaScript.onload = () => {
+                web.current.contentWindow.eruda.init()
+                web.current.contentWindow.document.querySelector("#eruda").shadowRoot.querySelector(".eruda-entry-btn").style.display = "none"
+            }
+
+            if (getComputedStyle(web.current.contentWindow.eruda._container.shadowRoot.querySelector(".eruda-dev-tools")).display == "none") {
+                web.current.contentWindow.eruda.show()
+            } else {
+                web.current.contentWindow.eruda.hide()
+            }
+        } else {            
+            if (getComputedStyle(web.current.contentWindow.eruda._container.shadowRoot.querySelector(".eruda-dev-tools")).display == "none") {
+                web.current.contentWindow.eruda.show()
+            } else {
+                web.current.contentWindow.eruda.hide()
+            }
         }
     }
 
@@ -1272,6 +1309,9 @@ function Home() {
                     </div>
                 </div>
                 <div className="controls" data-side="right">
+                    <div className="controlsButton" onClick={() => toggleDevtools()}>
+                        <CodeIcon fontSize="small" />
+                    </div>
                     <div className="controlsButton" onClick={() => togglePanel()}>
                         <DockSVG style={{"height": "70%", "width": "70%"}} />
                     </div>
