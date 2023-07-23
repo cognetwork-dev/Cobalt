@@ -19,6 +19,7 @@
 - Massive library of themes
 - Star you favorite sites and view you browsing history
 - Extensions
+- Devtools (Eruda)
 
 ## Setup
 **Run**
@@ -69,7 +70,6 @@ Overall I think it turned out very well and if I was to choose a web proxy to us
 ## To Do
 - [ ] Keyboard shortcuts (reload, back, forward, favorite)
 - [ ] Have real components and not everything in one file
-- [ ] Devtools
 - [ ] Blocklist with custom bloacked page
 - [ ] Syntax highlighting for view-source: (make it work with theme)
 - [ ] Make Monaco Editor use style

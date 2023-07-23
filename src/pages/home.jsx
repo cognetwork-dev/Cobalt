@@ -987,11 +987,12 @@ function Home() {
                 setTimeout(() => {
                 if (!web.current.contentWindow.eruda) {
                     var erudaScript = web.current.contentWindow.document.createElement('script');
-                    erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+                    erudaScript.src = "https://cdn.jsdelivr.net/gh/BinBashBanana/erudesktop@master/dist/eruda.js"
                     web.current.contentWindow.document.head.appendChild(erudaScript) 
                     erudaScript.onload = () => {
-                        web.current.contentWindow.eruda.init()
-                        web.current.contentWindow.document.querySelector("#eruda").shadowRoot.querySelector(".eruda-entry-btn").style.display = "none"
+                        web.current.contentWindow.eruda.initDesktop()
+                        web.current.contentWindow.eruda.hide()
+                        web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
                     }
                 }
                 }, 1)
@@ -1093,20 +1094,20 @@ function Home() {
     const toggleDevtools = () => {
         if (!web.current.contentWindow.eruda) {
             var erudaScript = web.current.contentWindow.document.createElement('script');
-            erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+            erudaScript.src = "https://cdn.jsdelivr.net/gh/BinBashBanana/erudesktop@master/dist/eruda.js"
             web.current.contentWindow.document.body.append(erudaScript) 
             erudaScript.onload = () => {
-                web.current.contentWindow.eruda.init()
-                web.current.contentWindow.document.querySelector("#eruda").shadowRoot.querySelector(".eruda-entry-btn").style.display = "none"
+                web.current.contentWindow.eruda.initDesktop()
+                web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
             }
 
-            if (getComputedStyle(web.current.contentWindow.eruda._container.shadowRoot.querySelector(".eruda-dev-tools")).display == "none") {
+            if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
                 web.current.contentWindow.eruda.show()
             } else {
                 web.current.contentWindow.eruda.hide()
             }
         } else {            
-            if (getComputedStyle(web.current.contentWindow.eruda._container.shadowRoot.querySelector(".eruda-dev-tools")).display == "none") {
+            if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
                 web.current.contentWindow.eruda.show()
             } else {
                 web.current.contentWindow.eruda.hide()
