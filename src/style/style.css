@@ -386,6 +386,10 @@ body::-webkit-scrollbar-thumb {
     color: var(--text-inverse);
 }
 
+.historyPanelTitle span {
+    color: var(--text-inverse);
+}
+
 .historyPanelFavicon {
     height: 1em;
     width: 1em;
@@ -561,6 +565,10 @@ body::-webkit-scrollbar-thumb {
     user-select: none;
 }
 
+.settingsTitle span {
+    color: var(--text-inverse);
+}
+
 .settingsTitleSecondary {
     margin-top: 0.5rem;
 }
@@ -585,8 +593,16 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
 }
 
+.settingsOption span {
+    color: var(--text-inverse);
+}
+
 .settingsOptionSelected {
     background: var(--background);
+    color: var(--text);
+}
+
+.settingsOptionSelected span {
     color: var(--text);
 }
 
@@ -628,6 +644,10 @@ body::-webkit-scrollbar-thumb {
     outline: none;
     border: none;
     margin-left: auto;
+}
+
+.sidePanelExtensionInstall span {
+    color: var(--text-inverse);
 }
 
 .sidePanelExtensionDescription {
