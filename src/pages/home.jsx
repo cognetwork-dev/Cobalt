@@ -20,6 +20,7 @@ import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
 import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
+import mime from 'mime-types';
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
@@ -65,15 +66,6 @@ function Home() {
             "component": "settings",
         }
     ]
-    /*
-        {
-            "name": "Favorites",
-            "content": "",
-            "id": "defaultFavorites",
-            "script": "Cobalt.setSidePanelBody('defaultFavorites', '<h1>Coming soon!</h1>')"
-        },
-    */
-    const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions);
     const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
     const sidePanelNav = React.useRef();
     const sidePanelBody = React.useRef();
@@ -95,6 +87,109 @@ function Home() {
             description: "Adds an extra control to Youtube video playbars that allows you to speed up videos past 2x speed (up to 16x speed).",
             load: `Cobalt.web.current.contentWindow.addEventListener("load", () => {if (Cobalt.url.startsWith("https://www.youtube.com/watch?v=")) {(function(){function setRate(n) {Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate = n};function getRate() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate};function hasVideo() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls").length != 0};function injectController() {var i = Cobalt.web.current.contentWindow.document.createElement('input');i.style = "width: 30%; height: 70%; position: relative; bottom: 37%; background-Color: transparent; color: white; border-Color: transparent;";i.id = 'spdctrl';i.title = 'Playback Rate';i.style.fontSize = '100%';i.type = 'number';i.value = getRate();i.step = 0.1;i.max = 16;i.min = 0;i.onchange = function() {var s = i.value;setRate(s)};Cobalt.web.current.contentWindow.document.getElementsByTagName('video')[0].onratechange = function() {if (Cobalt.web.current.contentWindow.document.activeElement != i) {i.value = getRate()}};toolbar = Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls")[0];toolbar.prepend(i)};window.setInterval(function(){var controller = Cobalt.web.current.contentWindow.document.getElementById('spdctrl');if (controller === null && hasVideo()){injectController()}}, 300)})()}})`,
             id: "default-yt-speed-controller"
+        },
+        {
+            name: "Google Old Logo",
+            author: "Nebelung",
+            description: "Revert to the classic Google logo!",
+            load: `setInterval(() => {
+                if (Cobalt.url.startsWith("https://www.google.com")) {
+                    var googleLogo = Cobalt.web.current.contentWindow.document.querySelector("img.lnXdpd")
+                    var googleSearchLogo = Cobalt.web.current.contentWindow.document.querySelector("img.jfN4p")
+                    var googleImagesLogo = Cobalt.web.current.contentWindow.document.querySelector(".F1hUFe, .jbTlie[aria-label='Go to Google Home']")
+                
+                    if (googleLogo) {
+                        if (googleLogo.src == "https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png") {
+                            googleLogo.src = "/images/srpr/logo11w.png"
+                            googleLogo.srcset = "/images/srpr/logo11w.png 1x"
+                        }
+                    }
+                
+                    if (googleSearchLogo) {
+                        if (googleSearchLogo.src == "https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png") {
+                            googleSearchLogo.src = "/images/srpr/logo11w.png"
+                        }
+                    }
+                
+                    if (googleImagesLogo) {
+                        googleImagesLogo.style.background = "url(/intl/en_ALL/images/srpr/logo11w.png) no-repeat center"
+                        googleImagesLogo.style.backgroundSize = "90px 31.7px"
+                        googleImagesLogo.style.height = "31.7px"
+                        googleImagesLogo.style.width = "90px"
+                        googleImagesLogo.querySelector("svg").style.display = "none"
+                    }
+                }
+            }, 100)`,
+            id: "default-google-old-logo"
+        },
+        {
+            name: ":3",
+            author: "Nebelung",
+            description: ":3",
+            load: `Cobalt.web.current.contentWindow.setInterval(() => {
+                if (Cobalt.web.current.contentWindow.document.body) {
+                    var e;
+                    var o = Cobalt.web.current.contentWindow.document.createTreeWalker(Cobalt.web.current.contentWindow.document.body, NodeFilter.SHOW_TEXT)
+                    for (; e = o.nextNode(); ) {
+                        if (e.parentElement.nodeName !== "STYLE" && e.parentElement.nodeName !== "SCRIPT") {
+                            if (e.textContent.trim() && e.textContent !== ":)") {
+                                e.textContent = ":3"
+                            }
+                        }
+                    }
+                }
+            }, 100)`,
+            id: "default-:3"
+        },
+        {
+            name: "Youtube Downloader",
+            author: "Nebelung",
+            description: "Download any video on youtube in many formats, all from the side panel.",
+            panel: {
+                id: "default-youtube-downloader",
+                script: `var onYoutube = false;
+
+                Cobalt.setSidePanelBody('default-youtube-downloader', '<div class="settingsTitle">You are not on a valid youtube video.</div>')
+
+                setInterval(() => {
+                    if (Cobalt.web.current.contentWindow.ytInitialPlayerResponse) {
+                        if (Cobalt.url.startsWith("https://www.youtube.com/watch?v=")) {
+                            if (!onYoutube) {
+                                var downloadLinks = Cobalt.web.current.contentWindow.ytInitialPlayerResponse.streamingData.adaptiveFormats
+                                .map(item => {
+                                    var mime = item.mimeType.split(";")[0]
+                                    var quality = item.qualityLabel ? item.qualityLabel : item.audioQuality.split("AUDIO_QUALITY_")[1].toLowerCase()
+                                    var audioDefault = item.audioTrack ? item.audioTrack.audioIsDefault : false
+                                    var otherMP4 = mime == "video/mp4" ? item.colorInfo : ""
+
+                                    if (!item.audioTrack && otherMP4) {
+                                        return "";
+                                    }
+                                    
+                                    if (item.audioTrack && !audioDefault) {
+                                        return "";
+                                    }
+
+                                    return "<a class='sidePanelYoutubeDownloaderLink' download='" + Cobalt.web.current.contentWindow.ytInitialPlayerResponse.videoDetails.title.normalize() + "." + Cobalt.mime.extension(mime) + "' href='" + new URL(__uv$config.prefix + __uv$config.encodeUrl(item.url), window.location).toString() + "'>" + mime + " - " + quality + "</a>"
+                                }).filter(item => item).join("")
+                                Cobalt.setSidePanelBody('default-youtube-downloader', '<div class="sidePanelYoutubeDownloader">' + downloadLinks + '</div>')
+                                onYoutube = true
+                            }
+                        } else {
+                            if (onYoutube) {
+                                Cobalt.setSidePanelBody('default-youtube-downloader', '<div class="settingsTitle">You are not on a valid youtube video.</div>')
+                                onYoutube = false
+                            }
+                        }
+                    } else {
+                        if (onYoutube) {
+                            Cobalt.setSidePanelBody('default-youtube-downloader', '<div class="settingsTitle">You are not on a valid youtube video.</div>')
+                            onYoutube = false
+                        }
+                    }
+                }, 100)`,
+            },
+            id: "default-youtube-downloader"
         }
     ]
     const [ localInstalledExtensions, setLocalInstalledExtensions ] = useLocalInstalledExtensions();
@@ -108,6 +203,11 @@ function Home() {
         return item
     }))
     const [ localFavorites, setLocalFavorites ] = useLocalFavorites();
+    const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions.concat(extensions.filter(item => item.instaled && item.panel)));
+
+    React.useEffect(() => {
+        setPanelOptions(defaultPanelOptions.concat(extensions.filter(item => item.installed && item.panel)))
+    }, [extensions])
 
     React.useEffect(() => {
         setExtensions(defaultExtensions.map(item => {
@@ -207,6 +307,7 @@ function Home() {
 
         return (
             <>
+                {JSON.parse(localFavorites).length <= 0 ? <div className="settingsTitle">Your favorites are empty.</div> : ""}
                 <div className="historyPanel">
                     {JSON.parse(localFavorites).map((item, index) => (
                         <div title={item.url} key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
@@ -756,12 +857,22 @@ function Home() {
     }
 
     const SidePanelMainComponent = () => {
-        if (panelOptions[currentPanelOption].id) {
-            if (sidePanelBodyData[panelOptions[currentPanelOption].id]) {
-                var content = sidePanelBodyData[panelOptions[currentPanelOption].id]
+        if (panelOptions[currentPanelOption].panel) {
+            if (panelOptions[currentPanelOption].panel.id) {
+                if (sidePanelBodyData[panelOptions[currentPanelOption].panel.id]) {
+                    var content = sidePanelBodyData[panelOptions[currentPanelOption].panel.id]
+                }
+            } else {
+                var content = panelOptions[currentPanelOption].panel.content
             }
         } else {
-            var content = panelOptions[currentPanelOption].content
+            if (panelOptions[currentPanelOption].id) {
+                if (sidePanelBodyData[panelOptions[currentPanelOption].id]) {
+                    var content = sidePanelBodyData[panelOptions[currentPanelOption].id]
+                }
+            } else {
+                var content = panelOptions[currentPanelOption].content
+            }
         }
 
         return (
@@ -848,7 +959,7 @@ function Home() {
             }
         })
     }
-
+    
     const webLoad = async () => {
         setLoading(false)
 
@@ -963,7 +1074,6 @@ function Home() {
             }
 
             setLoaded(true)
-
         }
 
         var tempHistory = JSON.parse(history)
@@ -984,17 +1094,68 @@ function Home() {
                 setCanGoBack(web.current.contentWindow.navigation.canGoBack)
                 setCanGoForward(web.current.contentWindow.navigation.canGoForward)
 
-                setTimeout(() => {
-                if (!web.current.contentWindow.eruda) {
-                    var erudaScript = web.current.contentWindow.document.createElement('script');
-                    erudaScript.src = "https://cdn.jsdelivr.net/gh/BinBashBanana/erudesktop@master/dist/eruda.js"
-                    web.current.contentWindow.document.head.appendChild(erudaScript) 
-                    erudaScript.onload = () => {
-                        web.current.contentWindow.eruda.initDesktop()
-                        web.current.contentWindow.eruda.hide()
-                        web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
+                //Fix youtube.com because history.replaceState() and history.pushState() dont work
+                var lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
+
+                web.current.contentWindow.setInterval(async () => {
+                    if (lastEntryURL !== web.current.contentWindow.navigation.currentEntry.url) {
+                        if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith(__uv$config.prefix)) {
+                            var url = __uv$config.decodeUrl(new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split(__uv$config.prefix)[1])
+                        } else if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith("/internal/")) {
+                            if ((new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                                var url = "view-source:" + (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                            } else {
+                                var url = "cobalt://" + new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split("/internal/")[1]
+                            }
+                        } else {
+                            var url = web.current.contentWindow.location.toString()
+                        }
+                        if (url !== currentURL) {
+                            search.current.value = url
+                            setCurrentURL(url)
+                            setLastURL(url)
+
+                            var title = web.current.contentWindow.document.title
+                            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
+                            
+                            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                                favicon = ""
+                            }
+                    
+                            if (url.startsWith("cobalt://")) {
+                                title = url.split("cobalt://")[1]
+                                title = title.charAt(0).toUpperCase() + title.slice(1)
+                            }
+                    
+                            if (favicon) {
+                                favicon = await createFavicon(favicon)
+                            }                    
+
+                            var tempHistory = JSON.parse(history)
+
+                            tempHistory.unshift({
+                                url: url,
+                                title: title,
+                                time: Date.now(),
+                                favicon: favicon
+                            })
+                
+                            setHistory(JSON.stringify(tempHistory))                
+                        }
+                        lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
                     }
-                }
+                }, 500)
+
+                setTimeout(() => {
+                    if (!web.current.contentWindow.eruda) {
+                        var erudaScript = web.current.contentWindow.document.createElement('script');
+                        erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+                        web.current.contentWindow.document.head.appendChild(erudaScript) 
+                        erudaScript.onload = () => {
+                            web.current.contentWindow.eruda.init()
+                            web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
+                        }
+                    }
                 }, 1)
 
                 if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
@@ -1094,10 +1255,10 @@ function Home() {
     const toggleDevtools = () => {
         if (!web.current.contentWindow.eruda) {
             var erudaScript = web.current.contentWindow.document.createElement('script');
-            erudaScript.src = "https://cdn.jsdelivr.net/gh/BinBashBanana/erudesktop@master/dist/eruda.js"
+            erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
             web.current.contentWindow.document.body.append(erudaScript) 
             erudaScript.onload = () => {
-                web.current.contentWindow.eruda.initDesktop()
+                web.current.contentWindow.eruda.init()
                 web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
             }
 
@@ -1173,15 +1334,28 @@ function Home() {
     }
 
     React.useEffect(() => {
-        if (panelOptions[currentPanelOption].script && sidePanelBody.current) {            
-            setTimeout(() => {
-                try {
-                    Function("return " + panelOptions[currentPanelOption].script)()
-                } catch(e) {
-                    console.error("Error is side panel script")
-                    console.error(e)
-                }
-            })
+        if (panelOptions[currentPanelOption].panel) {
+            if (panelOptions[currentPanelOption].panel.script && sidePanelBody.current) {            
+                setTimeout(() => {
+                    try {
+                        eval(panelOptions[currentPanelOption].panel.script)
+                    } catch(e) {
+                        console.error("Error is side panel script")
+                        console.error(e)
+                    }
+                })
+            }
+        } else {
+            if (panelOptions[currentPanelOption].script && sidePanelBody.current) {            
+                setTimeout(() => {
+                    try {
+                        eval(panelOptions[currentPanelOption].script)
+                    } catch(e) {
+                        console.error("Error is side panel script")
+                        console.error(e)
+                    }
+                })
+            }
         }
     }, [currentPanelOption])
 
@@ -1205,6 +1379,7 @@ function Home() {
             "searchEngine": searchEngine,
             "getSuggestions": getSuggestions,
             "sidePanelBodyData": sidePanelBodyData,
+            "mime": mime,
             "setSidePanelBody": (id, value) => {
                 if (id && value) {
                     setSidePanelBodyData(sidePanelBodyData => ({

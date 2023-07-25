@@ -1,6 +1,6 @@
 {
     "name": "cobalt",
-    "version": "1.0",
+    "version": "1.1",
     "description": "A new minimal yet powerful proxy site, built for both users and developers.",
     "repository": "https://github.com/Cobalt-Web/Cobalt.git",
     "license": "MIT",
@@ -16,6 +16,7 @@
         "chalk": "^5.2.0",
         "clsx": "^1.2.1",
         "http-server": "^14.1.1",
+        "mime-types": "^2.1.35",
         "random-seed": "^0.3.0",
         "react-router-dom": "^6.13.0",
         "vite-plugin-minify": "^1.5.2",

@@ -6,7 +6,7 @@ body[data-border-radius=default] {
 }
 
 body[data-border-radius=round] {
-    --border-radius: 30px;
+    --border-radius: 18px;
     --border-radius-secondary: 18px;
     --border-radius-round: 100px;
     --border-radius-circle: 100%;

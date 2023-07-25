@@ -62,7 +62,7 @@ body {
     --cobalt2-theme: #193549;
     --rose-pine-theme: #252239;
     --tokyo-night-theme: #3d59a1;
-    --immortal-theme: #155e75;
+    --immortal-theme: #1e293b;
     --baja-blast-theme: #225450;
     --vs-code-theme: #0078d4;
     --noctura-theme: #4d008c;
@@ -612,11 +612,15 @@ body[data-appearance=tokyo-night] {
 }
 
 body[data-appearance=immortal] {
-    --background: #121212;
-    --primary: #155e75;
+    --background: linear-gradient(to right, rgba(01,06,15,1) 21%, rgba(01,21,49,1) 97%);
+    --primary: #1e293b;
     --text: white;
     --text-inverse: white;
     --font: "Noto Sans";
+}
+
+body[data-appearance=immortal] .panel {
+    background: rgba(01,21,49,1);
 }
 
 body[data-appearance=baja-blast] {
