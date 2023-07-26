@@ -2,7 +2,7 @@
 <img height="150px" src="https://raw.githubusercontent.com/Cobalt-Web/Cobalt/main/src/assets/logo.svg">
 <h1>Cobalt</h1>
 <h3>A new minimal yet powerful proxy site, built for both users and developers.</h3>
-<p>View the censored web like never before with this new web proxy service made in React supporting many sites. Entry for <a href="https://github.com/titaniumnetwork-dev">TN</a>'s 2023 Proxathon.</p>
+<p>View the censored web like never before with this new web proxy service made in React supporting many sites. Third place winner for <a href="https://github.com/titaniumnetwork-dev">TN</a>'s 2023 Proxathon.</p>
 </div>
 
 <p align="center">
