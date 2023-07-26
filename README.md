@@ -68,6 +68,8 @@ I will continue to work on Cobalt, and hopefully I can achive everything I want 
 Overall I think it turned out very well and if I was to choose a web proxy to use, I would choose Cobalt!
 
 ## To Do
+- [ ] Reading mode extension
+- [ ] Popup for how to use Cobalt on first load
 - [ ] Keyboard shortcuts (reload, back, forward, favorite)
 - [ ] Have real components and not everything in one file
 - [ ] Blocklist with custom bloacked page

@@ -1,6 +1,27 @@
 body {
     margin: 0;
     background: var(--background);
+    --panel-width: 0px;
+}
+
+body[data-panel=true] .web {
+   width: min(calc(100% - var(--panel-width)), calc(100% - 22rem)) !important;
+}
+
+body[data-panel=true] {
+    --panel-width: 352px;
+}
+
+body[data-panel=false] {
+    --panel-width: 0px !important;
+}
+
+body:not([data-panel]) {
+    --panel-width: 0px !important;
+}
+
+body[data-panel-resizing=true] .web {
+    transition: none !important;
 }
 
 body * {
@@ -117,17 +138,19 @@ body::-webkit-scrollbar-thumb {
     top: 3rem;
     bottom: 0;
     right: 0;
-    width: 22rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translateX(22rem);
     transition: transform 100ms;
+    max-width: calc(100% - 8rem);
+    min-width: 22rem;
+    width: var(--panel-width);
 }
 
 .sidePanel {
     background: var(--primary);
-    width: 20rem;
+    width: calc(100% - 2rem);
     height: calc(100% - 2rem);
     border-radius: var(--border-radius);
 }
@@ -135,15 +158,15 @@ body::-webkit-scrollbar-thumb {
 .web {
     position: fixed;
     top: 3rem;
-    right: 0;
     left: 0;
     bottom: 0;
-    width: 100%;
     height: calc(100% - 3rem);
     border: none;
     background: var(--background);
     user-select: none;
     transition: width 100ms, right 100ms;
+    width: calc(100% - var(--panel-width));
+    min-width: 8rem;
 }
 
 .suggestions {
@@ -218,7 +241,7 @@ body::-webkit-scrollbar-thumb {
 .sidePanelItem {
     height: 40px;
     border-radius: var(--border-radius);
-    width: 60%;
+    width: min(60%, 22rem);
     background: var(--background);
     cursor: pointer;
     display: flex;
@@ -672,4 +695,21 @@ body::-webkit-scrollbar-thumb {
     padding: 0.25rem 0.5rem;
     font-size: 0.85rem;
     user-select: none;
+}
+
+.resizePanel {
+    width: 1rem;
+    cursor: w-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.resizePanel svg {
+    transform: rotate(90deg);
 }

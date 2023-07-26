@@ -10,6 +10,7 @@ import StarIcon from '@mui/icons-material/Star';
 import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CodeIcon from '@mui/icons-material/Code';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { ReactComponent as DockSVG } from "../assets/dock-to-left-filled.svg";
 import HomeIcon from '@mui/icons-material/Home';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -18,13 +19,14 @@ import clsx from "clsx";
 import { bareServerURL } from "../consts.jsx";
 import Obfuscate from "../components/obfuscate.jsx"
 import Head from "../components/head.jsx"
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory } from "../settings.jsx";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory, useLocalPanelWidth } from "../settings.jsx";
 import Editor from '@monaco-editor/react';
 import mime from 'mime-types';
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
     const web = React.useRef();
+    const panel = React.useRef();
     const search = React.useRef();
     const [ lastURL, setLastURL] = React.useState("");
     var homeURL = (localStorage.getItem("homeURL") || "cobalt://home");
@@ -204,6 +206,14 @@ function Home() {
     }))
     const [ localFavorites, setLocalFavorites ] = useLocalFavorites();
     const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions.concat(extensions.filter(item => item.instaled && item.panel)));
+    const [ localPanelWidth, setLocalPanelWidth ] = useLocalPanelWidth();
+    window.draggingPanel = false
+    window.panelLeft = ""
+    window.originalPanelWidth = ""
+
+    React.useEffect(() => {
+        window.document.body.style.setProperty("--panel-width", localPanelWidth)
+    }, [])
 
     React.useEffect(() => {
         setPanelOptions(defaultPanelOptions.concat(extensions.filter(item => item.installed && item.panel)))
@@ -1094,6 +1104,22 @@ function Home() {
                 setCanGoBack(web.current.contentWindow.navigation.canGoBack)
                 setCanGoForward(web.current.contentWindow.navigation.canGoForward)
 
+                const webResizeMouseMove = (e) => {
+                    if (parent.draggingPanel) {
+                        var newWidth = parent.originalPanelWidth + (parent.panelLeft - e.clientX) + "px"
+                        localStorage.setItem("panelWidth", newWidth)
+                        parent.document.body.style.setProperty("--panel-width", newWidth)
+                    }
+                }
+            
+                const webResizeMouseUp = () => {
+                    parent.document.body.removeAttribute("data-panel-resizing")
+                    parent.draggingPanel = false
+                }
+
+                web.current.contentWindow.addEventListener("mousemove", webResizeMouseMove)
+                web.current.contentWindow.addEventListener("mouseup", webResizeMouseUp)
+
                 //Fix youtube.com because history.replaceState() and history.pushState() dont work
                 var lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
 
@@ -1440,6 +1466,29 @@ function Home() {
         window.Cobalt.navigate = searchURL
     }, [searchEngine])
 
+    const resizePanelMouseDown = (e) => {
+        window.draggingPanel = true
+        window.panelLeft = e.clientX
+        window.originalPanelWidth = parseFloat(getComputedStyle(panel.current).width)
+        window.document.body.setAttribute("data-panel-resizing", "true")
+    }
+
+    const resizeMouseMove = (e) => {
+        if (window.draggingPanel) {
+            var newWidth = window.originalPanelWidth + (window.panelLeft - e.clientX) + "px"
+            localStorage.setItem("panelWidth", newWidth)
+            window.document.body.style.setProperty("--panel-width", newWidth)
+        }
+    }
+
+    const resizeMouseUp = () => {
+        window.document.body.removeAttribute("data-panel-resizing")
+        window.draggingPanel = false
+    }
+
+    window.addEventListener("mousemove", resizeMouseMove)
+    window.addEventListener("mouseup", resizeMouseUp)
+
     return (
         <>
             <Head />
@@ -1494,7 +1543,11 @@ function Home() {
                 </div>
             </div>
             <iframe ref={web} onLoad={webLoad} className="web" title="Web"></iframe>
-            <div className="panel">
+            <div className="panel" ref={panel}>
+                <div onMouseDown={resizePanelMouseDown} className="resizePanel">
+                    <DragHandleIcon fontSize="small" />
+                </div>
+
                 <div className="sidePanel">
                     <div className="sidePanelNav" ref={sidePanelNav}>
                         <div className="sidePanelItem" tabIndex="0" onClick={toggleSidePanelNav} onBlur={sidePanelNavBlur}>
@@ -1516,14 +1569,14 @@ function Home() {
                     </div>
                     <div ref={sidePanelBody} className="sidePanelBody">
                         <div>
-                        {{ history: <HistoryComponent />,
-                        themes: <ThemesComponent />,
-                        cloaking: <CloakingComponent />,
-                        customStyle: <CustomStyleComponent />,
-                        settings: <SettingsComponent />,
-                        favorites: <FavoritesComponent />,
-                        extensions: <ExtensionsComponent />,
-                        }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
+                            {{ history: <HistoryComponent />,
+                            themes: <ThemesComponent />,
+                            cloaking: <CloakingComponent />,
+                            customStyle: <CustomStyleComponent />,
+                            settings: <SettingsComponent />,
+                            favorites: <FavoritesComponent />,
+                            extensions: <ExtensionsComponent />,
+                            }[panelOptions[currentPanelOption].component] || <SidePanelMainComponent />}
                         </div>
                     </div>
                 </div>
