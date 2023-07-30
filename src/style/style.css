@@ -4,15 +4,15 @@ body {
     --panel-width: 0px;
 }
 
-body[data-panel=true] .web {
-   width: min(calc(100% - var(--panel-width)), calc(100% - 22rem)) !important;
+body[data-panel="true"] .web {
+    width: min(calc(100% - var(--panel-width)), calc(100% - 22rem)) !important;
 }
 
-body[data-panel=true] {
+body[data-panel="true"] {
     --panel-width: 352px;
 }
 
-body[data-panel=false] {
+body[data-panel="false"] {
     --panel-width: 0px !important;
 }
 
@@ -20,7 +20,7 @@ body:not([data-panel]) {
     --panel-width: 0px !important;
 }
 
-body[data-panel-resizing=true] .web {
+body[data-panel-resizing="true"] .web {
     transition: none !important;
 }
 
@@ -47,7 +47,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-    background: #5865F2;
+    background: #5865f2;
 }
 
 .nav {
@@ -82,8 +82,9 @@ body::-webkit-scrollbar-thumb {
     color: var(--text-inverse);
 }
 
-.omnibox[data-suggestions=true] .search {
-    border-radius: var(--border-radius-secondary) var(--border-radius-secondary) 0 0;
+.omnibox[data-suggestions="true"] .search {
+    border-radius: var(--border-radius-secondary) var(--border-radius-secondary)
+        0 0;
 }
 
 .searchIcon {
@@ -105,12 +106,12 @@ body::-webkit-scrollbar-thumb {
     gap: 0.25rem;
 }
 
-.controls[data-side=left] {
+.controls[data-side="left"] {
     margin-left: 0.4rem;
     margin-right: 0.5rem;
 }
 
-.controls[data-side=right] {
+.controls[data-side="right"] {
     margin-left: 0.5rem;
     margin-right: 0.4rem;
 }
@@ -126,7 +127,7 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
 }
 
-.controlsButton[data-disabled=true] {
+.controlsButton[data-disabled="true"] {
     opacity: 0.5;
     cursor: default;
     pointer-events: none;
@@ -175,14 +176,15 @@ body::-webkit-scrollbar-thumb {
     right: 0;
     left: 0;
     z-index: 9;
-    border-radius: 0 0 var(--border-radius-secondary) var(--border-radius-secondary);
+    border-radius: 0 0 var(--border-radius-secondary)
+        var(--border-radius-secondary);
     background: var(--background);
     box-shadow: 0 1px 2px 0 var(--background);
     display: none;
 }
 
 .suggestions::before {
-    content: '';
+    content: "";
     position: absolute;
     background: var(--primary);
     height: 4px;
@@ -191,7 +193,7 @@ body::-webkit-scrollbar-thumb {
     pointer-events: none;
 }
 
-.omnibox[data-suggestions=true] .suggestions {
+.omnibox[data-suggestions="true"] .suggestions {
     display: inherit;
 }
 
@@ -211,7 +213,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .suggestion:last-child {
-    border-radius: 0 0 var(--border-radius-secondary) var(--border-radius-secondary);
+    border-radius: 0 0 var(--border-radius-secondary)
+        var(--border-radius-secondary);
 }
 
 .suggestionIcon {
@@ -228,7 +231,12 @@ body::-webkit-scrollbar-thumb {
     fill: currentColor;
 }
 
-.suggestionIcon .MuiSvgIcon-root path, .sidePanelClose .MuiSvgIcon-root path, .favoriteIcon .MuiSvgIcon-root path, .historyPanelFaviconGlobe .MuiSvgIcon-root path, .historyPanelRemove .MuiSvgIcon-root path, .sidePanelThemePreviewDefault .MuiSvgIcon-root path {
+.suggestionIcon .MuiSvgIcon-root path,
+.sidePanelClose .MuiSvgIcon-root path,
+.favoriteIcon .MuiSvgIcon-root path,
+.historyPanelFaviconGlobe .MuiSvgIcon-root path,
+.historyPanelRemove .MuiSvgIcon-root path,
+.sidePanelThemePreviewDefault .MuiSvgIcon-root path {
     color: var(--text-inverse);
 }
 
@@ -305,7 +313,7 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
 }
 
-.sidePanelNav[data-open=true] .sidePanelItem {
+.sidePanelNav[data-open="true"] .sidePanelItem {
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
@@ -334,7 +342,7 @@ body::-webkit-scrollbar-thumb {
     user-select: none;
 }
 
-.sidePanelNav[data-open=true] .sidePanelItems {
+.sidePanelNav[data-open="true"] .sidePanelItems {
     display: flex;
 }
 
@@ -493,7 +501,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent!important;
+    background: transparent !important;
     border: none;
 }
 
@@ -642,7 +650,9 @@ body::-webkit-scrollbar-thumb {
     opacity: 0.7;
 }
 
-.sidePanelExtensionName, .sidePanelExtensionAuthor, .sidePanelExtensionDescription {
+.sidePanelExtensionName,
+.sidePanelExtensionAuthor,
+.sidePanelExtensionDescription {
     user-select: none;
 }
 

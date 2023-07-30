@@ -1,8 +1,8 @@
-body[data-panel=true] .web {
+body[data-panel="true"] .web {
     right: 22rem;
     width: calc(100% - 22rem);
 }
 
-body[data-panel=true] .panel {
+body[data-panel="true"] .panel {
     transform: translateX(0);
 }

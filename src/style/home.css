@@ -45,7 +45,7 @@
 
 .homeSearchIcon {
     background: var(--background);
-    height: calc(100%/1.5);
+    height: calc(100% / 1.5);
     position: absolute;
     top: 7.3375px;
     left: 7.3375px;

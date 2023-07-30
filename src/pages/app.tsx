@@ -18,48 +18,48 @@ function App() {
             <ObfuscateLayout />
             <Routes>
                 <Route
-                  path="/"
-                  element={
-                    <Suspense fallback={<></>}>
-                      <Home />
-                    </Suspense>
-                  }
+                    path="/"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <Home />
+                        </Suspense>
+                    }
                 />
                 <Route
-                  path="/internal/home"
-                  element={
-                    <Suspense fallback={<></>}>
-                      <InternalHome />
-                    </Suspense>
-                  }
+                    path="/internal/home"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <InternalHome />
+                        </Suspense>
+                    }
                 />
                 <Route
-                  path="/internal/blank"
-                  element={
-                    <Suspense fallback={<></>}>
-                      <InternalBlank />
-                    </Suspense>
-                  }
+                    path="/internal/blank"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <InternalBlank />
+                        </Suspense>
+                    }
                 />
                 <Route
-                  path="/internal/viewsource"
-                  element={
-                    <Suspense fallback={<></>}>
-                      <InternalViewSource />
-                    </Suspense>
-                  }
+                    path="/internal/viewsource"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <InternalViewSource />
+                        </Suspense>
+                    }
                 />
                 <Route
-                  path="*"
-                  element={
-                    <Suspense fallback={<></>}>
-                      <Error />
-                    </Suspense>
-                  }
+                    path="*"
+                    element={
+                        <Suspense fallback={<></>}>
+                            <Error />
+                        </Suspense>
+                    }
                 />
             </Routes>
         </>
-    )
+    );
 }
 
 export default App;

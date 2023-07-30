@@ -10,26 +10,26 @@ const indexURL = new URL("index.html", buildURL);
  * Paths relative to buildURL
  */
 const files = [
-  "internal/home.html",
-  "internal/blank.html",
-  "internal/viewsource.html",
-  // for static file hosts
-  "404.html",
+    "internal/home.html",
+    "internal/blank.html",
+    "internal/viewsource.html",
+    // for static file hosts
+    "404.html",
 ];
 
 for (const file of files) {
-  const output = new URL(file, buildURL);
+    const output = new URL(file, buildURL);
 
-  try {
-    await mkdir(new URL(".", output), { recursive: true });
-  } catch (err) {
-    if (err?.code !== "EEXIST") throw err;
-  }
+    try {
+        await mkdir(new URL(".", output), { recursive: true });
+    } catch (err) {
+        if (err?.code !== "EEXIST") throw err;
+    }
 
-  try {
-    await copyFile(indexURL, output);
-    console.log(output.href);
-  } catch (err) {
-    if (err?.code !== "EEXIST") throw err;
-  }
+    try {
+        await copyFile(indexURL, output);
+        console.log(output.href);
+    } catch (err) {
+        if (err?.code !== "EEXIST") throw err;
+    }
 }

@@ -8,7 +8,7 @@ body {
     --swamp-theme: #15fc95;
     --squid-theme: #00b0f4;
     --lemon-theme: #feeb01;
-    --lime-theme: #57F287;
+    --lime-theme: #57f287;
     --shadow-theme: white;
     --nord-theme: #3b4252;
     --violet-theme: #592f7f;
@@ -54,7 +54,19 @@ body {
     --echo-theme: #4caf50;
     --kahoot-theme: white;
     --booklet-theme: #9a49aa;
-    --pride-theme: linear-gradient(180deg, #FE0000 16.66%, #FD8C00 16.66%, 33.32%, #FFE500 33.32%, 49.98%, #119F0B 49.98%, 66.64%, #0644B3 66.64%, 83.3%, #C22EDC 83.3%);
+    --pride-theme: linear-gradient(
+        180deg,
+        #fe0000 16.66%,
+        #fd8c00 16.66%,
+        33.32%,
+        #ffe500 33.32%,
+        49.98%,
+        #119f0b 49.98%,
+        66.64%,
+        #0644b3 66.64%,
+        83.3%,
+        #c22edc 83.3%
+    );
     --catppuccin-latte-theme: #4c4f69;
     --catppuccin-frappe-theme: #c6d0f5;
     --catppuccin-macchiato-theme: #cad3f5;
@@ -67,7 +79,7 @@ body {
     --vs-code-theme: #0078d4;
     --noctura-theme: #4d008c;
     --bubblegum-theme: white;
-    --flower-theme: linear-gradient(90deg, #FBAB7E, #F7CE68);
+    --flower-theme: linear-gradient(90deg, #fbab7e, #f7ce68);
     --sylvie-theme: linear-gradient(to right, #4acfff, #8ae0ff);
     --riftriot-theme: #3e008f;
     --adv3-theme: #5b8257;
@@ -77,14 +89,14 @@ body {
     --shadow2-theme: #10151e;
     --flowos-theme: #181926;
     --discord-theme: #5865f2;
-    --ludicrous-theme: linear-gradient(90deg,#0c2f4b,#030b11);
-    --mercury-workshop-theme: #5BCEFA;
+    --ludicrous-theme: linear-gradient(90deg, #0c2f4b, #030b11);
+    --mercury-workshop-theme: #5bcefa;
     --airtag-theme: #222;
     --retron-theme: linear-gradient(to right, #ff8200, #ffba01);
 }
 
 @media (prefers-color-scheme: dark) {
-    body[data-appearance=default] {
+    body[data-appearance="default"] {
         --background: #030303;
         --primary: #0047ab;
         --text: white;
@@ -94,16 +106,16 @@ body {
 }
 
 @media (prefers-color-scheme: light) {
-    body[data-appearance=default] {
+    body[data-appearance="default"] {
         --background: #d8dee9;
         --primary: #292353;
         --text: black;
         --text-inverse: white;
-        --font: "Noto Sans";    
+        --font: "Noto Sans";
     }
 }
 
-body[data-appearance=dark] {
+body[data-appearance="dark"] {
     --background: #030303;
     --primary: #0047ab;
     --text: white;
@@ -111,7 +123,7 @@ body[data-appearance=dark] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=light] {
+body[data-appearance="light"] {
     --background: #d8dee9;
     --primary: #292353;
     --text: black;
@@ -119,7 +131,7 @@ body[data-appearance=light] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=ruby] {
+body[data-appearance="ruby"] {
     --background: #030303;
     --primary: #c01c73;
     --text: white;
@@ -127,7 +139,7 @@ body[data-appearance=ruby] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=frog] {
+body[data-appearance="frog"] {
     --background: #121212;
     --primary: #535323;
     --text: white;
@@ -135,7 +147,7 @@ body[data-appearance=frog] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=space] {
+body[data-appearance="space"] {
     --background: #181c19;
     --primary: #7f00ff;
     --text: white;
@@ -143,7 +155,7 @@ body[data-appearance=space] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=molten] {
+body[data-appearance="molten"] {
     --background: #121212;
     --primary: #ff6868;
     --text: white;
@@ -151,7 +163,7 @@ body[data-appearance=molten] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=swamp] {
+body[data-appearance="swamp"] {
     --background: #006072;
     --primary: #15fc95;
     --text: white;
@@ -159,7 +171,7 @@ body[data-appearance=swamp] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=squid] {
+body[data-appearance="squid"] {
     --background: black;
     --primary: #00b0f4;
     --text: white;
@@ -167,7 +179,7 @@ body[data-appearance=squid] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=lemon] {
+body[data-appearance="lemon"] {
     --background: #222222;
     --primary: #feeb01;
     --text: white;
@@ -175,15 +187,15 @@ body[data-appearance=lemon] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=lime] {
+body[data-appearance="lime"] {
     --background: #030303;
-    --primary: #57F287;
+    --primary: #57f287;
     --text: white;
     --text-inverse: black;
     --font: "Noto Sans";
 }
 
-body[data-appearance=shadow] {
+body[data-appearance="shadow"] {
     --background: black;
     --primary: white;
     --text: white;
@@ -191,7 +203,7 @@ body[data-appearance=shadow] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=nord] {
+body[data-appearance="nord"] {
     --background: #242933;
     --primary: #3b4252;
     --text: white;
@@ -199,7 +211,7 @@ body[data-appearance=nord] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=violet] {
+body[data-appearance="violet"] {
     --background: #0d0d0d;
     --primary: #592f7f;
     --text: white;
@@ -207,7 +219,7 @@ body[data-appearance=violet] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=online] {
+body[data-appearance="online"] {
     --background: #1c1b29;
     --primary: #43b581;
     --text: #43b581;
@@ -215,7 +227,7 @@ body[data-appearance=online] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=dune] {
+body[data-appearance="dune"] {
     --background: #d2c59d;
     --primary: #7d7259;
     --text: #282425;
@@ -223,7 +235,7 @@ body[data-appearance=dune] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=dracula] {
+body[data-appearance="dracula"] {
     --background: #282a36;
     --primary: #383a59;
     --text: #50fa7b;
@@ -231,7 +243,7 @@ body[data-appearance=dracula] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=tiktok] {
+body[data-appearance="tiktok"] {
     --background: #121212;
     --primary: #ff3b5c;
     --text: white;
@@ -239,7 +251,7 @@ body[data-appearance=tiktok] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=fracital] {
+body[data-appearance="fracital"] {
     --background: #222;
     --primary: #333;
     --text: #f971e4;
@@ -247,7 +259,7 @@ body[data-appearance=fracital] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=nebula] {
+body[data-appearance="nebula"] {
     --background: #191724;
     --primary: #7967dd;
     --text: #e0def4;
@@ -255,7 +267,7 @@ body[data-appearance=nebula] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=tsunami] {
+body[data-appearance="tsunami"] {
     --background: #121212;
     --primary: #2493ff;
     --text: white;
@@ -263,7 +275,7 @@ body[data-appearance=tsunami] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=metallic] {
+body[data-appearance="metallic"] {
     --background: #171717;
     --primary: #004953;
     --text: white;
@@ -271,7 +283,7 @@ body[data-appearance=metallic] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=ice] {
+body[data-appearance="ice"] {
     --background: #e8e8ea;
     --primary: #70aecb;
     --text: black;
@@ -279,7 +291,7 @@ body[data-appearance=ice] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=chocolate] {
+body[data-appearance="chocolate"] {
     --background: #28201b;
     --primary: #684d43;
     --text: white;
@@ -287,7 +299,7 @@ body[data-appearance=chocolate] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=campfire] {
+body[data-appearance="campfire"] {
     --background: #333538;
     --primary: #f17755;
     --text: white;
@@ -295,7 +307,7 @@ body[data-appearance=campfire] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=elixir] {
+body[data-appearance="elixir"] {
     --background: #121037;
     --primary: #fb6f18;
     --text: white;
@@ -303,7 +315,7 @@ body[data-appearance=elixir] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=happiness] {
+body[data-appearance="happiness"] {
     --background: #c4c3bb;
     --primary: #a7022e;
     --text: black;
@@ -311,7 +323,7 @@ body[data-appearance=happiness] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=robot] {
+body[data-appearance="robot"] {
     --background: #22262a;
     --primary: #6d767e;
     --text: white;
@@ -319,7 +331,7 @@ body[data-appearance=robot] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=butter] {
+body[data-appearance="butter"] {
     --background: #f7d5c5;
     --primary: #e79974;
     --text: black;
@@ -327,7 +339,7 @@ body[data-appearance=butter] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=chrome] {
+body[data-appearance="chrome"] {
     --background: #3c3c3c;
     --primary: #2a2a2a;
     --text: white;
@@ -335,7 +347,7 @@ body[data-appearance=chrome] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=classic] {
+body[data-appearance="classic"] {
     --background: #121212;
     --primary: #292353;
     --text: white;
@@ -343,7 +355,7 @@ body[data-appearance=classic] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=sun] {
+body[data-appearance="sun"] {
     --background: #ffdfb7;
     --primary: #ffa534;
     --text: black;
@@ -351,7 +363,7 @@ body[data-appearance=sun] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=alice] {
+body[data-appearance="alice"] {
     --background: #1b1b1b;
     --primary: black;
     --text: #ff00ca;
@@ -359,7 +371,7 @@ body[data-appearance=alice] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=plum] {
+body[data-appearance="plum"] {
     --background: #6e4b74;
     --primary: #343061;
     --text: white;
@@ -367,7 +379,7 @@ body[data-appearance=plum] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=sky] {
+body[data-appearance="sky"] {
     --background: #12c2e9;
     --primary: #0e9bba;
     --text: black;
@@ -375,7 +387,7 @@ body[data-appearance=sky] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=matrix] {
+body[data-appearance="matrix"] {
     --background: black;
     --primary: #00ff38;
     --text: #00ff38;
@@ -383,7 +395,7 @@ body[data-appearance=matrix] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=gruvbox] {
+body[data-appearance="gruvbox"] {
     --background: #282828;
     --primary: #000000;
     --text: #fdf4c1;
@@ -391,7 +403,7 @@ body[data-appearance=gruvbox] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=quantum] {
+body[data-appearance="quantum"] {
     --background: #ffd3ae;
     --primary: white;
     --text: black;
@@ -399,7 +411,7 @@ body[data-appearance=quantum] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=manjaro] {
+body[data-appearance="manjaro"] {
     --background: #2d3134;
     --primary: #202328;
     --text: #b3d9ff;
@@ -407,7 +419,7 @@ body[data-appearance=manjaro] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=leafy] {
+body[data-appearance="leafy"] {
     --background: #91d1a7;
     --primary: #daeedf;
     --text: #084015;
@@ -415,7 +427,7 @@ body[data-appearance=leafy] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=blackpink] {
+body[data-appearance="blackpink"] {
     --background: #000000;
     --primary: #f8708c;
     --text: #f8708c;
@@ -423,7 +435,7 @@ body[data-appearance=blackpink] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=atom] {
+body[data-appearance="atom"] {
     --background: #1d232a;
     --primary: #a6adba;
     --text: var(--primary);
@@ -431,7 +443,7 @@ body[data-appearance=atom] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=retro] {
+body[data-appearance="retro"] {
     --background: #000000;
     --primary: #009600;
     --text: white;
@@ -439,7 +451,7 @@ body[data-appearance=retro] {
     --font: "Ubuntu Mono";
 }
 
-body[data-appearance=eaglenet] {
+body[data-appearance="eaglenet"] {
     --background: #9824d3;
     --primary: #4d004d;
     --text: white;
@@ -447,7 +459,7 @@ body[data-appearance=eaglenet] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=honey] {
+body[data-appearance="honey"] {
     --background: #ffa15f;
     --primary: #e66102;
     --text: black;
@@ -455,7 +467,7 @@ body[data-appearance=honey] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=pod] {
+body[data-appearance="pod"] {
     --background: #161616;
     --primary: #ffb703;
     --text: white;
@@ -463,7 +475,7 @@ body[data-appearance=pod] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=flamingo] {
+body[data-appearance="flamingo"] {
     --background: #fcacd0;
     --primary: white;
     --text: black;
@@ -471,7 +483,7 @@ body[data-appearance=flamingo] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=magma] {
+body[data-appearance="magma"] {
     --background: #1d0003;
     --primary: #ff001f;
     --text: white;
@@ -479,7 +491,7 @@ body[data-appearance=magma] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=hacker] {
+body[data-appearance="hacker"] {
     --background: #090909;
     --primary: #232323;
     --text: #7de38d;
@@ -487,7 +499,7 @@ body[data-appearance=hacker] {
     --font: "Ubuntu Mono";
 }
 
-body[data-appearance=jungle] {
+body[data-appearance="jungle"] {
     --background: #006400;
     --primary: #38b000;
     --text: white;
@@ -495,7 +507,7 @@ body[data-appearance=jungle] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=simple] {
+body[data-appearance="simple"] {
     --background: #18191c;
     --primary: #292b2f;
     --text: white;
@@ -503,7 +515,7 @@ body[data-appearance=simple] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=corn] {
+body[data-appearance="corn"] {
     --background: black;
     --primary: #ff9000;
     --text: white;
@@ -511,7 +523,7 @@ body[data-appearance=corn] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=nebelung] {
+body[data-appearance="nebelung"] {
     --background: #dabc9a;
     --primary: #190f05;
     --text: #190f05;
@@ -519,7 +531,7 @@ body[data-appearance=nebelung] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=echo] {
+body[data-appearance="echo"] {
     --background: #1c1c1c;
     --primary: #4caf50;
     --text: white;
@@ -527,7 +539,7 @@ body[data-appearance=echo] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=kahoot] {
+body[data-appearance="kahoot"] {
     --background: #381272;
     --primary: white;
     --text: white;
@@ -535,7 +547,7 @@ body[data-appearance=kahoot] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=booklet] {
+body[data-appearance="booklet"] {
     --background: #0bc2cf;
     --primary: #9a49aa;
     --text: black;
@@ -543,7 +555,7 @@ body[data-appearance=booklet] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=pride] {
+body[data-appearance="pride"] {
     --background: #000000c4;
     --primary: #ffffff;
     --text: white;
@@ -551,11 +563,24 @@ body[data-appearance=pride] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=pride] .web {
-    background: linear-gradient(180deg, #FE0000 16.66%, #FD8C00 16.66%, 33.32%, #FFE500 33.32%, 49.98%, #119F0B 49.98%, 66.64%, #0644B3 66.64%, 83.3%, #C22EDC 83.3%), #000000c4 !important;
+body[data-appearance="pride"] .web {
+    background: linear-gradient(
+            180deg,
+            #fe0000 16.66%,
+            #fd8c00 16.66%,
+            33.32%,
+            #ffe500 33.32%,
+            49.98%,
+            #119f0b 49.98%,
+            66.64%,
+            #0644b3 66.64%,
+            83.3%,
+            #c22edc 83.3%
+        ),
+        #000000c4 !important;
 }
 
-body[data-appearance=catppuccin-latte] {
+body[data-appearance="catppuccin-latte"] {
     --background: #eff1f5;
     --primary: var(--text);
     --text: #4c4f69;
@@ -563,7 +588,7 @@ body[data-appearance=catppuccin-latte] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=catppuccin-frappe] {
+body[data-appearance="catppuccin-frappe"] {
     --background: #303446;
     --primary: var(--text);
     --text: #c6d0f5;
@@ -571,7 +596,7 @@ body[data-appearance=catppuccin-frappe] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=catppuccin-macchiato] {
+body[data-appearance="catppuccin-macchiato"] {
     --background: #24273a;
     --primary: var(--text);
     --text: #cad3f5;
@@ -579,7 +604,7 @@ body[data-appearance=catppuccin-macchiato] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=catppuccin-mocha] {
+body[data-appearance="catppuccin-mocha"] {
     --background: #1e1e2e;
     --primary: var(--text);
     --text: #cdd6f4;
@@ -587,7 +612,7 @@ body[data-appearance=catppuccin-mocha] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=cobalt2] {
+body[data-appearance="cobalt2"] {
     --background: #15232d;
     --primary: #193549;
     --text: #e8e8e8;
@@ -595,7 +620,7 @@ body[data-appearance=cobalt2] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=rose-pine] {
+body[data-appearance="rose-pine"] {
     --background: #1a1825;
     --primary: #252239;
     --text: #deddf4;
@@ -603,7 +628,7 @@ body[data-appearance=rose-pine] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=tokyo-night] {
+body[data-appearance="tokyo-night"] {
     --background: #1a1b26;
     --primary: #3d59a1;
     --text: #787c99;
@@ -611,19 +636,23 @@ body[data-appearance=tokyo-night] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=immortal] {
-    --background: linear-gradient(to right, rgba(01,06,15,1) 21%, rgba(01,21,49,1) 97%);
+body[data-appearance="immortal"] {
+    --background: linear-gradient(
+        to right,
+        rgba(01, 06, 15, 1) 21%,
+        rgba(01, 21, 49, 1) 97%
+    );
     --primary: #1e293b;
     --text: white;
     --text-inverse: white;
     --font: "Noto Sans";
 }
 
-body[data-appearance=immortal] .panel {
-    background: rgba(01,21,49,1);
+body[data-appearance="immortal"] .panel {
+    background: rgba(01, 21, 49, 1);
 }
 
-body[data-appearance=baja-blast] {
+body[data-appearance="baja-blast"] {
     --background: #3b8680;
     --primary: #225450;
     --text: white;
@@ -631,7 +660,7 @@ body[data-appearance=baja-blast] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=vs-code] {
+body[data-appearance="vs-code"] {
     --background: #1f1f1f;
     --primary: #0078d4;
     --text: #cccccc;
@@ -639,7 +668,7 @@ body[data-appearance=vs-code] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=noctura] {
+body[data-appearance="noctura"] {
     --background: black;
     --primary: #4d008c;
     --text: white;
@@ -647,23 +676,23 @@ body[data-appearance=noctura] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=bubblegum] {
-    --background: #FF9A8B;
+body[data-appearance="bubblegum"] {
+    --background: #ff9a8b;
     --primary: white;
     --text: white;
     --text-inverse: black;
     --font: "Noto Sans";
 }
 
-body[data-appearance=flower] {
+body[data-appearance="flower"] {
     --background: #030303;
-    --primary: linear-gradient(90deg, #FBAB7E, #F7CE68);
+    --primary: linear-gradient(90deg, #fbab7e, #f7ce68);
     --text: white;
     --text-inverse: black;
     --font: "Noto Sans";
 }
 
-body[data-appearance=sylvie] {
+body[data-appearance="sylvie"] {
     --background: #030303;
     --primary: linear-gradient(to right, #4acfff, #8ae0ff);
     --text: white;
@@ -671,7 +700,7 @@ body[data-appearance=sylvie] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=riftriot] {
+body[data-appearance="riftriot"] {
     --background: #0a0017;
     --primary: #3e008f;
     --text: white;
@@ -679,7 +708,7 @@ body[data-appearance=riftriot] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=adv3] {
+body[data-appearance="adv3"] {
     --background: #030303;
     --primary: #5b8257;
     --text: white;
@@ -687,7 +716,7 @@ body[data-appearance=adv3] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=cat] {
+body[data-appearance="cat"] {
     --background: #bfbfbf;
     --primary: #4d4d4d;
     --text: #4d4d4d;
@@ -695,7 +724,7 @@ body[data-appearance=cat] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=koaku] {
+body[data-appearance="koaku"] {
     --background: #3d0c0c;
     --primary: #ff0000;
     --text: var(--primary);
@@ -703,7 +732,7 @@ body[data-appearance=koaku] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=spritz] {
+body[data-appearance="spritz"] {
     --background: #000;
     --primary: #0c1242;
     --text: white;
@@ -711,7 +740,7 @@ body[data-appearance=spritz] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=shadow2] {
+body[data-appearance="shadow2"] {
     --background: #1a1f2b;
     --primary: #10151e;
     --text: white;
@@ -719,7 +748,7 @@ body[data-appearance=shadow2] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=flowos] {
+body[data-appearance="flowos"] {
     --background: #24273a;
     --primary: #181926;
     --text: white;
@@ -727,7 +756,7 @@ body[data-appearance=flowos] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=discord] {
+body[data-appearance="discord"] {
     --background: #23272a;
     --primary: #5865f2;
     --text: white;
@@ -735,23 +764,23 @@ body[data-appearance=discord] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=ludicrous] {
+body[data-appearance="ludicrous"] {
     --background: black;
-    --primary: linear-gradient(90deg,#0c2f4b,#030b11);
+    --primary: linear-gradient(90deg, #0c2f4b, #030b11);
     --text: white;
     --text-inverse: white;
     --font: "Noto Sans";
 }
 
-body[data-appearance=mercury-workshop] {
+body[data-appearance="mercury-workshop"] {
     --background: #fff;
-    --primary: #5BCEFA;
+    --primary: #5bcefa;
     --text: black;
     --text-inverse: black;
     --font: "Noto Sans";
 }
 
-body[data-appearance=airtag] {
+body[data-appearance="airtag"] {
     --background: #285c30;
     --primary: #222;
     --text: white;
@@ -759,7 +788,7 @@ body[data-appearance=airtag] {
     --font: "Noto Sans";
 }
 
-body[data-appearance=retron] {
+body[data-appearance="retron"] {
     --background: #161616;
     --primary: linear-gradient(to right, #ff8200, #ffba01);
     --text: white;

@@ -4,10 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./pages/app.js";
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(
+    document.getElementById("root") as HTMLElement
+);
 
 root.render(
-  <BrowserRouter basename="">
-    <App />
-  </BrowserRouter>
+    <BrowserRouter basename="">
+        <App />
+    </BrowserRouter>
 );
