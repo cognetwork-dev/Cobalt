@@ -1,12 +1,13 @@
 import React from "react";
 import { BareClient } from "@tomphttp/bare-client";
-import { bareServerURL } from "../../consts.jsx";
-import Head from "../../components/head.jsx"
-import { useLocalAppearance } from "../../settings.jsx";
+import { bareServerURL } from "../../consts";
+import Head from "../../components/head"
+import { useLocalAppearance } from "../../settings";
 
 function ViewSource() {
     const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
 
+    // @ts-ignore
     window.changeTheme = (theme) => {
         setLocalAppearance(theme)
     }
@@ -22,13 +23,15 @@ function ViewSource() {
                 try {
                     const url = urlParams.get("url")
 
-                    var site = await bare.fetch(url);
+                    if (url) {
+                        var site = await bare.fetch(url);
 
-                    var code = await site.text()
+                        var code = await site.text()
 
-                    code = "<ol class='lines'>" + code.split("\n").map(item => "<li class='line'>" + item.replace(new RegExp("<", "g"), "&lt;").replace(new RegExp(">", "g") + "</li>")).join("") + "</ol>"
+                        code = "<ol class='lines'>" + code.split("\n").map(item => "<li class='line'>" + item.replace(new RegExp("<", "g"), "&lt;").replace(new RegExp(">", "g"), "&gt;")).join("") + "</ol>"
 
-                    setSource(code)
+                        setSource(code)
+                    }
                 } catch {
                     setSource("Error: Website does not exist")
                 }

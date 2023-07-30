@@ -1,16 +1,17 @@
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import Head from "../../components/head.jsx";
-import { github, discord } from "../../consts.jsx";
+import Head from "../../components/head.js";
+import { github, discord } from "../../consts";
 import "../../style/home.css";
-import Obfuscate from "../../components/obfuscate";
-import { useLocalAppearance } from "../../settings.jsx";
+import { Obfuscated } from "../../components/obfuscate";
+import { useLocalAppearance } from "../../settings";
 
 function InternalHome() {
-    const mainSearch = React.useRef()
+    const mainSearch = React.useRef<HTMLInputElement>(null)
     const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
     const [ theme, setTheme ] = React.useState(!getComputedStyle(window.document.body).getPropertyValue("--primary").startsWith("linear-gradient(") ? "var(--primary)" : getComputedStyle(window.document.body).getPropertyValue("--primary").split("linear-gradient(")[1].split(",")[1].trim()) 
 
+    // @ts-ignore
     window.changeTheme = (theme) => {
         setLocalAppearance(theme)
     }
@@ -20,11 +21,12 @@ function InternalHome() {
     }, [localAppearance])
     
     React.useEffect(() => {
-        mainSearch.current.focus()
+        mainSearch?.current?.focus()
     }, []);
 
-    const searchType = (e) =>{
+    const searchType = (e: any) =>{
         if (e.key == "Enter" && e.target.value) {
+            // @ts-ignore
             return window.parent.Cobalt.navigate(e.target.value)
         }
     }
@@ -47,7 +49,7 @@ function InternalHome() {
                 </div>
             </div>
             <div className="footer">
-                <Obfuscate>Cobalt 2023 | </Obfuscate><a target="_blank" href={discord}><Obfuscate>Discord</Obfuscate></a><Obfuscate> / </Obfuscate><a target="_blank" href={github}><Obfuscate>Source</Obfuscate></a>
+                <Obfuscated>Cobalt 2023 | </Obfuscated><a target="_blank" href={discord}><Obfuscated>Discord</Obfuscated></a><Obfuscated> / </Obfuscated><a target="_blank" href={github}><Obfuscated>Source</Obfuscated></a>
             </div>
         </>
     )

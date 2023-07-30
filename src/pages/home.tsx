@@ -16,18 +16,19 @@ import HomeIcon from '@mui/icons-material/Home';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { BareClient } from "@tomphttp/bare-client";
 import clsx from "clsx";
-import { bareServerURL } from "../consts.jsx";
-import Obfuscate from "../components/obfuscate.jsx"
-import Head from "../components/head.jsx"
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory, useLocalPanelWidth } from "../settings.jsx";
+import { bareServerURL } from "../consts.js";
+import { Obfuscated } from "../components/obfuscate.jsx"
+import Head from "../components/head.js"
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalInstalledExtensions, useLocalFavorites, useLocalBorderRadius, useLocalHistory, useLocalPanelWidth } from "../settings.js";
 import Editor from '@monaco-editor/react';
+// @ts-ignore
 import mime from 'mime-types';
 
 function Home() {
     const bare = React.useMemo(() => new BareClient(bareServerURL), []);
-    const web = React.useRef();
-    const panel = React.useRef();
-    const search = React.useRef();
+    const web = React.useRef<HTMLIFrameElement>(null);
+    const panel = React.useRef<HTMLDivElement>(null);
+    const search = React.useRef<HTMLInputElement>(null);
     const [ lastURL, setLastURL] = React.useState("");
     var homeURL = (localStorage.getItem("homeURL") || "cobalt://home");
     const [ loading, setLoading] = React.useState(false);
@@ -69,8 +70,8 @@ function Home() {
         }
     ]
     const [ currentPanelOption, setCurrentPanelOption ] = React.useState(0);
-    const sidePanelNav = React.useRef();
-    const sidePanelBody = React.useRef();
+    const sidePanelNav = React.useRef<HTMLDivElement>(null);
+    const sidePanelBody = React.useRef<HTMLDivElement>(null);
     const [ sidePanelBodyData, setSidePanelBodyData ] = React.useState({});
     const [ history, setHistory ] = useLocalHistory();
     const [ loaded, setLoaded ] = React.useState(true);
@@ -81,14 +82,16 @@ function Home() {
             author: "darkreader.org",
             description: "Dark mode for every website. Take care of your eyes, use dark theme for night and daily browsing.",
             load: `setTimeout(function() {var darkreader = Cobalt.web.current.contentWindow.document.createElement("script");darkreader.src = "https://cdn.jsdelivr.net/npm/darkreader/darkreader.min.js";Cobalt.web.current.contentWindow.document.head.appendChild(darkreader);darkreader.onload = function() {Cobalt.web.current.contentWindow.DarkReader.enable()}}, 1)`,
-            id: "default-dark-mode"
+            id: "default-dark-mode",
+            installed: false as Boolean
         },
         {
             name: "Youtube Speed Controller",
             author: "ehrenjn",
             description: "Adds an extra control to Youtube video playbars that allows you to speed up videos past 2x speed (up to 16x speed).",
             load: `Cobalt.web.current.contentWindow.addEventListener("load", () => {if (Cobalt.url.startsWith("https://www.youtube.com/watch?v=")) {(function(){function setRate(n) {Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate = n};function getRate() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("html5-video-container")[0].getElementsByClassName("video-stream html5-main-video")[0].playbackRate};function hasVideo() {return Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls").length != 0};function injectController() {var i = Cobalt.web.current.contentWindow.document.createElement('input');i.style = "width: 30%; height: 70%; position: relative; bottom: 37%; background-Color: transparent; color: white; border-Color: transparent;";i.id = 'spdctrl';i.title = 'Playback Rate';i.style.fontSize = '100%';i.type = 'number';i.value = getRate();i.step = 0.1;i.max = 16;i.min = 0;i.onchange = function() {var s = i.value;setRate(s)};Cobalt.web.current.contentWindow.document.getElementsByTagName('video')[0].onratechange = function() {if (Cobalt.web.current.contentWindow.document.activeElement != i) {i.value = getRate()}};toolbar = Cobalt.web.current.contentWindow.document.getElementsByClassName("ytp-right-controls")[0];toolbar.prepend(i)};window.setInterval(function(){var controller = Cobalt.web.current.contentWindow.document.getElementById('spdctrl');if (controller === null && hasVideo()){injectController()}}, 300)})()}})`,
-            id: "default-yt-speed-controller"
+            id: "default-yt-speed-controller",
+            installed: false as Boolean
         },
         {
             name: "Google Old Logo",
@@ -122,7 +125,8 @@ function Home() {
                     }
                 }
             }, 100)`,
-            id: "default-google-old-logo"
+            id: "default-google-old-logo",
+            installed: false as Boolean
         },
         {
             name: ":3",
@@ -141,7 +145,8 @@ function Home() {
                     }
                 }
             }, 100)`,
-            id: "default-:3"
+            id: "default-:3",
+            installed: false as Boolean
         },
         {
             name: "Youtube Downloader",
@@ -191,7 +196,8 @@ function Home() {
                     }
                 }, 100)`,
             },
-            id: "default-youtube-downloader"
+            id: "default-youtube-downloader",
+            installed: false as Boolean
         }
     ]
     const [ localInstalledExtensions, setLocalInstalledExtensions ] = useLocalInstalledExtensions();
@@ -205,17 +211,22 @@ function Home() {
         return item
     }))
     const [ localFavorites, setLocalFavorites ] = useLocalFavorites();
-    const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions.concat(extensions.filter(item => item.instaled && item.panel)));
+    // @ts-ignore
+    const [ panelOptions, setPanelOptions ] = React.useState(defaultPanelOptions.concat(extensions.filter((item: any) => item.installed && item.panel)));
     const [ localPanelWidth, setLocalPanelWidth ] = useLocalPanelWidth();
-    window.draggingPanel = false
-    window.panelLeft = ""
-    window.originalPanelWidth = ""
+    // @ts-ignore
+    globalThis.draggingPanel = false
+    // @ts-ignore
+    globalThis.panelLeft = ""
+    // @ts-ignore
+    globalThis.originalPanelWidth = ""
 
     React.useEffect(() => {
-        window.document.body.style.setProperty("--panel-width", localPanelWidth)
+        globalThis.document.body.style.setProperty("--panel-width", localPanelWidth)
     }, [])
 
     React.useEffect(() => {
+        // @ts-ignore
         setPanelOptions(defaultPanelOptions.concat(extensions.filter(item => item.installed && item.panel)))
     }, [extensions])
 
@@ -232,11 +243,11 @@ function Home() {
     }, [localInstalledExtensions])
 
     const ExtensionsComponent = () => {
-        const toggleExtension = (id) => {
+        const toggleExtension = (id: string) => {
             let tempLocalInstalledExtensions = JSON.parse(localInstalledExtensions)
 
             if (tempLocalInstalledExtensions.includes(id)) {
-                tempLocalInstalledExtensions = tempLocalInstalledExtensions.filter(item => item !== id)
+                tempLocalInstalledExtensions = tempLocalInstalledExtensions.filter((item: string) => item !== id)
             } else {
                 tempLocalInstalledExtensions.push(id)
             }
@@ -249,10 +260,10 @@ function Home() {
                 <div className="sidePanelExtensions">
                     {extensions.map((item, index) => (
                         <div key={index} className="sidePanelExtension">
-                            <div className="sidePanelExtensionName"><Obfuscate>{item.name}</Obfuscate></div>
-                            <div className="sidePanelExtensionAuthor"><Obfuscate>{item.author}</Obfuscate></div>
-                            <div className="sidePanelExtensionDescription"><Obfuscate>{item.description}</Obfuscate></div>
-                            <button onClick={() => toggleExtension(item.id)} className="sidePanelExtensionInstall"><Obfuscate>{!item.installed ? "Install" : "Uninstall"}</Obfuscate></button>
+                            <div className="sidePanelExtensionName"><Obfuscated>{item.name}</Obfuscated></div>
+                            <div className="sidePanelExtensionAuthor"><Obfuscated>{item.author}</Obfuscated></div>
+                            <div className="sidePanelExtensionDescription"><Obfuscated>{item.description}</Obfuscated></div>
+                            <button onClick={() => toggleExtension(item.id)} className="sidePanelExtensionInstall"><Obfuscated>{!item.installed ? "Install" : "Uninstall"}</Obfuscated></button>
                         </div>
                     ))}
                 </div>
@@ -261,57 +272,62 @@ function Home() {
     }
 
     const toggleFavorite = async () => {
-        if (JSON.parse(localFavorites).filter((item) => item.url == currentURL).length > 0) {
+        if (JSON.parse(localFavorites).filter((item: any) => item.url == currentURL).length > 0) {
             let tempFavorites = JSON.parse(localFavorites)
-            tempFavorites = tempFavorites.filter((item) => item.url !== currentURL)
+            tempFavorites = tempFavorites.filter((item: any) => item.url !== currentURL)
             setLocalFavorites(JSON.stringify(tempFavorites))
         } else {
-            if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
-                var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
-            } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
-                if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
-                    var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+            if (web.current && web.current.contentWindow) {
+                // @ts-ignore
+                if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                    // @ts-ignore
+                    var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+                } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                    if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                        var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                    } else {
+                        var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                    }
                 } else {
-                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                    var url = web.current.contentWindow.location.toString()
                 }
-            } else {
-                var url = web.current.contentWindow.location.toString()
-            }
-    
-            var title = web.current.contentWindow.document.title
-            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
             
-            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
-                favicon = ""
-            }
-    
-            if (url.startsWith("cobalt://")) {
-                title = url.split("cobalt://")[1]
-                title = title.charAt(0).toUpperCase() + title.slice(1)
-            }
-    
-            if (favicon) {
-                favicon = await createFavicon(favicon)
-            }
-            
-            let tempFavorites = JSON.parse(localFavorites)
-            
-            tempFavorites.unshift({
-                url: url,
-                title: title,
-                favicon: favicon
-            })
+                var title = web.current.contentWindow.document.title
+                // @ts-ignore
+                var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
-            setLocalFavorites(JSON.stringify(tempFavorites))
+                if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                    favicon = ""
+                }
+            
+                if (url.startsWith("cobalt://")) {
+                    title = url.split("cobalt://")[1]
+                    title = title.charAt(0).toUpperCase() + title.slice(1)
+                }
+            
+                if (favicon) {
+                    favicon = await createFavicon(favicon)
+                }
+
+                let tempFavorites = JSON.parse(localFavorites)
+
+                tempFavorites.unshift({
+                    url: url,
+                    title: title,
+                    favicon: favicon
+                })
+
+                setLocalFavorites(JSON.stringify(tempFavorites))
+            }
         }
     }
 
     const FavoritesComponent = () => {
-        const removeFavorite = (e, url) => {
+        const removeFavorite = (e: any, url: string) => {
             e.stopPropagation()
     
             let tempFavorites = JSON.parse(localFavorites)
-            tempFavorites = tempFavorites.filter((item) => item.url !== url)
+            tempFavorites = tempFavorites.filter((item: any) => item.url !== url)
             setLocalFavorites(JSON.stringify(tempFavorites))
         }
 
@@ -319,7 +335,7 @@ function Home() {
             <>
                 {JSON.parse(localFavorites).length <= 0 ? <div className="settingsTitle">Your favorites are empty.</div> : ""}
                 <div className="historyPanel">
-                    {JSON.parse(localFavorites).map((item, index) => (
+                    {JSON.parse(localFavorites).map((item: any, index: number) => (
                         <div title={item.url} key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
                         {
                             item.favicon ? (
@@ -330,8 +346,8 @@ function Home() {
                                 </div>
                             )
                         }
-                        <div className="historyPanelTitle"><Obfuscate>{item.title || item.url}</Obfuscate></div>
-                        <div className="historyPanelRemove" onClick={(e) => removeFavorite(e, item.url)}>
+                        <div className="historyPanelTitle"><Obfuscated>{item.title || item.url}</Obfuscated></div>
+                        <div className="historyPanelRemove" onClick={(e: any) => removeFavorite(e, item.url)}>
                             <DeleteIcon fontSize="small" />
                         </div>
                         </div>
@@ -342,11 +358,11 @@ function Home() {
     }
   
     const HistoryComponent = () => {
-        const removeHistory = (e, index) => {
+        const removeHistory = (e: any, index: number) => {
             e.stopPropagation()
     
             let tempHistory = JSON.parse(history)
-            tempHistory = tempHistory.filter((item, index2) => index2 !== index)
+            tempHistory = tempHistory.filter((item: any, index2: number) => index2 !== index)
             setHistory(JSON.stringify(tempHistory))
         }
 
@@ -358,10 +374,11 @@ function Home() {
             <>
             <div className="historyPanelRemoveAll" onClick={() => clearHistory()}>
                 <DeleteIcon fontSize="small" />
-                <Obfuscate>Clear History</Obfuscate>
+                <Obfuscated>Clear History</Obfuscated>
             </div>
             <div className="historyPanel">
-                {JSON.parse(history).map((item, index) => (
+                {JSON.parse(history).map((item: any, index: number) => (
+                    // @ts-ignore
                     <div title={item.url + " - " + new Date(item.time).toLocaleTimeString(90, {hour: "numeric", minute: "numeric"}) + " " + new Date(item.time).toLocaleDateString()} key={index} className="historyPanelItem" onClick={() => searchURL(item.url)}>
                         {
                             item.favicon ? (
@@ -372,8 +389,8 @@ function Home() {
                                 </div>
                             )
                         }
-                        <div className="historyPanelTitle"><Obfuscate>{item.title || item.url}</Obfuscate></div>
-                        <div className="historyPanelRemove" onClick={(e) => removeHistory(e, index)}>
+                        <div className="historyPanelTitle"><Obfuscated>{item.title || item.url}</Obfuscated></div>
+                        <div className="historyPanelRemove" onClick={(e: any) => removeHistory(e, index)}>
                             <DeleteIcon fontSize="small" />
                         </div>
                     </div>
@@ -383,7 +400,13 @@ function Home() {
         )
     }
 
-    function ThemeOption({ theme, noPreview, children }) {
+    interface ThemeTypes {
+        theme: string,
+        noPreview? : boolean,
+        children?: React.ReactNode
+    }
+
+    function ThemeOption({ theme, noPreview, children }: ThemeTypes) {
         const [localAppearance, setLocalAppearance] = useLocalAppearance();
       
         var themeStyle = !noPreview ? {"--theme": "var(--" + theme + "-theme)"} : {}
@@ -393,10 +416,14 @@ function Home() {
             onClick={() => {
               setLocalAppearance(theme);
               if (currentURL.startsWith("cobalt://") || currentURL.startsWith("view-source:")) {
-                web.current.contentWindow.document.body.setAttribute("data-appearance", theme)
-                web.current.contentWindow.changeTheme(theme)
+                if (web.current && web.current.contentWindow) {
+                    web.current.contentWindow.document.body.setAttribute("data-appearance", theme)
+                    // @ts-ignore
+                    web.current.contentWindow.changeTheme(theme)
+                }
               }
             }}
+            // @ts-ignore
             style={themeStyle}
             className={clsx(
               "sidePanelTheme",
@@ -408,7 +435,12 @@ function Home() {
         );
     }
 
-    function BorderRadiusOption({ name, children }) {
+    interface BorderRadiusOptionTypes {
+        name: string,
+        children?: React.ReactNode
+    }
+
+    function BorderRadiusOption({ name, children }: BorderRadiusOptionTypes) {
         const [localBorderRadius, setLocalBorderRadius] = useLocalBorderRadius();
       
         return (
@@ -416,7 +448,9 @@ function Home() {
             onClick={() => {
               setLocalBorderRadius(name);
               if (currentURL.startsWith("cobalt://") || currentURL.startsWith("view-source:")) {
-                web.current.contentWindow.document.body.setAttribute("data-border-radius", name)
+                if (web.current && web.current.contentWindow) {
+                    web.current.contentWindow.document.body.setAttribute("data-border-radius", name)
+                }
               }
             }}
             className={clsx(
@@ -430,12 +464,12 @@ function Home() {
     }
 
     const SettingsComponent = () => {
-        const setHomeURL = (value) => {
+        const setHomeURL = (value: string) => {
             localStorage.setItem("homeURL", (value || "cobalt://home"))
             homeURL = (value || "cobalt://home")
         }
 
-        const setSearchEngineURL = (value) => {
+        const setSearchEngineURL = (value: string) => {
             localStorage.setItem("engine", (value || "https://www.google.com/search?q=%s"))
             setSearchEngine(value || "https://www.google.com/search?q=%s")
         }
@@ -443,16 +477,16 @@ function Home() {
         return (
             <>
                 <div>
-                    <div className="settingsTitle"><Obfuscate>Home Page</Obfuscate></div>
+                    <div className="settingsTitle"><Obfuscated>Home Page</Obfuscated></div>
                     <input onChange={(e) => setHomeURL(e.target.value)} defaultValue={homeURL || ""} autoComplete="off" className="sidePanelCloakingInput"></input>
-                    <div className="settingsTitle settingsTitleSecondary"><Obfuscate>Search Engine</Obfuscate></div>
+                    <div className="settingsTitle settingsTitleSecondary"><Obfuscated>Search Engine</Obfuscated></div>
                     <input onChange={(e) => setSearchEngineURL(e.target.value)} defaultValue={searchEngine || ""} placeholder="URL with %s in place of query" autoComplete="off" className="sidePanelCloakingInput"></input>
-                    <div className="settingsTitle settingsTitleSecondary"><Obfuscate>Border Radius</Obfuscate></div>
+                    <div className="settingsTitle settingsTitleSecondary"><Obfuscated>Border Radius</Obfuscated></div>
                     <div className="settingsOptions">
-                        <BorderRadiusOption name="default"><Obfuscate>Default</Obfuscate></BorderRadiusOption>
-                        <BorderRadiusOption name="round"><Obfuscate>Round</Obfuscate></BorderRadiusOption>
-                        <BorderRadiusOption name="fancy"><Obfuscate>Fancy</Obfuscate></BorderRadiusOption>
-                        <BorderRadiusOption name="square"><Obfuscate>Square</Obfuscate></BorderRadiusOption>
+                        <BorderRadiusOption name="default"><Obfuscated>Default</Obfuscated></BorderRadiusOption>
+                        <BorderRadiusOption name="round"><Obfuscated>Round</Obfuscated></BorderRadiusOption>
+                        <BorderRadiusOption name="fancy"><Obfuscated>Fancy</Obfuscated></BorderRadiusOption>
+                        <BorderRadiusOption name="square"><Obfuscated>Square</Obfuscated></BorderRadiusOption>
                     </div>
                 </div>
             </>
@@ -462,13 +496,13 @@ function Home() {
     const CustomStyleComponent = () => {
         const [localCustomStyle, setLocalCustomStyle] = useLocalCustomStyle();
 
-        const customStyleChange = (value, event) => {
+        const customStyleChange = (value: string) => {
             setLocalCustomStyle(value)
         }
 
         return (
             <div className="customStyleMain" >
-                <Editor onChange={customStyleChange} value={localCustomStyle} options={{wordWrap: true, roundedSelection: true, minimap: { enabled: false }, tabSize: 8, quickSuggestions: false}} loading="" height="100%" defaultLanguage="css" theme="vs-dark" />
+                <Editor onChange={(value?: string) => customStyleChange(value || "")} value={localCustomStyle} options={{wordWrap: "on", roundedSelection: true, minimap: { enabled: false }, tabSize: 8, quickSuggestions: false}} loading="" height="100%" defaultLanguage="css" theme="vs-dark" />
             </div>
         )
     }
@@ -476,15 +510,20 @@ function Home() {
     const CloakingComponent = () => {
         var [localTitle, setLocalTitle] = useLocalTitle();
         var [localIcon, setLocalIcon] = useLocalIcon();
-        var title = React.useRef();
-        var icon = React.useRef();
+        var title = React.useRef<HTMLInputElement>(null);
+        var icon = React.useRef<HTMLInputElement>(null);
 
         const resetCloaking = () => {
             setLocalTitle("")
             setLocalIcon("")
         }
 
-        function ChangeIcon({ title, icon }) {
+        interface ChangeIconTypes {
+            title: string,
+            icon: string
+        }
+
+        function ChangeIcon({ title, icon }: ChangeIconTypes) {
             return (
               <div
                 onClick={() => {
@@ -528,359 +567,368 @@ function Home() {
     const ThemesComponent = () => {
         return (
             <div className="sidePanelThemes">
-                <ThemeOption theme="default" noPreview="true">
+                <ThemeOption theme="default" noPreview={true}>
                   <div className="sidePanelThemePreview sidePanelThemePreviewDefault">
                     <AutoAwesomeIcon fontSize="large" />
                   </div>
-                  <Obfuscate>Default</Obfuscate>
+                  <Obfuscated>Default</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="dark">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Dark</Obfuscate>
+                  <Obfuscated>Dark</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="light">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Light</Obfuscate>
+                  <Obfuscated>Light</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="ruby">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Ruby</Obfuscate>
+                  <Obfuscated>Ruby</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="frog">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Frog</Obfuscate>
+                  <Obfuscated>Frog</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="space">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Space</Obfuscate>
+                  <Obfuscated>Space</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="molten">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Molten</Obfuscate>
+                  <Obfuscated>Molten</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="swamp">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Swamp</Obfuscate>
+                  <Obfuscated>Swamp</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="squid">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Squid</Obfuscate>
+                  <Obfuscated>Squid</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="lemon">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Lemon</Obfuscate>
+                  <Obfuscated>Lemon</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="lime">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Lime</Obfuscate>
+                  <Obfuscated>Lime</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="nord">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Nord</Obfuscate>
+                  <Obfuscated>Nord</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="violet">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Violet</Obfuscate>
+                  <Obfuscated>Violet</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="online">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Online</Obfuscate>
+                  <Obfuscated>Online</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="dune">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Dune</Obfuscate>
+                  <Obfuscated>Dune</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="dracula">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Dracula</Obfuscate>
+                  <Obfuscated>Dracula</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="ice">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Ice</Obfuscate>
+                  <Obfuscated>Ice</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="chocolate">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Chocolate</Obfuscate>
+                  <Obfuscated>Chocolate</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="campfire">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Campfire</Obfuscate>
+                  <Obfuscated>Campfire</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="elixir">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Elixir</Obfuscate>
+                  <Obfuscated>Elixir</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="happiness">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Happiness</Obfuscate>
+                  <Obfuscated>Happiness</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="robot">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Robot</Obfuscate>
+                  <Obfuscated>Robot</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="butter">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Butter</Obfuscate>
+                  <Obfuscated>Butter</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="sun">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Sun</Obfuscate>
+                  <Obfuscated>Sun</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="plum">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Plum</Obfuscate>
+                  <Obfuscated>Plum</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="sky">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Sky</Obfuscate>
+                  <Obfuscated>Sky</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="matrix">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Matrix</Obfuscate>
+                  <Obfuscated>Matrix</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="gruvbox">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Gruvbox</Obfuscate>
+                  <Obfuscated>Gruvbox</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="quantum">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Quantum</Obfuscate>
+                  <Obfuscated>Quantum</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="manjaro">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Manjaro</Obfuscate>
+                  <Obfuscated>Manjaro</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="leafy">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Leafy</Obfuscate>
+                  <Obfuscated>Leafy</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="blackpink">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Blackpink</Obfuscate>
+                  <Obfuscated>Blackpink</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="retro">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Retro</Obfuscate>
+                  <Obfuscated>Retro</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="honey">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Honey</Obfuscate>
+                  <Obfuscated>Honey</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="pod">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Pod</Obfuscate>
+                  <Obfuscated>Pod</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="flamingo">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Flamingo</Obfuscate>
+                  <Obfuscated>Flamingo</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="magma">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Magma</Obfuscate>
+                  <Obfuscated>Magma</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="hacker">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Hacker</Obfuscate>
+                  <Obfuscated>Hacker</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="jungle">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Jungle</Obfuscate>
+                  <Obfuscated>Jungle</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="bubblegum">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Gum</Obfuscate>
+                  <Obfuscated>Gum</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="flower">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Flower</Obfuscate>
+                  <Obfuscated>Flower</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="nebelung">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Nebelung</Obfuscate>
+                  <Obfuscated>Nebelung</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="sylvie">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Sylvie</Obfuscate>
+                  <Obfuscated>Sylvie</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="riftriot">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Riftriot</Obfuscate>
+                  <Obfuscated>Riftriot</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="adv3">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Adv3</Obfuscate>
+                  <Obfuscated>Adv3</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="cat">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Cat</Obfuscate>
+                  <Obfuscated>Cat</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="koaku">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Koaku</Obfuscate>
+                  <Obfuscated>Koaku</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="spritz">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Spritz</Obfuscate>
+                  <Obfuscated>Spritz</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="retron">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Retron</Obfuscate>
+                  <Obfuscated>Retron</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="airtag">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Airtag</Obfuscate>
+                  <Obfuscated>Airtag</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-latte">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Latte</Obfuscate>
+                  <Obfuscated>Latte</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-frappe">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Frappe</Obfuscate>
+                  <Obfuscated>Frappe</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-macchiato">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Macchiato</Obfuscate>
+                  <Obfuscated>Macchiato</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="catppuccin-mocha">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Mocha</Obfuscate>
+                  <Obfuscated>Mocha</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="cobalt2">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Cobalt2</Obfuscate>
+                  <Obfuscated>Cobalt2</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="rose-pine">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Rosé Pine</Obfuscate>
+                  <Obfuscated>Rosé Pine</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="tokyo-night">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Tokyo</Obfuscate>
+                  <Obfuscated>Tokyo</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="classic">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Classic</Obfuscate>
+                  <Obfuscated>Classic</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="simple">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Simple</Obfuscate>
+                  <Obfuscated>Simple</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="corn">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Corn</Obfuscate>
+                  <Obfuscated>Corn</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="alice">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Alice</Obfuscate>
+                  <Obfuscated>Alice</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="kahoot">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Kahoot</Obfuscate>
+                  <Obfuscated>Kahoot</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="booklet">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Booklet</Obfuscate>
+                  <Obfuscated>Booklet</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="chrome">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Chrome</Obfuscate>
+                  <Obfuscated>Chrome</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="vs-code">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>VS Code</Obfuscate>
+                  <Obfuscated>VS Code</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="tiktok">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Tiktok</Obfuscate>
+                  <Obfuscated>Tiktok</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="discord">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Discord</Obfuscate>
+                  <Obfuscated>Discord</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="pride">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Pride</Obfuscate>
+                  <Obfuscated>Pride</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="shadow">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Shadow</Obfuscate>
+                  <Obfuscated>Shadow</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="eaglenet">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Eaglenet</Obfuscate>
+                  <Obfuscated>Eaglenet</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="ludicrous">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Ludicrous</Obfuscate>
+                  <Obfuscated>Ludicrous</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="mercury-workshop">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>MW</Obfuscate>
+                  <Obfuscated>MW</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="echo">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>3kh0</Obfuscate>
+                  <Obfuscated>3kh0</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="fracital">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Fracital</Obfuscate>
+                  <Obfuscated>Fracital</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="nebula">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Nebula</Obfuscate>
+                  <Obfuscated>Nebula</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="noctura">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Noctura</Obfuscate>
+                  <Obfuscated>Noctura</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="atom">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Atom</Obfuscate>
+                  <Obfuscated>Atom</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="immortal">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Immortal</Obfuscate>
+                  <Obfuscated>Immortal</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="shadow2">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Shadow</Obfuscate>
+                  <Obfuscated>Shadow</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="flowos">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Flow OS</Obfuscate>
+                  <Obfuscated>Flow OS</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="baja-blast">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Baja Blast</Obfuscate>
+                  <Obfuscated>Baja Blast</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="tsunami">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Tsunami</Obfuscate>
+                  <Obfuscated>Tsunami</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="metallic">
                   <div className="sidePanelThemePreview"></div>
-                  <Obfuscate>Metallic</Obfuscate>
+                  <Obfuscated>Metallic</Obfuscated>
                 </ThemeOption>
             </div>
         )
     }
 
     const SidePanelMainComponent = () => {
+        // @ts-ignore
         if (panelOptions[currentPanelOption].panel) {
+            // @ts-ignore
             if (panelOptions[currentPanelOption].panel.id) {
+                // @ts-ignore
                 if (sidePanelBodyData[panelOptions[currentPanelOption].panel.id]) {
+                    // @ts-ignore
                     var content = sidePanelBodyData[panelOptions[currentPanelOption].panel.id]
                 }
             } else {
+                // @ts-ignore
                 var content = panelOptions[currentPanelOption].panel.content
             }
         } else {
+            // @ts-ignore
             if (panelOptions[currentPanelOption].id) {
+                // @ts-ignore
                 if (sidePanelBodyData[panelOptions[currentPanelOption].id]) {
+                    // @ts-ignore
                     var content = sidePanelBodyData[panelOptions[currentPanelOption].id]
                 }
             } else {
+                // @ts-ignore
                 var content = panelOptions[currentPanelOption].content
             }
         }
@@ -903,14 +951,18 @@ function Home() {
     const reloadPage = () => {
         setLoading(true)
 
-        web.current.contentWindow.location.reload();
+        if (web.current && web.current.contentWindow) {
+            web.current.contentWindow.location.reload();
+        }
     }
 
     const historyBack = () => {
         if (canGoBack) {
             setLoading(true)
 
-            web.current.contentWindow.history.back();
+            if (web.current && web.current.contentWindow) {
+                web.current.contentWindow.history.back();
+            }
         }
     }
 
@@ -918,14 +970,18 @@ function Home() {
         if (canGoForward) {
             setLoading(true)
 
-            web.current.contentWindow.history.forward();
+            if (web.current && web.current.contentWindow) {
+                web.current.contentWindow.history.forward();
+            }
         }
     }
 
     const stopLoadingPage = () => {
         setLoading(false)
 
-        web.current.contentWindow.stop();
+        if (web.current && web.current.contentWindow) {
+            web.current.contentWindow.stop();
+        }
     }
 
     try {
@@ -952,7 +1008,7 @@ function Home() {
         setLocalInstalledExtensions("[]")
     }
 
-    async function createFavicon(url) {
+    async function createFavicon(url: string) {
         return new Promise(async (resolve, reject) => {
             try {
                 var response = await bare.fetch(url)
@@ -973,251 +1029,299 @@ function Home() {
     const webLoad = async () => {
         setLoading(false)
 
-        if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
-            var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
-        } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
-            if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
-                var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+        if (web.current && web.current.contentWindow) {
+            // @ts-ignore
+            if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                // @ts-ignore
+                var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+            } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                    var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                } else {
+                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                }
             } else {
-                var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                var url = web.current.contentWindow.location.toString()
             }
-        } else {
-            var url = web.current.contentWindow.location.toString()
-        }
 
-        var title = web.current.contentWindow.document.title
-        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
-        
-        if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
-            favicon = ""
-        }
+            var title = web.current.contentWindow.document.title
+            // @ts-ignore
+            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
 
-        if (url.startsWith("cobalt://")) {
-            title = url.split("cobalt://")[1]
-            title = title.charAt(0).toUpperCase() + title.slice(1)
-        }
+            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                favicon = ""
+            }
 
-        if (favicon) {
-            favicon = await createFavicon(favicon)
-        }
+            if (url.startsWith("cobalt://")) {
+                title = url.split("cobalt://")[1]
+                title = title.charAt(0).toUpperCase() + title.slice(1)
+            }
 
-        function addHistory() {
+            if (favicon) {
+                favicon = await createFavicon(favicon)
+            }
+
+            function addHistory() {
+                var tempHistory = JSON.parse(history)
+
+                tempHistory.unshift({
+                    url: url,
+                    title: title,
+                    time: Date.now(),
+                    favicon: favicon
+                })
+
+                setHistory(JSON.stringify(tempHistory))
+
+                if (!checking) {
+                    setChecking(true)
+
+                    setInterval(async () => {
+                        if (web.current && web.current.contentWindow) {
+                            // @ts-ignore
+                            if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                                // @ts-ignore
+                                var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+                            } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                                if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                                    var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                                } else {
+                                    var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
+                                }
+                            } else {
+                                var url = web.current.contentWindow.location.toString()
+                            }
+
+                            // @ts-ignore
+                            let tempHistory = Cobalt.history
+
+                            let checkURLHistory = tempHistory[0] ? tempHistory[0].url == url : false
+
+                            if (checkURLHistory) {
+                                if (web.current && web.current.contentWindow) {
+                                    // @ts-ignore
+                                    var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
+                                    // @ts-ignore
+                                    var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ?[...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
+
+                                    if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                                        favicon = ""
+                                    }
+
+                                    if (url.startsWith("cobalt://")) {
+                                        realTitle = url.split("cobalt://")[1]
+                                        realTitle = realTitle.charAt(0).toUpperCase() + realTitle.slice(1)
+                                    }
+
+                                    if (realTitle !== tempHistory[0].title) {
+                                        tempHistory[0].title = realTitle
+                                        setHistory(JSON.stringify(tempHistory))
+                                    }
+
+                                    if (favicon !== tempHistory[0].favicon) {
+                                        if (favicon) {
+                                            favicon = await createFavicon(favicon)
+                                        }
+
+                                        tempHistory[0].favicon = favicon
+                                        setHistory(JSON.stringify(tempHistory))
+                                    }
+
+                                    // @ts-ignore
+                                    if (Cobalt.favorites.filter((item: any) => item.url == url).length > 0) {
+                                        // @ts-ignore
+                                        let tempFavorites = Cobalt.favorites
+
+                                        let currentFavoriteItem = tempFavorites.filter((item: any) => item.url == url)[0]
+
+                                        if (realTitle !== currentFavoriteItem.title) {
+                                            currentFavoriteItem.title = realTitle
+                                        }
+                                    
+                                        if (favicon !== currentFavoriteItem.favicon) {
+                                            if (favicon) {
+                                                favicon = await createFavicon(favicon)
+                                            }
+                                        
+                                            currentFavoriteItem.favicon = favicon
+                                        }
+
+                                        setLocalFavorites(JSON.stringify(tempFavorites))
+                                    }
+                                }
+                            }
+                        }
+                    }, 100)
+                }
+
+                setLoaded(true)
+            }
+
             var tempHistory = JSON.parse(history)
 
-            tempHistory.unshift({
-                url: url,
-                title: title,
-                time: Date.now(),
-                favicon: favicon
-            })
-
-            setHistory(JSON.stringify(tempHistory))
-
-            if (!checking) {
-                setChecking(true)
-
-                setInterval(async () => {
-                    if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
-                        var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
-                    } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
-                        if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
-                            var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
-                        } else {
-                            var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
-                        }
-                    } else {
-                        var url = web.current.contentWindow.location.toString()
-                    }
-
-                    let tempHistory = Cobalt.history
-
-                    let checkURLHistory = tempHistory[0] ? tempHistory[0].url == url : false
-
-                    if (checkURLHistory) {
-                        var realTitle = web.current.contentWindow.document.head.querySelector("title") ? web.current.contentWindow.document.head.querySelector("title").textContent : ""
-                        var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ?[...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
-
-                        if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
-                            favicon = ""
-                        }
-
-                        if (url.startsWith("cobalt://")) {
-                            realTitle = url.split("cobalt://")[1]
-                            realTitle = realTitle.charAt(0).toUpperCase() + realTitle.slice(1)
-                        }
-
-                        if (realTitle !== tempHistory[0].title) {
-                            tempHistory[0].title = realTitle
-                            setHistory(JSON.stringify(tempHistory))
-                        }
-
-                        if (favicon !== tempHistory[0].favicon) {
-                            if (favicon) {
-                                favicon = await createFavicon(favicon)
-                            }
-
-                            tempHistory[0].favicon = favicon
-                            setHistory(JSON.stringify(tempHistory))
-                        }
-
-                        if (Cobalt.favorites.filter((item) => item.url == url).length > 0) {
-                            let tempFavorites = Cobalt.favorites
-
-                            let currentFavoriteItem = tempFavorites.filter((item) => item.url == url)[0]
-
-                            if (realTitle !== currentFavoriteItem.title) {
-                                currentFavoriteItem.title = realTitle
-                            }
-    
-                            if (favicon !== currentFavoriteItem.favicon) {
-                                if (favicon) {
-                                    favicon = await createFavicon(favicon)
-                                }
-    
-                                currentFavoriteItem.favicon = favicon
-                            }
-
-                            setLocalFavorites(JSON.stringify(tempFavorites))
-                        }
-                    }
-                }, 100)
-            }
-
-            setLoaded(true)
-        }
-
-        var tempHistory = JSON.parse(history)
-
-        //All 1 duplicate on first page load
-        if (tempHistory[0]) {
-            if (url !== tempHistory[0].url) {
+            //All 1 duplicate on first page load
+            if (tempHistory[0]) {
+                if (url !== tempHistory[0].url) {
+                    addHistory()
+                }
+            } else {
                 addHistory()
             }
-        } else {
-            addHistory()
-        }
-        
-        var webChange = function () {
-            setLoaded(false)
 
-            setTimeout(function () {
-                setCanGoBack(web.current.contentWindow.navigation.canGoBack)
-                setCanGoForward(web.current.contentWindow.navigation.canGoForward)
+            var webChange = function () {
+                setLoaded(false)
 
-                const webResizeMouseMove = (e) => {
-                    if (parent.draggingPanel) {
-                        var newWidth = parent.originalPanelWidth + (parent.panelLeft - e.clientX) + "px"
-                        localStorage.setItem("panelWidth", newWidth)
-                        parent.document.body.style.setProperty("--panel-width", newWidth)
-                    }
-                }
-            
-                const webResizeMouseUp = () => {
-                    parent.document.body.removeAttribute("data-panel-resizing")
-                    parent.draggingPanel = false
-                }
+                setTimeout(function () {
+                    if (web.current && web.current.contentWindow) {
+                        // @ts-ignore
+                        setCanGoBack(web.current.contentWindow.navigation.canGoBack)
+                        // @ts-ignore
+                        setCanGoForward(web.current.contentWindow.navigation.canGoForward)
 
-                web.current.contentWindow.addEventListener("mousemove", webResizeMouseMove)
-                web.current.contentWindow.addEventListener("mouseup", webResizeMouseUp)
+                        const webResizeMouseMove = (e: Event) => {
+                            // @ts-ignore
+                            if (parent.draggingPanel) {
+                                // @ts-ignore
+                                var newWidth = parent.originalPanelWidth + (parent.panelLeft - e.clientX) + "px"
+                                localStorage.setItem("panelWidth", newWidth)
+                                parent.document.body.style.setProperty("--panel-width", newWidth)
+                            }
+                        }
+                    
+                        const webResizeMouseUp = () => {
+                            parent.document.body.removeAttribute("data-panel-resizing")
+                            // @ts-ignore
+                            parent.draggingPanel = false
+                        }
 
-                //Fix youtube.com because history.replaceState() and history.pushState() dont work
-                var lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
+                        web.current.contentWindow.addEventListener("mousemove", webResizeMouseMove)
+                        web.current.contentWindow.addEventListener("mouseup", webResizeMouseUp)
 
-                web.current.contentWindow.setInterval(async () => {
-                    if (lastEntryURL !== web.current.contentWindow.navigation.currentEntry.url) {
-                        if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith(__uv$config.prefix)) {
-                            var url = __uv$config.decodeUrl(new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split(__uv$config.prefix)[1])
-                        } else if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith("/internal/")) {
-                            if ((new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
-                                var url = "view-source:" + (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                        //Fix youtube.com because history.replaceState() and history.pushState() dont work
+                        // @ts-ignore
+                        var lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
+
+                        web.current.contentWindow.setInterval(async () => {
+                            if (web.current && web.current.contentWindow) {
+                                // @ts-ignore
+                                if (lastEntryURL !== web.current.contentWindow.navigation.currentEntry.url) {
+                                    // @ts-ignore
+                                    if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith(__uv$config.prefix)) {
+                                        // @ts-ignore
+                                        var url = __uv$config.decodeUrl(new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split(__uv$config.prefix)[1])
+                                    // @ts-ignore
+                                    } else if (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.startsWith("/internal/")) {
+                                        // @ts-ignore
+                                        if ((new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                                            // @ts-ignore
+                                            var url = "view-source:" + (new URL(web.current.contentWindow.navigation.currentEntry.url).pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
+                                        } else {
+                                            // @ts-ignore
+                                            var url = "cobalt://" + new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split("/internal/")[1]
+                                        }
+                                    } else {
+                                        var url = web.current.contentWindow.location.toString()
+                                    }
+                                    if (url !== currentURL) {
+                                        if (search.current && search.current.value) {
+                                            search.current.value = url
+                                            setCurrentURL(url)
+                                            setLastURL(url)
+
+                                            var title = web.current.contentWindow.document.title
+                                            // @ts-ignore
+                                            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
+
+                                            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
+                                                favicon = ""
+                                            }
+                                        
+                                            if (url.startsWith("cobalt://")) {
+                                                title = url.split("cobalt://")[1]
+                                                title = title.charAt(0).toUpperCase() + title.slice(1)
+                                            }
+                                        
+                                            if (favicon) {
+                                                favicon = await createFavicon(favicon)
+                                            }                    
+
+                                            var tempHistory = JSON.parse(history)
+
+                                            tempHistory.unshift({
+                                                url: url,
+                                                title: title,
+                                                time: Date.now(),
+                                                favicon: favicon
+                                            })
+                                        
+                                            setHistory(JSON.stringify(tempHistory))                
+                                        }
+                                    }
+                                    // @ts-ignore
+                                    lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
+                                }
+                            }
+                        }, 500)
+
+                        setTimeout(() => {
+                            if (web.current && web.current.contentWindow) {
+                                // @ts-ignore
+                                if (!web.current.contentWindow.eruda) {
+                                    var erudaScript = web.current.contentWindow.document.createElement('script');
+                                    erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+                                    web.current.contentWindow.document.head.appendChild(erudaScript) 
+                                    erudaScript.onload = () => {
+                                        if (web.current && web.current.contentWindow) {
+                                            // @ts-ignore
+                                            web.current.contentWindow.eruda.init()
+                                            // @ts-ignore
+                                            web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
+                                        }
+                                    }
+                                }
+                            }
+                        }, 1)
+
+                        // @ts-ignore
+                        if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
+                            // @ts-ignore
+                            var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
+
+                            for (let extension of extensions) {
+                                if (extension.load) {
+                                    if (extension.installed) {
+                                        eval(extension.load)
+                                    }
+                                }
+                            }
+                        } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
+                            if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
+                                var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
                             } else {
-                                var url = "cobalt://" + new URL(web.current.contentWindow.navigation.currentEntry.url).pathname.split("/internal/")[1]
+                                var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
                             }
                         } else {
                             var url = web.current.contentWindow.location.toString()
                         }
-                        if (url !== currentURL) {
-                            search.current.value = url
+
+                        if (url !== lastURL) {
+                            if (search.current && search.current.value) {
+                                search.current.value = url
+                            }
                             setCurrentURL(url)
                             setLastURL(url)
-
-                            var title = web.current.contentWindow.document.title
-                            var favicon = [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0] ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href ? [...web.current.contentWindow.document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']")].slice(-1)[0].href : "" : ""
-                            
-                            if (url.startsWith("cobalt://") || url.startsWith("view-source:")) {
-                                favicon = ""
-                            }
-                    
-                            if (url.startsWith("cobalt://")) {
-                                title = url.split("cobalt://")[1]
-                                title = title.charAt(0).toUpperCase() + title.slice(1)
-                            }
-                    
-                            if (favicon) {
-                                favicon = await createFavicon(favicon)
-                            }                    
-
-                            var tempHistory = JSON.parse(history)
-
-                            tempHistory.unshift({
-                                url: url,
-                                title: title,
-                                time: Date.now(),
-                                favicon: favicon
-                            })
-                
-                            setHistory(JSON.stringify(tempHistory))                
-                        }
-                        lastEntryURL = web.current.contentWindow.navigation.currentEntry.url
-                    }
-                }, 500)
-
-                setTimeout(() => {
-                    if (!web.current.contentWindow.eruda) {
-                        var erudaScript = web.current.contentWindow.document.createElement('script');
-                        erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
-                        web.current.contentWindow.document.head.appendChild(erudaScript) 
-                        erudaScript.onload = () => {
-                            web.current.contentWindow.eruda.init()
-                            web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
                         }
                     }
-                }, 1)
+                })
+            }
 
-                if (web.current.contentWindow.location.pathname.startsWith(__uv$config.prefix)) {
-                    var url = __uv$config.decodeUrl(web.current.contentWindow.location.pathname.split(__uv$config.prefix)[1])
-                    
-                    for (let extension of extensions) {
-                        if (extension.load) {
-                            if (extension.installed) {
-                                eval(extension.load)
-                            }
-                        }
-                    }
-                } else if (web.current.contentWindow.location.pathname.startsWith("/internal/")) {
-                    if ((web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).startsWith("/internal/viewsource?url=")) {
-                        var url = "view-source:" + (web.current.contentWindow.location.pathname + web.current.contentWindow.location.search).split("/internal/viewsource?url=")[1]
-                    } else {
-                        var url = "cobalt://" + web.current.contentWindow.location.pathname.split("/internal/")[1]
-                    }
-                } else {
-                    var url = web.current.contentWindow.location.toString()
-                }
-
-                if (url !== lastURL) {
-                    search.current.value = url
-                    setCurrentURL(url)
-                    setLastURL(url)
-                }
-            })
+            web.current.contentWindow.removeEventListener("unload", webChange)
+            web.current.contentWindow.addEventListener("unload", webChange)
+            webChange()
         }
-        
-        web.current.contentWindow.removeEventListener("unload", webChange)
-        web.current.contentWindow.addEventListener("unload", webChange)
-        webChange()
     }
 
-    function isURL(url) {
+    function isURL(url: string) {
         if (!url.includes(".")) {
             return false;
         }
@@ -1237,35 +1341,57 @@ function Home() {
         }
     }
 
-    const searchURL = (value) => {
+    const searchURL = (value: string) => {
         value = value.trim()
 
         setLoading(true)
 
         if (value.startsWith("cobalt://") && internalURLS.includes(value.split("cobalt://")[1])) {
-            search.current.value = value
-            web.current.contentWindow.location = new URL("/internal/" + value.split("cobalt://")[1], window.location)
+            if (search.current && search.current.value) {
+                search.current.value = value
+            }
+            if (web.current && web.current.contentWindow) {
+                // @ts-ignore
+                web.current.contentWindow.location = new URL("/internal/" + value.split("cobalt://")[1], window.location)
+            }
             setCurrentURL(value)
         } else if (value.startsWith("view-source:") && value !== "view-source:") {
-            search.current.value = value
-            web.current.contentWindow.location = new URL("/internal/viewsource?url=" + value.split("view-source:")[1], window.location)
+            if (search.current && search.current.value) {
+                search.current.value = value
+            }
+            if (web.current && web.current.contentWindow) {
+                // @ts-ignore
+                web.current.contentWindow.location = new URL("/internal/viewsource?url=" + value.split("view-source:")[1], window.location)
+            }
             setCurrentURL(value.split("view-source:")[1])
         } else {
             var checkURL = isURL(value)
 
             if (checkURL) {
-                search.current.value = checkURL
-                web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(checkURL), window.location)
+                if (search.current && search.current.value) {
+                    search.current.value = checkURL
+                }
+                if (web.current && web.current.contentWindow) {
+                    // @ts-ignore
+                    web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(checkURL), window.location)
+                }
                 setCurrentURL(checkURL)
             } else {
-                search.current.value = new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString()
-                web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(search.current.value), window.location)
-                setCurrentURL(new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString())
+                    if (search.current && search.current.value) {
+                    search.current.value = new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString()
+                    // @ts-ignore
+                    web.current.contentWindow.location = new URL(__uv$config.prefix + __uv$config.encodeUrl(search.current.value), window.location)
+                    setCurrentURL(new URL((searchEngine.replace("%s", encodeURIComponent(value))).toString()).toString())
+                }
             }
         }
 
-        search.current.blur()
-        web.current.focus()
+        if (search.current) {
+            search.current.blur()
+        }
+        if (web.current) {
+            web.current.focus()
+        }
     }
 
     const togglePanel = () => {
@@ -1279,50 +1405,67 @@ function Home() {
     }
 
     const toggleDevtools = () => {
-        if (!web.current.contentWindow.eruda) {
-            var erudaScript = web.current.contentWindow.document.createElement('script');
-            erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
-            web.current.contentWindow.document.body.append(erudaScript) 
-            erudaScript.onload = () => {
-                web.current.contentWindow.eruda.init()
-                web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
-            }
+        if (web.current && web.current.contentWindow) {
+            // @ts-ignore
+            if (!web.current.contentWindow.eruda) {
+                var erudaScript = web.current.contentWindow.document.createElement('script');
+                erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda"
+                web.current.contentWindow.document.body.append(erudaScript) 
+                erudaScript.onload = () => {
+                    if (web.current && web.current.contentWindow) {
+                        // @ts-ignore
+                        web.current.contentWindow.eruda.init()
+                        // @ts-ignore
+                        web.current.contentWindow.eruda._$el[0].querySelector(".eruda-entry-btn").style.display = "none"
+                    }
+                }
 
-            if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
-                web.current.contentWindow.eruda.show()
+                // @ts-ignore
+                if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
+                    // @ts-ignore
+                    web.current.contentWindow.eruda.show()
+                } else {
+                    // @ts-ignore
+                    web.current.contentWindow.eruda.hide()
+                }
             } else {
-                web.current.contentWindow.eruda.hide()
-            }
-        } else {            
-            if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
-                web.current.contentWindow.eruda.show()
-            } else {
-                web.current.contentWindow.eruda.hide()
+                // @ts-ignore
+                if (getComputedStyle(web.current.contentWindow.eruda._$el[0].querySelector(".eruda-dev-tools")).display == "none") {
+                    // @ts-ignore
+                    web.current.contentWindow.eruda.show()
+                } else {
+                    // @ts-ignore
+                    web.current.contentWindow.eruda.hide()
+                }
             }
         }
     }
 
     const toggleSidePanelNav = () => {
-        if (!sidePanelNav.current.dataset.open) {
-            return sidePanelNav.current.dataset.open = "true"
-        } else if (sidePanelNav.current.dataset.open == "true") {
-            return sidePanelNav.current.dataset.open = "false"
-        } else if (sidePanelNav.current.dataset.open == "false") {
-            return sidePanelNav.current.dataset.open = "true"
+        if (sidePanelNav.current && sidePanelNav.current.dataset) {
+            if (!sidePanelNav.current.dataset.open) {
+                return sidePanelNav.current.dataset.open = "true"
+            } else if (sidePanelNav.current.dataset.open == "true") {
+                return sidePanelNav.current.dataset.open = "false"
+            } else if (sidePanelNav.current.dataset.open == "false") {
+                return sidePanelNav.current.dataset.open = "true"
+            }
         }
     }
 
-    const searchFocus = (e) => {
-        e.target.select()
-    }
-
-    const searchType = (e) =>{
-        if (e.key == "Enter" && e.target.value) {
-            return searchURL(e.target.value)
+    const searchFocus = (e: any) => {
+        if (e.target as HTMLInputElement) {
+            (e.target as HTMLInputElement).select()
         }
     }
 
-    const getSuggestions = async (query, limit=8) => {
+    const searchType = (e: any) => {
+        if (e.key == "Enter" && (e.target as HTMLInputElement).value) {
+            return searchURL((e.target as HTMLInputElement).value)
+        }
+    }
+
+    const getSuggestions = async (query: string, limit=8) => {
         var site = await bare.fetch(
             "https://www.google.com/complete/search?client=firefox&q=" + query
         );
@@ -1332,10 +1475,10 @@ function Home() {
         return results;
     }
 
-    const searchChange = async (e) => {
-        if (e.target.value && useSuggestions) {
+    const searchChange = async (e: any) => {
+        if ((e.target as HTMLInputElement) && (e.target as HTMLInputElement).value && useSuggestions) {
             try {
-                var newSuggestions = await getSuggestions(e.target.value)
+                var newSuggestions = await getSuggestions((e.target as HTMLInputElement).value)
                 setSuggestions(newSuggestions)
             } catch {
                 setSuggestions([])
@@ -1352,18 +1495,23 @@ function Home() {
     }
 
     const sidePanelNavBlur = () => {
-        sidePanelNav.current.dataset.open = "false"
+        if (sidePanelNav.current) {
+            sidePanelNav.current.dataset.open = "false"
+        }
     }
 
-    const setSidePanelOption = (index) => {
+    const setSidePanelOption = (index: number) => {
         setCurrentPanelOption(index)
     }
 
     React.useEffect(() => {
+        // @ts-ignore
         if (panelOptions[currentPanelOption].panel) {
+            // @ts-ignore
             if (panelOptions[currentPanelOption].panel.script && sidePanelBody.current) {            
                 setTimeout(() => {
                     try {
+                        // @ts-ignore
                         eval(panelOptions[currentPanelOption].panel.script)
                     } catch(e) {
                         console.error("Error is side panel script")
@@ -1372,9 +1520,11 @@ function Home() {
                 })
             }
         } else {
+            // @ts-ignore
             if (panelOptions[currentPanelOption].script && sidePanelBody.current) {            
                 setTimeout(() => {
                     try {
+                        // @ts-ignore
                         eval(panelOptions[currentPanelOption].script)
                     } catch(e) {
                         console.error("Error is side panel script")
@@ -1385,7 +1535,9 @@ function Home() {
         }
     }, [currentPanelOption])
 
+    // @ts-ignore
     if (!window.Cobalt) {
+        // @ts-ignore
         window.Cobalt = {
             "url": currentURL,
             "navigate": searchURL,
@@ -1406,7 +1558,7 @@ function Home() {
             "getSuggestions": getSuggestions,
             "sidePanelBodyData": sidePanelBodyData,
             "mime": mime,
-            "setSidePanelBody": (id, value) => {
+            "setSidePanelBody": (id: any, value: string) => {
                 if (id && value) {
                     setSidePanelBodyData(sidePanelBodyData => ({
                         ...sidePanelBodyData,
@@ -1418,63 +1570,81 @@ function Home() {
     }
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.sidePanelBodyData = sidePanelBodyData
     }, [sidePanelBodyData])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.history = JSON.parse(history)
     }, [history])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.favorites = JSON.parse(localFavorites)
     }, [localFavorites])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.extensions = extensions
     }, [extensions])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.web = web
     }, [web])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.homeURL = homeURL
     }, [homeURL])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.loading = loading
     }, [loading])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.canGoBack = canGoBack
     }, [canGoBack])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.canGoForward = canGoForward
     }, [canGoForward])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.useSuggestions = useSuggestions
     }, [useSuggestions])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.url = currentURL
     }, [currentURL])
 
     React.useEffect(() => {
+        // @ts-ignore
         window.Cobalt.searchEngine = searchEngine
+        // @ts-ignore
         window.Cobalt.navigate = searchURL
     }, [searchEngine])
 
-    const resizePanelMouseDown = (e) => {
+    const resizePanelMouseDown = (e: any) => {
+        // @ts-ignore
         window.draggingPanel = true
+        // @ts-ignore
         window.panelLeft = e.clientX
+        // @ts-ignore
         window.originalPanelWidth = parseFloat(getComputedStyle(panel.current).width)
         window.document.body.setAttribute("data-panel-resizing", "true")
     }
 
-    const resizeMouseMove = (e) => {
+    const resizeMouseMove = (e: PointerEvent) => {
+        // @ts-ignore
         if (window.draggingPanel) {
+            // @ts-ignore
             var newWidth = window.originalPanelWidth + (window.panelLeft - e.clientX) + "px"
             localStorage.setItem("panelWidth", newWidth)
             window.document.body.style.setProperty("--panel-width", newWidth)
@@ -1483,9 +1653,11 @@ function Home() {
 
     const resizeMouseUp = () => {
         window.document.body.removeAttribute("data-panel-resizing")
+        // @ts-ignore
         window.draggingPanel = false
     }
 
+    // @ts-ignore
     window.addEventListener("mousemove", resizeMouseMove)
     window.addEventListener("mouseup", resizeMouseUp)
 
@@ -1515,14 +1687,14 @@ function Home() {
                     </div>
                 </div>
                 <div className="omnibox" data-suggestions={suggestions.length > 0 ? "true" : "false"}>
-                    <input aria-label="Search" ref={search} defaultValue={homeURL} onFocus={searchFocus} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={searchType} onChange={searchChange} />
+                    <input aria-label="Search" ref={search} defaultValue={homeURL} onFocus={(e: any) => searchFocus(e)} onBlur={searchBlur} autoComplete="off" className="search" onKeyUp={(e: any) => searchType(e)} onChange={searchChange} />
                     <div className="suggestions">
                         {suggestions.map((suggestion, index) => (
                             <div className="suggestion" onClick={() => {searchURL(suggestion); setSuggestions([])}} key={index}>
                                 <div className="suggestionIcon">
                                     <SearchIcon style={{"height": "0.7em", "width": "0.7em"}} />
                                 </div>
-                                <Obfuscate>{suggestion}</Obfuscate>
+                                <Obfuscated>{suggestion}</Obfuscated>
                             </div>
                         ))}
                     </div>
@@ -1530,7 +1702,7 @@ function Home() {
                         <SearchIcon style={{"height": "70%", "width": "70%"}} />
                     </div>
                     <div className="favoriteIcon" onClick={toggleFavorite}>
-                        {JSON.parse(localFavorites).filter((item) => item.url == currentURL).length > 0 ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
+                        {JSON.parse(localFavorites).filter((item: any) => item.url == currentURL).length > 0 ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
                     </div>
                 </div>
                 <div className="controls" data-side="right">
@@ -1544,21 +1716,21 @@ function Home() {
             </div>
             <iframe ref={web} onLoad={webLoad} className="web" title="Web"></iframe>
             <div className="panel" ref={panel}>
-                <div onMouseDown={resizePanelMouseDown} className="resizePanel">
+                <div onMouseDown={(e: any) => resizePanelMouseDown(e)} className="resizePanel">
                     <DragHandleIcon fontSize="small" />
                 </div>
 
                 <div className="sidePanel">
                     <div className="sidePanelNav" ref={sidePanelNav}>
-                        <div className="sidePanelItem" tabIndex="0" onClick={toggleSidePanelNav} onBlur={sidePanelNavBlur}>
-                            <div className="sidePanelItemTitle"><Obfuscate>{panelOptions[currentPanelOption].name}</Obfuscate></div>
+                        <div className="sidePanelItem" tabIndex={0} onClick={toggleSidePanelNav} onBlur={sidePanelNavBlur}>
+                            <div className="sidePanelItemTitle"><Obfuscated>{panelOptions[currentPanelOption].name}</Obfuscated></div>
                             <div className="sidePanelItemIcon">
                                 <ArrowDropDownIcon fontSize="small" />
                             </div>
                             <div className="sidePanelItems">
                                 {panelOptions.map((option, index) => (
                                     <div className="sidePanelItemsOption" onClick={() => setSidePanelOption(index)} key={index}>
-                                        <Obfuscate>{option.name}</Obfuscate>
+                                        <Obfuscated>{option.name}</Obfuscated>
                                     </div>
                                 ))}
                             </div>

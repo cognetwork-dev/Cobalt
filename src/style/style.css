@@ -529,14 +529,6 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
 }
 
-.errorTextUrl {
-    text-decoration: underline;
-}
-
-.errorTextUrl span {
-    text-decoration: underline;
-}
-
 .sidePanelCloakingPresets {
     display: flex;
     align-items: center;

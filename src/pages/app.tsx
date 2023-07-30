@@ -1,16 +1,16 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import { ObfuscateLayout } from "../components/obfuscate.jsx";
+import { ObfuscateLayout } from "../components/obfuscate";
 
 import "../style/index.css";
-import "../navigationBackup.jsx";
-import "../proxy.jsx";
+import "../navigationBackup";
+import "../proxy";
 
-var Home = React.lazy(() => import("./home.jsx"));
-var InternalHome = React.lazy(() => import("./internal/home.jsx"));
-var InternalBlank = React.lazy(() => import("./internal/blank.jsx"));
-var InternalViewSource = React.lazy(() => import("./internal/viewsource.jsx"));
-var Error = React.lazy(() => import("./error.jsx"));
+var Home = React.lazy(() => import("./home"));
+var InternalHome = React.lazy(() => import("./internal/home"));
+var InternalBlank = React.lazy(() => import("./internal/blank"));
+var InternalViewSource = React.lazy(() => import("./internal/viewsource"));
+var Error = React.lazy(() => import("./error"));
 
 function App() {
     return (

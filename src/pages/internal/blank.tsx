@@ -1,11 +1,11 @@
-import React from "react";
-import Head from "../../components/head.jsx"
-import { useLocalAppearance } from "../../settings.jsx";
+import Head from "../../components/head"
+import { useLocalAppearance } from "../../settings";
 
 function Blank() {
     const [ localAppearance, setLocalAppearance ] = useLocalAppearance();
-
-    window.changeTheme = (theme) => {
+    
+    // @ts-ignore
+    globalThis.changeTheme = (theme: string) => {
         setLocalAppearance(theme)
     }
     return (

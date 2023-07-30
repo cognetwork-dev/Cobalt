@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 const target = new EventTarget();
 
-export default function useLocalStorage(key) {
+export default function useLocalStorage(key: string) {
   // trigger re-render with useState
-  const [state, setState] = useState(localStorage.getItem(key));
+  const [state, setState] = useState<any>(localStorage.getItem(key));
 
   const event = `set ${key}`;
 
@@ -20,7 +20,7 @@ export default function useLocalStorage(key) {
 
   return [
     state,
-    (value) => {
+    (value: any) => {
       // null = nuke the item
       if (value === null) localStorage.removeItem(key);
       else localStorage.setItem(key, value);

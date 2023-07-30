@@ -1,8 +1,11 @@
 import React from "react";
-import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalBorderRadius } from "../settings.jsx";
-import { doc } from "prettier";
+import { useLocalAppearance, useLocalTitle, useLocalIcon, useLocalCustomStyle, useLocalBorderRadius } from "../settings";
 
-function Head({ defaultTitle }) {
+interface HeadTypes {
+  defaultTitle?: string
+}
+
+function Head({ defaultTitle }: HeadTypes) {
     const [ localAppearance ] = useLocalAppearance();
     const [ localTitle ] = useLocalTitle();
     const [ localIcon ] = useLocalIcon();
@@ -11,10 +14,10 @@ function Head({ defaultTitle }) {
 
     React.useEffect(() => {
       document.querySelector("#customStyle")?.remove()
-      var style = document.createElement("style")
+      var style: HTMLElement = document.createElement("style") as HTMLElement
       style.id = "customStyle"
-      style.textContent = localCustomStyle
-      document.querySelector("head").appendChild(style)
+      style.innerHTML = localCustomStyle
+      document.querySelector("head")?.appendChild(style)
     }, [localCustomStyle]);
 
     document.body.setAttribute("data-appearance", localAppearance);
@@ -30,7 +33,7 @@ function Head({ defaultTitle }) {
         var icon = localIcon || "/logos/logo.svg"
     
         for (var link of document.querySelectorAll("link[rel*='icon']")) {
-          link.href = icon;
+          link.setAttribute("href", icon);
         }
       }, [localIcon]);
 

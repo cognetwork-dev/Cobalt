@@ -1,6 +1,6 @@
 {
     "name": "cobalt",
-    "version": "1.1",
+    "version": "1.2",
     "description": "A new minimal yet powerful proxy site, built for both users and developers.",
     "repository": "https://github.com/Cobalt-Web/Cobalt.git",
     "license": "MIT",
@@ -27,19 +27,25 @@
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^14.4.3",
+        "@titaniumnetwork-dev/ultraviolet": "^2.0.0",
         "@tomphttp/bare-server-node": "^2.0.1",
+        "@types/mime-types": "^2.1.1",
+        "@types/random-seed": "^0.3.3",
+        "@types/react": "^18.2.17",
+        "@types/react-dom": "^18.2.7",
         "@vitejs/plugin-react": "^4.0.1",
         "eslint": "^8.43.0",
         "prettier": "^2.8.8",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "serve-static": "^1.15.0",
+        "typescript": "^5.1.6",
         "vite": "^4.4.7",
         "web-vitals": "^3.3.2"
     },
     "scripts": {
         "dev": "vite",
-        "build": "npm install vite && vite build && node build.mjs",
+        "build": "tsc && vite build && node build.mjs",
         "start": "node start.mjs"
     },
     "eslintConfig": {

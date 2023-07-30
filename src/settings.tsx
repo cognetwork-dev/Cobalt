@@ -1,8 +1,8 @@
-import useLocalStorage from "./useLocalStorage.jsx";
+import useLocalStorage from "./useLocalStorage";
 
-const useLocalFallback = (key, fallback) => {
+const useLocalFallback = (key: string, fallback: string) => {
   var [local, setLocal] = useLocalStorage(key);
-  return [local === null ? fallback : local, setLocal];
+  return [local === null ? fallback: local, setLocal];
 };
 
 export var useLocalHistory = () => useLocalFallback("history", "[]");
