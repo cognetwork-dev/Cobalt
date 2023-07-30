@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "../components/head.js";
+import Head from "../components/head";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { Obfuscated } from "../components/obfuscate";
 

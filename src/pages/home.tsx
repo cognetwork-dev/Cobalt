@@ -16,9 +16,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { BareClient } from "@tomphttp/bare-client";
 import clsx from "clsx";
-import { bareServerURL } from "../consts.js";
-import { Obfuscated } from "../components/obfuscate.jsx";
-import Head from "../components/head.js";
+import { bareServerURL } from "../consts";
+import { Obfuscated } from "../components/obfuscate";
+import Head from "../components/head";
 import {
     useLocalAppearance,
     useLocalTitle,

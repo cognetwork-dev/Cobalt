@@ -1,6 +1,6 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import Head from "../../components/head.js";
+import Head from "../../components/head";
 import { github, discord } from "../../consts";
 import "../../style/home.css";
 import { Obfuscated } from "../../components/obfuscate";
