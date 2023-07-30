@@ -84,7 +84,6 @@ Overall I think it turned out very well and if I was to choose a web proxy to us
 - [ ] Update iframe on custom style change
 - [ ] Suggestions for home page
 - [ ] Games
-- [ ] Use Typescript
 
 ## License
 Cobalt uses the MIT license.
