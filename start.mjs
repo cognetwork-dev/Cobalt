@@ -57,7 +57,7 @@ httpServer.on("upgrade", (req, socket, head) => {
 httpServer.on("listening", () => {
     const address = httpServer.address();
 
-    var theme = chalk.hex("#0047ab");
+    var theme = chalk.hex("#09283e");
     console.log(`${chalk.bold(theme("Cobalt"))}`);
 
     console.log(
