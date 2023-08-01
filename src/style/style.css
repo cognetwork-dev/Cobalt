@@ -2,6 +2,8 @@ body {
     margin: 0;
     background: var(--background);
     --secondary: color-mix(in srgb, var(--text) 13%, transparent);
+    --secondary-inverse: color-mix(in srgb, var(--text-inverse) 26%, transparent);
+    --overlay: color-mix(in srgb, var(--background) 52%, transparent);
     --panel-width: 0px;
 }
 
@@ -48,7 +50,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-    background: #5865f2;
+    background: var(--secondary, #5865f2);
 }
 
 .nav {
@@ -81,6 +83,10 @@ body::-webkit-scrollbar-thumb {
     padding-left: 2.25rem;
     padding-right: 2.25rem;
     color: var(--text-inverse);
+}
+
+.search::selection {
+    background: var(--secondary-inverse, #5865f2);
 }
 
 .omnibox[data-suggestions="true"] .search {
@@ -187,6 +193,7 @@ body::-webkit-scrollbar-thumb {
     background: var(--background);
     box-shadow: 0 1px 2px 0 var(--background);
     display: none;
+    background: var(--primary);
 }
 
 .suggestions::before {
@@ -209,9 +216,13 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     padding-left: 0.35rem;
     background: var(--primary);
-    /*border-top: 2px solid var(--background);*/
     cursor: pointer;
     color: var(--text-inverse);
+    transition: background 100ms;
+}
+
+.suggestion:hover {
+    background: var(--secondary-inverse, transparent);
 }
 
 .suggestion span {
@@ -365,6 +376,11 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
     color: var(--text-inverse);
     user-select: none;
+    transition: background 100ms;
+}
+
+.sidePanelItemsOption:hover {
+    background: var(--secondary-inverse, transparent);
 }
 
 .sidePanelItemsOption span {
@@ -392,7 +408,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .favoriteIcon:hover {
-    background: var(--secondary, transparent);
+    background: var(--secondary-inverse, transparent);
 }
 
 .sourceCode {
@@ -481,7 +497,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .historyPanelRemove:hover {
-    background: var(--secondary, transparent);
+    background: var(--secondary-inverse, transparent);
 }
 
 .historyPanelRemoveAll {
@@ -490,7 +506,7 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     gap: 6px;
     padding: 0 0.5rem;
-    background: var(--background);
+    background: var(--overlay, var(--background));
     width: fit-content;
     border-radius: var(--border-radius-round);
     height: 2.25rem;
@@ -524,6 +540,11 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
+    transition: background 100ms;
+}
+
+.sidePanelTheme:hover {
+    background: var(--overlay, transparent);
 }
 
 .sidePanelTheme span {
@@ -547,12 +568,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sidePanelThemeActive {
-    background: var(--background);
-    color: var(--text);
-}
-
-.sidePanelThemeActive span {
-    color: var(--text);
+    background: var(--overlay, var(--background));
+    transition: none;
 }
 
 .errorIcon {
@@ -588,7 +605,7 @@ body::-webkit-scrollbar-thumb {
 .sidePanelCloakingPreset {
     height: 2.5rem;
     width: 2.5rem;
-    background: var(--background);
+    background: var(--overlay, var(--background));
     border-radius: var(--border-radius-circle);
     display: flex;
     align-items: center;
@@ -601,8 +618,12 @@ body::-webkit-scrollbar-thumb {
     width: 60%;
 }
 
+.sidePanelCloakingInputMain {
+    width: max(20rem, calc(var(--panel-width) - 2rem));
+}
+
 .sidePanelCloakingInput {
-    background: var(--background);
+    background: var(--overlay, var(--background));
     border: none;
     height: 2.5rem;
     outline: none;
@@ -668,7 +689,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .settingsOptionSelected {
-    background: var(--background);
+    background: var(--overlay, var(--background));
     color: var(--text);
 }
 
@@ -681,14 +702,18 @@ body::-webkit-scrollbar-thumb {
     gap: 0.5rem;
     grid-template-columns: repeat(auto-fill, minmax(17rem, max-content));
     justify-content: center;
+    width: min(max(18rem, calc(var(--panel-width) - 3rem)), 100% - 1rem);
 }
 
 .sidePanelExtension {
-    background: var(--background);
+    background: var(--overlay, var(--background));
     margin: 0 0.5rem;
     border-radius: var(--border-radius);
     padding: 0.5rem;
-    min-width: 17rem;
+    width: calc(100% - 1rem);
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
 .sidePanelExtensionAuthor {
@@ -718,6 +743,7 @@ body::-webkit-scrollbar-thumb {
     outline: none;
     border: none;
     margin-left: auto;
+    margin-top: auto;
 }
 
 .sidePanelExtensionInstall span {

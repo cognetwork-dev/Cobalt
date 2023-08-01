@@ -799,22 +799,24 @@ function Home() {
                         title="Khan Academy"
                     />
                 </div>
-                <input
-                    ref={title}
-                    onChange={(e) => setLocalTitle(e.target.value)}
-                    autoComplete="off"
-                    value={localTitle || ""}
-                    className="sidePanelCloakingInput"
-                    placeholder="Title"
-                />
-                <input
-                    ref={icon}
-                    onChange={(e) => setLocalIcon(e.target.value)}
-                    autoComplete="off"
-                    value={localIcon || ""}
-                    className="sidePanelCloakingInput"
-                    placeholder="Favicon URL"
-                />
+                <div className="sidePanelCloakingInputMain">
+                    <input
+                        ref={title}
+                        onChange={(e) => setLocalTitle(e.target.value)}
+                        autoComplete="off"
+                        value={localTitle || ""}
+                        className="sidePanelCloakingInput"
+                        placeholder="Title"
+                    />
+                    <input
+                        ref={icon}
+                        onChange={(e) => setLocalIcon(e.target.value)}
+                        autoComplete="off"
+                        value={localIcon || ""}
+                        className="sidePanelCloakingInput"
+                        placeholder="Favicon URL"
+                    />
+                </div>
             </>
         );
     };
@@ -835,6 +837,10 @@ function Home() {
                 <ThemeOption theme="light">
                     <div className="sidePanelThemePreview"></div>
                     <Obfuscated>Light</Obfuscated>
+                </ThemeOption>
+                <ThemeOption theme="legacy">
+                    <div className="sidePanelThemePreview"></div>
+                    <Obfuscated>Legacy</Obfuscated>
                 </ThemeOption>
                 <ThemeOption theme="ruby">
                     <div className="sidePanelThemePreview"></div>
@@ -2395,7 +2401,9 @@ function Home() {
                         className="controlsButton"
                         onClick={() => togglePanel()}
                     >
-                        <DockSVG style={{ height: "70%", width: "70%" }} />
+                        <DockSVG
+                            style={{ height: "0.95em", width: "0.95em", fontSize: "1.25rem" }}
+                        />
                     </div>
                 </div>
             </div>

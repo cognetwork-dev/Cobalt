@@ -1,6 +1,6 @@
 body {
-    --dark-theme: #0047ab;
-    --light-theme: #292353;
+    --dark-theme: #09283e;
+    --light-theme: #104972;
     --ruby-theme: #c01c73;
     --frog-theme: #535323;
     --space-theme: #7f00ff;
@@ -98,7 +98,7 @@ body {
 @media (prefers-color-scheme: dark) {
     body[data-appearance="default"] {
         --background: #030303;
-        --primary: #0047ab;
+        --primary: #09283e;
         --text: white;
         --text-inverse: white;
         --font: "Noto Sans";
@@ -107,8 +107,8 @@ body {
 
 @media (prefers-color-scheme: light) {
     body[data-appearance="default"] {
-        --background: #d8dee9;
-        --primary: #292353;
+        --background: #bfc5cf;
+        --primary: #104972;
         --text: black;
         --text-inverse: white;
         --font: "Noto Sans";
@@ -117,16 +117,24 @@ body {
 
 body[data-appearance="dark"] {
     --background: #030303;
-    --primary: #0047ab;
+    --primary: #09283e;
     --text: white;
     --text-inverse: white;
     --font: "Noto Sans";
 }
 
 body[data-appearance="light"] {
-    --background: #d8dee9;
-    --primary: #292353;
+    --background: #bfc5cf;
+    --primary: #104972;
     --text: black;
+    --text-inverse: white;
+    --font: "Noto Sans";
+}
+
+body[data-appearance="legacy"] {
+    --background: #030303;
+    --primary: #0047ab;
+    --text: white;
     --text-inverse: white;
     --font: "Noto Sans";
 }
@@ -151,7 +159,7 @@ body[data-appearance="space"] {
     --background: #181c19;
     --primary: #7f00ff;
     --text: white;
-    --text-inverse: black;
+    --text-inverse: white;
     --font: "Noto Sans";
 }
 
