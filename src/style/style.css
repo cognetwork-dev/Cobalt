@@ -540,11 +540,6 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
-    transition: background 100ms;
-}
-
-.sidePanelTheme:hover {
-    background: var(--overlay, transparent);
 }
 
 .sidePanelTheme span {
@@ -569,7 +564,6 @@ body::-webkit-scrollbar-thumb {
 
 .sidePanelThemeActive {
     background: var(--overlay, var(--background));
-    transition: none;
 }
 
 .errorIcon {
