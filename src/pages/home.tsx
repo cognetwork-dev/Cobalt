@@ -386,13 +386,13 @@ function Home() {
                           ...web.current.contentWindow.document.querySelectorAll(
                               "link[rel='icon'], link[rel='shortcut icon']"
                           ),
-                      // @ts-ignore
+                          // @ts-ignore
                       ].slice(-1)[0].href
                         ? [
                               ...web.current.contentWindow.document.querySelectorAll(
                                   "link[rel='icon'], link[rel='shortcut icon']"
                               ),
-                          // @ts-ignore
+                              // @ts-ignore
                           ].slice(-1)[0].href
                         : ""
                     : "";
@@ -1341,13 +1341,13 @@ function Home() {
                       ...web.current.contentWindow.document.querySelectorAll(
                           "link[rel='icon'], link[rel='shortcut icon']"
                       ),
-                  // @ts-ignore
+                      // @ts-ignore
                   ].slice(-1)[0].href
                     ? [
                           ...web.current.contentWindow.document.querySelectorAll(
                               "link[rel='icon'], link[rel='shortcut icon']"
                           ),
-                      // @ts-ignore
+                          // @ts-ignore
                       ].slice(-1)[0].href
                     : ""
                 : "";
@@ -1441,8 +1441,8 @@ function Home() {
                                         web.current.contentWindow.document.head.querySelector(
                                             "title"
                                         )
-                                            // @ts-ignore
-                                            ? web.current.contentWindow.document.head.querySelector(
+                                            ? // @ts-ignore
+                                              web.current.contentWindow.document.head.querySelector(
                                                   "title"
                                               ).textContent
                                             : "";
@@ -1455,13 +1455,13 @@ function Home() {
                                               ...web.current.contentWindow.document.querySelectorAll(
                                                   "link[rel='icon'], link[rel='shortcut icon']"
                                               ),
-                                          // @ts-ignore
+                                              // @ts-ignore
                                           ].slice(-1)[0].href
                                             ? [
                                                   ...web.current.contentWindow.document.querySelectorAll(
                                                       "link[rel='icon'], link[rel='shortcut icon']"
                                                   ),
-                                              // @ts-ignore
+                                                  // @ts-ignore
                                               ].slice(-1)[0].href
                                             : ""
                                         : "";
@@ -1703,13 +1703,13 @@ function Home() {
                                                       ...web.current.contentWindow.document.querySelectorAll(
                                                           "link[rel='icon'], link[rel='shortcut icon']"
                                                       ),
-                                                  // @ts-ignore
+                                                      // @ts-ignore
                                                   ].slice(-1)[0].href
                                                     ? [
                                                           ...web.current.contentWindow.document.querySelectorAll(
                                                               "link[rel='icon'], link[rel='shortcut icon']"
                                                           ),
-                                                      // @ts-ignore
+                                                          // @ts-ignore
                                                       ].slice(-1)[0].href
                                                     : ""
                                                 : "";
@@ -2282,32 +2282,47 @@ function Home() {
                         onClick={historyBack}
                         data-disabled={canGoBack ? "false" : "true"}
                     >
-                        <ArrowBackIcon fontSize="small" />
+                        <ArrowBackIcon
+                            fontSize="small"
+                            style={{ height: "0.95em", width: "0.95em" }}
+                        />
                     </div>
                     <div
                         className="controlsButton"
                         onClick={historyForward}
                         data-disabled={canGoForward ? "false" : "true"}
                     >
-                        <ArrowForwardIcon fontSize="small" />
+                        <ArrowForwardIcon
+                            fontSize="small"
+                            style={{ height: "0.95em", width: "0.95em" }}
+                        />
                     </div>
                     {!loading ? (
                         <div className="controlsButton" onClick={reloadPage}>
-                            <RefreshIcon fontSize="small" />
+                            <RefreshIcon
+                                fontSize="small"
+                                style={{ height: "0.95em", width: "0.95em" }}
+                            />
                         </div>
                     ) : (
                         <div
                             className="controlsButton"
                             onClick={stopLoadingPage}
                         >
-                            <CloseIcon fontSize="small" />
+                            <CloseIcon
+                                fontSize="small"
+                                style={{ height: "0.95em", width: "0.95em" }}
+                            />
                         </div>
                     )}
                     <div
                         className="controlsButton"
                         onClick={() => searchURL(homeURL)}
                     >
-                        <HomeIcon fontSize="small" />
+                        <HomeIcon
+                            fontSize="small"
+                            style={{ height: "0.95em", width: "0.95em" }}
+                        />
                     </div>
                 </div>
                 <div
@@ -2354,9 +2369,15 @@ function Home() {
                         {JSON.parse(localFavorites).filter(
                             (item: any) => item.url == currentURL
                         ).length > 0 ? (
-                            <StarIcon fontSize="small" />
+                            <StarIcon
+                                fontSize="small"
+                                style={{ height: "0.95em", width: "0.95em" }}
+                            />
                         ) : (
-                            <StarBorderIcon fontSize="small" />
+                            <StarBorderIcon
+                                fontSize="small"
+                                style={{ height: "0.95em", width: "0.95em" }}
+                            />
                         )}
                     </div>
                 </div>
@@ -2365,7 +2386,10 @@ function Home() {
                         className="controlsButton"
                         onClick={() => toggleDevtools()}
                     >
-                        <CodeIcon fontSize="small" />
+                        <CodeIcon
+                            fontSize="small"
+                            style={{ height: "0.95em", width: "0.95em" }}
+                        />
                     </div>
                     <div
                         className="controlsButton"
@@ -2420,7 +2444,10 @@ function Home() {
                             </div>
                         </div>
                         <div className="sidePanelClose" onClick={togglePanel}>
-                            <CloseIcon fontSize="small" />
+                            <CloseIcon
+                                fontSize="small"
+                                style={{ height: "0.95em", width: "0.95em" }}
+                            />
                         </div>
                     </div>
                     <div ref={sidePanelBody} className="sidePanelBody">
