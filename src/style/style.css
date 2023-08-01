@@ -1,6 +1,7 @@
 body {
     margin: 0;
     background: var(--background);
+    --secondary: color-mix(in srgb, var(--text) 13%, transparent);
     --panel-width: 0px;
 }
 
@@ -125,12 +126,17 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 100ms;
 }
 
 .controlsButton[data-disabled="true"] {
     opacity: 0.4;
     cursor: default;
     pointer-events: none;
+}
+
+.controlsButton:not([data-disabled="true"]):hover {
+    background: var(--secondary, transparent);
 }
 
 .panel {
@@ -324,6 +330,11 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 100ms;
+}
+
+.sidePanelClose:hover {
+    background: var(--secondary, transparent);
 }
 
 .sidePanelNav[data-open="true"] .sidePanelItem {
@@ -377,6 +388,11 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 100ms;
+}
+
+.favoriteIcon:hover {
+    background: var(--secondary, transparent);
 }
 
 .sourceCode {
@@ -417,7 +433,6 @@ body::-webkit-scrollbar-thumb {
 .historyPanel {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     padding: 0 0.5rem;
 }
 
@@ -427,6 +442,7 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     user-select: none;
     cursor: pointer;
+    height: 2rem;
 }
 
 .historyPanelTitle {
@@ -458,6 +474,14 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     margin-left: auto;
+    height: 2rem;
+    width: 2rem;
+    border-radius: var(--border-radius-circle);
+    transition: background 100ms;
+}
+
+.historyPanelRemove:hover {
+    background: var(--secondary, transparent);
 }
 
 .historyPanelRemoveAll {
