@@ -110,29 +110,19 @@ body::-webkit-scrollbar-thumb {
 
 .controls {
     display: flex;
-    gap: 0.23rem;
-}
-
-.controls[data-side="left"] {
-    margin-left: 0.4rem;
-    margin-right: 0.5rem;
-}
-
-.controls[data-side="right"] {
-    margin-left: 0.5rem;
-    margin-right: 0.4rem;
+    margin: 0 0.3rem;
 }
 
 .controlsButton {
-    height: 2rem;
+    height: 2.25rem;
     border-radius: var(--border-radius-circle);
     background: transparent;
-    width: 2rem;
+    width: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
 }
 
 .controlsButton[data-disabled="true"] {
@@ -218,7 +208,7 @@ body::-webkit-scrollbar-thumb {
     background: var(--primary);
     cursor: pointer;
     color: var(--text-inverse);
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
 }
 
 .suggestion:hover {
@@ -333,15 +323,15 @@ body::-webkit-scrollbar-thumb {
 
 .sidePanelClose {
     margin-left: auto;
-    height: 2rem;
+    height: 2.25rem;
     border-radius: var(--border-radius-circle);
     background: transparent;
-    width: 2rem;
+    width: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
 }
 
 .sidePanelClose:hover {
@@ -376,7 +366,7 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
     color: var(--text-inverse);
     user-select: none;
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
 }
 
 .sidePanelItemsOption:hover {
@@ -404,7 +394,7 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
 }
 
 .favoriteIcon:hover {
@@ -458,7 +448,7 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     user-select: none;
     cursor: pointer;
-    height: 2rem;
+    height: 2.25rem;
 }
 
 .historyPanelTitle {
@@ -490,10 +480,10 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     margin-left: auto;
-    height: 2rem;
-    width: 2rem;
+    height: 2.25rem;
+    width: 2.25rem;
     border-radius: var(--border-radius-circle);
-    transition: background 100ms;
+    transition: background 200ms ease-in-out;
     flex-shrink: 0;
 }
 

@@ -2282,7 +2282,7 @@ function Home() {
         <>
             <Head />
             <div className="nav">
-                <div className="controls" data-side="left">
+                <div className="controls">
                     <div
                         className="controlsButton"
                         onClick={historyBack}
@@ -2387,7 +2387,7 @@ function Home() {
                         )}
                     </div>
                 </div>
-                <div className="controls" data-side="right">
+                <div className="controls">
                     <div
                         className="controlsButton"
                         onClick={() => toggleDevtools()}
