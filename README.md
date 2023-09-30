@@ -1,15 +1,15 @@
 <div align="center">
-<img height="150px" src="https://raw.githubusercontent.com/Cobalt-Web/Cobalt/main/src/assets/logo.svg">
+<img height="150px" src="https://raw.githubusercontent.com/cognetwork-dev/Cobalt/main/src/assets/logo.svg">
 <h1>Cobalt</h1>
 <h3>A new minimal yet powerful proxy site, built for both users and developers.</h3>
 <p>View the censored web like never before with this new web proxy service made in React supporting many sites. Third place winner for <a href="https://github.com/titaniumnetwork-dev">TN</a>'s 2023 Proxathon.</p>
 </div>
 
 <p align="center">
-<a href="https://repl.it/github/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/replit2.svg"><img></a>
-<a href="https://glitch.com/edit/#!/import/github/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/glitch2.svg"><img></a>
-<a href="https://railway.app/new/template?template=https://github.com/Cobalt-Web/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/railway2.svg"><img></a>
-<a href="https://app.koyeb.com/deploy?type=git&repository=github.com/Cobalt-Web/Cobalt&branch=main&name=Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/koyeb2.svg"><img></a>
+<a href="https://repl.it/github/cognetwork-dev/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/replit2.svg"><img></a>
+<a href="https://glitch.com/edit/#!/import/github/cognetwork-dev/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/glitch2.svg"><img></a>
+<a href="https://railway.app/new/template?template=https://github.com/cognetwork-dev/Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/railway2.svg"><img></a>
+<a href="https://app.koyeb.com/deploy?type=git&repository=github.com/cognetwork-dev/Cobalt&branch=main&name=Cobalt"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/koyeb2.svg"><img></a>
 </p>
 
 ## Features
@@ -42,13 +42,13 @@ Click a button at the top of this page and follow the directions for an easy way
 
 **Obfuscation**
 
-File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts.js)
+File: [/src/consts.js](https://github.com/cognetwork-dev/Cobalt/blob/main/src/consts.js)
 
 `const obfuscation = true | false;` - Choose to obfuscate text
 
 **Github and Discord**
 
-File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts.js)
+File: [/src/consts.js](https://github.com/cognetwork-dev/Cobalt/blob/main/src/consts.js)
 
 `const github = "string";` - Update the Github links
 
@@ -56,7 +56,7 @@ File: [/src/consts.js](https://github.com/Cobalt-Web/Cobalt/blob/main/src/consts
 
 **Bare Server**
 
-File: [/public/uv/uv.config.js](https://github.com/Cobalt-Web/Cobalt/blob/main/public/uv/uv.config.js)
+File: [/public/uv/uv.config.js](https://github.com/cognetwork-dev/Cobalt/blob/main/public/uv/uv.config.js)
 
 `bare: url,` - Ultraviolet bare server
 
