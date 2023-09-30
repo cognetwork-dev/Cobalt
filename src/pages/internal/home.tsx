@@ -81,7 +81,7 @@ function InternalHome() {
                 </div>
             </div>
             <div className="footer">
-                <Obfuscated>Cobalt 2023 | </Obfuscated>
+                <Obfuscated>Cog Network 2023 | </Obfuscated>
                 <a target="_blank" href={discord}>
                     <Obfuscated>Discord</Obfuscated>
                 </a>
