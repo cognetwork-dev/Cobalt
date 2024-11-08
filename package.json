@@ -1,6 +1,6 @@
 {
     "name": "cobalt",
-    "version": "1.3",
+    "version": "1.3.0",
     "description": "A new minimal yet powerful proxy site, built for both users and developers.",
     "repository": "https://github.com/cognetwork-dev/Cobalt.git",
     "license": "MIT",
